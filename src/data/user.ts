@@ -1,0 +1,20 @@
+import { User } from '../types';
+
+export const currentUser: User = {
+  id: 'usr_rvce_001',
+  name: 'Aarav Sharma',
+  email: 'aarav.sharma.cs22@rvce.edu.in',
+  collegeId: 'rvce',
+  collegeName: 'RV College of Engineering',
+  collegeShortName: 'RVCE',
+  branch: 'Computer Science & Engineering',
+  year: 3,
+  semester: 6,
+  hostel: 'Cauvery Hostel, Room 314 (Block B)',
+  avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=Aarav&backgroundColor=ffc72c',
+  isVerified: true,
+  rating: 4.9,
+  totalReviews: 18,
+  completedTrades: 14,
+  joinedDate: 'August 2023'
+};

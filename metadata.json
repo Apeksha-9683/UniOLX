@@ -1,0 +1,6 @@
+{
+  "name": "Campus Mart",
+  "description": "AI-powered, college-only second-hand marketplace for Indian college students with verified email, Campus Buddy AI search, and PIN-secured trades.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
