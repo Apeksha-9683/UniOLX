@@ -218,15 +218,27 @@ async def embed_all(listings) -> None:
         print("GEMINI_API_KEY not set, skipping embeddings")
         return
 
+    from sqlalchemy import select
+
     async with SessionLocal() as db:
+        done = 0
         for listing in listings:
-            vector = await gemini.embed_text(f"{listing.title}\n{listing.description}")
+            # Re-read the row in this session: the objects handed over by the
+            # seeder are detached and would not be flushed.
+            row = (
+                await db.execute(select(Listing).where(Listing.id == listing.id))
+            ).scalar_one_or_none()
+            if row is None:
+                continue
+
+            vector = await gemini.embed_text(f"{row.title}\n{row.description}")
             if vector is None:
                 continue
-            listing.embedding = vector
+            row.embedding = vector
             await db.flush()
+            done += 1
         await db.commit()
-    print(f"embedded {len(listings)} listings")
+    print(f"embedded {done} listings")
 
 
 async def main() -> None:

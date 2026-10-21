@@ -23,8 +23,12 @@ def _client():
         return None
     try:
         from google import genai
+        from google.genai import types
 
-        _client_cache = genai.Client(api_key=settings.gemini_api_key)
+        _client_cache = genai.Client(
+            api_key=settings.gemini_api_key,
+            http_options=types.HttpOptions(timeout=settings.gemini_timeout_seconds * 1000),
+        )
         return _client_cache
     except Exception as exc:  # pragma: no cover - import/runtime failure
         logger.error("[gemini] could not create client: %s", exc)
@@ -41,9 +45,14 @@ async def embed_text(text: str) -> list[float] | None:
         return None
 
     def _call() -> list[float] | None:
+        from google.genai import types
+
         response = client.models.embed_content(
             model=settings.embedding_model,
             contents=text,
+            config=types.EmbedContentConfig(
+                output_dimensionality=settings.embedding_dimensions
+            ),
         )
         embeddings = getattr(response, "embeddings", None)
         if not embeddings:
@@ -57,9 +66,12 @@ async def embed_text(text: str) -> list[float] | None:
         return values
 
     try:
-        return await asyncio.to_thread(_call)
+        return await asyncio.wait_for(asyncio.to_thread(_call), timeout=settings.gemini_timeout_seconds + 10)
+    except asyncio.TimeoutError:
+        logger.error("[gemini] embed timed out")
+        return None
     except Exception as exc:
-        logger.error("[gemini] embed failed: %s", exc)
+        logger.error("[gemini] embed failed: %s", str(exc).replace("\n", " ")[:200])
         return None
 
 
@@ -86,7 +98,10 @@ async def generate_json(prompt: str, system_instruction: str, schema: Any) -> di
         return json.loads(text)
 
     try:
-        return await asyncio.to_thread(_call)
+        return await asyncio.wait_for(asyncio.to_thread(_call), timeout=settings.gemini_timeout_seconds + 10)
+    except asyncio.TimeoutError:
+        logger.error("[gemini] generate timed out")
+        return None
     except Exception as exc:
-        logger.error("[gemini] generate failed: %s", exc)
+        logger.error("[gemini] generate failed: %s", str(exc).replace("\n", " ")[:200])
         return None

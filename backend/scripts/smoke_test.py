@@ -71,11 +71,44 @@ async def main() -> None:
             all(item["collegeId"] == user["collegeId"] for item in listings),
         )
 
-        target = next(item for item in listings if item["quantity"] == 1)
-        seller_id = target["seller"]["id"]
-        seller_email = await seller_email_for(seller_id)
-        seller_token, seller = await login(client, seller_email)
-        check("seller logs in", seller["id"] == seller_id)
+        # A throwaway seller, so the trade below does not consume the seeded
+        # demo inventory and the buyer is not trading with their own listing.
+        stamp = int(asyncio.get_event_loop().time() * 1000)
+        seller_email = f"smoke_seller_{stamp}@rvce.edu.in"
+        await client.post(
+            "/api/auth/register",
+            json={
+                "collegeId": "rvce",
+                "name": "Smoke Seller",
+                "email": seller_email,
+                "password": "password123",
+            },
+        )
+        verified = await client.post(
+            "/api/auth/verify-otp", json={"email": seller_email, "code": "123456"}
+        )
+        seller_token = verified.json()["accessToken"]
+        seller_headers = {"Authorization": f"Bearer {seller_token}"}
+
+        target = (
+            await client.post(
+                "/api/listings",
+                headers=seller_headers,
+                json={
+                    "title": "Smoke test laptop",
+                    "description": "Created by the smoke test.",
+                    "price": 1000,
+                    "originalPrice": 2000,
+                    "category": "Electronics",
+                    "condition": "Good",
+                    "campusPickupSpot": "Central Library Lawns",
+                    "images": [],
+                    "specs": {"RAM": "16GB"},
+                    "tags": ["laptop", "smoke-test"],
+                    "quantity": 1,
+                },
+            )
+        ).json()
 
         print("\n== trade + pin ==")
         created = await client.post(
@@ -166,7 +199,6 @@ async def main() -> None:
         check("message stored", len(messages) >= 1)
 
         print("\n== register + otp ==")
-        stamp = int(asyncio.get_event_loop().time() * 1000)
         new_email = f"newstudent{stamp}@rvce.edu.in"
         registered = await client.post(
             "/api/auth/register",

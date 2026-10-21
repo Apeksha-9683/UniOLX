@@ -80,11 +80,11 @@ async def _load_candidates(
     )
 
     if query_vector:
-        vector_literal = "[" + ",".join(str(value) for value in query_vector) + "]"
+        # pgvector's own comparator binds the vector as a proper array, which
+        # keeps the type handling correct.
         stmt = stmt.add_columns(
-            (1.0 - Listing.embedding.op("<=>")(text("CAST(:vec AS vector)"))).label("cosine_score")
+            (1.0 - Listing.embedding.cosine_distance(query_vector)).label("cosine_score")
         )
-        stmt = stmt.params(vec=vector_literal)
     else:
         stmt = stmt.add_columns(literal(0.0).label("cosine_score"))
 

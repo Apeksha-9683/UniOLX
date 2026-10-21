@@ -36,9 +36,11 @@ class Settings(BaseSettings):
     email_from: str = "UniOLX <no-reply@uniolx.app>"
 
     gemini_api_key: str = ""
-    llm_model: str = "gemini-2.5-flash"
-    embedding_model: str = "text-embedding-004"
+    # gemini-2.5-flash and text-embedding-004 are retired for new API keys.
+    llm_model: str = "gemini-3.5-flash"
+    embedding_model: str = "gemini-embedding-001"
     embedding_dimensions: int = 768
+    gemini_timeout_seconds: int = 20
 
     cors_origins: list[str] = [
         "http://localhost:3000",

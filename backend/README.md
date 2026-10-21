@@ -12,9 +12,157 @@ server-enforced PIN trades, real-time chat and AI search.
 | Database | PostgreSQL 17 + pgvector |
 | Auth | JWT access + refresh tokens, argon2id password hashing, 6-digit email OTP |
 | Real-time | WebSockets (FastAPI) |
-| AI | Gemini (`gemini-2.5-flash` parsing, `text-embedding-004` embeddings) |
+| AI | Gemini (`gemini-3.5-flash` parsing, `gemini-embedding-001` embeddings) |
 | Email | Resend HTTP API |
 | Tests | pytest, pytest-asyncio, httpx |
+
+## Database structure
+
+```mermaid
+erDiagram
+    colleges ||--o{ users : "hosts"
+    colleges ||--o{ listings : "scopes"
+    users ||--o{ listings : "sells"
+    users ||--o{ wishlists : "saves"
+    listings ||--o{ wishlists : "saved as"
+    listings ||--o{ listing_images : "has"
+    listings ||--o{ trades : "traded in"
+    listings ||--o{ conversations : "discussed in"
+    trades }o--|| users : "buyer / seller"
+    conversations ||--o{ messages : "contains"
+    users ||--o{ messages : "sends"
+    users ||--o{ notifications : "receives"
+    users ||--o{ otp_codes : "verifies with"
+    users ||--o{ refresh_tokens : "holds"
+
+    colleges {
+        varchar id PK
+        varchar name
+        varchar short_name
+        varchar city
+        varchar state
+        varchar domain UK
+        varchar status
+        jsonb campus_spots
+        jsonb popular_branches
+        boolean is_verified
+    }
+    users {
+        uuid id PK
+        varchar email UK
+        varchar password_hash
+        varchar name
+        varchar college_id FK
+        varchar branch
+        integer year
+        integer semester
+        varchar hostel
+        varchar avatar
+        boolean is_verified
+        float rating
+        integer total_reviews
+        integer completed_trades
+    }
+    listings {
+        uuid id PK
+        uuid seller_id FK
+        varchar college_id FK
+        varchar title
+        text description
+        numeric price
+        numeric original_price
+        varchar category
+        varchar condition
+        varchar status
+        varchar campus_pickup_spot
+        integer quantity
+        jsonb specs
+        varchar_array tags
+        integer views_count
+        vector embedding "768 dims, pgvector"
+        tsvector search_vector "generated"
+        timestamptz posted_at
+    }
+    trades {
+        uuid id PK
+        uuid listing_id FK
+        uuid buyer_id FK
+        uuid seller_id FK
+        numeric price
+        integer quantity
+        varchar pickup_spot
+        varchar scheduled_time
+        varchar status
+        varchar pin_hash "argon2id"
+        varchar pin_enc "AES-GCM, buyer only"
+        integer attempts_left
+        boolean is_locked
+        timestamptz expires_at
+        timestamptz created_at
+        timestamptz completed_at
+        timestamptz cancelled_at
+    }
+    conversations {
+        uuid id PK
+        uuid listing_id FK
+        uuid buyer_id FK
+        uuid seller_id FK
+        timestamptz last_message_at
+    }
+    messages {
+        uuid id PK
+        uuid conversation_id FK
+        uuid sender_id FK
+        text text
+        varchar status
+        boolean is_system_card
+        uuid trade_id FK
+    }
+    notifications {
+        uuid id PK
+        uuid user_id FK
+        varchar type
+        varchar title
+        text message
+        varchar link
+        boolean read
+        timestamptz created_at
+    }
+    otp_codes {
+        uuid id PK
+        varchar email
+        uuid user_id FK
+        varchar code_hash "argon2id"
+        varchar purpose
+        integer attempts
+        timestamptz expires_at
+        timestamptz used_at
+    }
+    refresh_tokens {
+        uuid id PK
+        uuid user_id FK
+        varchar token_hash UK
+        timestamptz expires_at
+        timestamptz revoked_at
+    }
+    wishlists {
+        uuid user_id PK
+        uuid listing_id PK
+    }
+    listing_images {
+        uuid id PK
+        uuid listing_id FK
+        varchar url
+        integer position
+    }
+```
+
+Inspect it yourself:
+
+```bash
+psql postgresql://uniolx:uniolx@localhost:5432/uniolx -c "\d listings"
+psql postgresql://uniolx:uniolx@localhost:5432/uniolx -c "\dt"
+```
 
 ## Setup
 
@@ -88,7 +236,7 @@ without any CORS setup.
 | `OTP_TTL_MINUTES` / `OTP_MAX_ATTEMPTS` / `OTP_RESEND_COOLDOWN_SECONDS` | OTP policy |
 | `EMAIL_API_KEY` | Resend key. Blank in development: the OTP is logged and returned as `devOtp` |
 | `GEMINI_API_KEY` | Blank disables AI parsing and embeddings; the local keyword parser takes over |
-| `LLM_MODEL` / `EMBEDDING_MODEL` / `EMBEDDING_DIMENSIONS` | Gemini models, default `gemini-2.5-flash` / `text-embedding-004` / 768 |
+| `LLM_MODEL` / `EMBEDDING_MODEL` / `EMBEDDING_DIMENSIONS` | Gemini models, default `gemini-3.5-flash` / `gemini-embedding-001` / 768 |
 | `CORS_ORIGINS` | JSON list of allowed frontend origins |
 | `DEMO_AUTO_REPLY` | Set to `false` to disable the rule-based chat reply |
 

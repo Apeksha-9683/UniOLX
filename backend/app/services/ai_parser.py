@@ -48,6 +48,48 @@ class ParsedQuery:
     raw: str = ""
 
 
+CATEGORY_NAMES = {
+    "textbooks": "Textbooks",
+    "textbook": "Textbooks",
+    "books": "Textbooks",
+    "electronics": "Electronics",
+    "cycles & commute": "Cycles & Commute",
+    "cycles": "Cycles & Commute",
+    "hostel essentials": "Hostel Essentials",
+    "hostel": "Hostel Essentials",
+    "lab & drafting": "Lab & Drafting",
+    "lab": "Lab & Drafting",
+    "audio & gadgets": "Audio & Gadgets",
+    "audio": "Audio & Gadgets",
+    "fashion & sports": "Fashion & Sports",
+    "sports": "Fashion & Sports",
+}
+
+
+def normalize_category(value: str) -> str:
+    """Bring a category from any source into the `Category:sub` form.
+
+    The LLM is free to answer "laptop", "Laptops" or "Electronics:laptop".
+    The matcher only understands `Category:sub` or a plain category name.
+    """
+    raw = (value or "").strip()
+    if not raw:
+        return raw
+    if ":" in raw:
+        return raw
+
+    lowered = raw.lower()
+
+    for keywords, category, sub, _label in CATEGORY_SYNONYMS:
+        if lowered in keywords:
+            return f"{category}:{sub}" if sub else category
+
+    if lowered in CATEGORY_NAMES:
+        return CATEGORY_NAMES[lowered]
+
+    return raw
+
+
 def _criterion(key: str, value: str, display: str, label: str | None = None) -> Criterion:
     return Criterion(
         id=f"crit_{key}",
@@ -125,6 +167,7 @@ def parse_with_regex(query: str, previous: list[Criterion] | None = None) -> Par
     for keywords, category, sub, label in CATEGORY_SYNONYMS:
         if any(word in lower for word in keywords):
             value = f"{category}:{sub}" if sub else category
+            value = normalize_category(value)
             category_criterion = _criterion("category", value, label.replace("Category: ", ""), label)
             break
 
@@ -132,7 +175,6 @@ def parse_with_regex(query: str, previous: list[Criterion] | None = None) -> Par
         if not category_criterion.value.startswith("Electronics"):
             criteria = [c for c in criteria if c.key not in ("ram", "storage")]
         replace("category", category_criterion)
-
     budget_match = (
         re.search(r"(?:under|below|less than|within|up to|max|maximum|<=?)\s*(?:₹|rs\.?|inr)?\s*(\d+(?:\.\d+)?(?:,\d+)*(?:\s*k)?)", lower)
         or re.search(r"(?:₹|rs\.?|inr)\s*(\d+(?:\.\d+)?(?:,\d+)*(?:\s*k)?)", lower)
@@ -240,6 +282,8 @@ async def parse_with_gemini(query: str) -> ParsedQuery | None:
         value = str(item.get("value") or "").strip()
         if not value:
             continue
+        if key == "category":
+            value = normalize_category(value)
         display = str(item.get("display_value") or value).strip()
         label = str(item.get("label") or display).strip()
         criteria.append(
