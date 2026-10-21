@@ -7,7 +7,8 @@ import {
   verifyOtp,
   resendVerificationOtp,
   logout,
-  getCollegeById
+  getCollegeById,
+  socket
 } from '../api';
 
 interface AuthContextType {
@@ -70,6 +71,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const u = await getCurrentUser();
     setUser(u);
     if (u) {
+      // Reconnect the chat socket after a page reload.
+      socket.connect();
       const col = await getCollegeById(u.collegeId);
       if (col) {
         setSelectedCollegeState(col);

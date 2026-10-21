@@ -7,7 +7,7 @@ import {
   sendMessage,
   retrySendMessage,
   createOrGetConversation,
-  mockSocket
+  socket
 } from '../api';
 import { Conversation, ChatMessage } from '../types';
 import { useToast } from '../components/ui/Toast';
@@ -134,6 +134,9 @@ export const MessagesPage: React.FC = () => {
       .then((msgs) => {
         setMessages(msgs);
         setLoadingMessages(false);
+        // Tell the server the conversation is read, so the peer sees the
+        // read receipt over the socket.
+        socket.emit('read', { conversationId: selectedConv.id });
         // Scroll to bottom immediately on conversation switch
         setTimeout(() => {
           scrollToBottom('auto');
@@ -147,7 +150,7 @@ export const MessagesPage: React.FC = () => {
   // 3. Listen to mock real-time WebSocket events
   useEffect(() => {
     // A: Listen for incoming messages
-    const unsubscribeMessage = mockSocket.on<ChatMessage>('message', (incomingMsg) => {
+    const unsubscribeMessage = socket.on<ChatMessage>('message', (incomingMsg) => {
       if (selectedConv && incomingMsg.conversationId === selectedConv.id) {
         setMessages((prev) => {
           // Avoid duplicate messages
@@ -195,7 +198,7 @@ export const MessagesPage: React.FC = () => {
     });
 
     // B: Listen for message delivery status updates (sending -> sent -> read)
-    const unsubscribeStatus = mockSocket.on<{
+    const unsubscribeStatus = socket.on<{
       messageId: string;
       conversationId: string;
       status: 'sent' | 'read' | 'failed';
@@ -208,7 +211,7 @@ export const MessagesPage: React.FC = () => {
     });
 
     // C: Listen for typing indicators
-    const unsubscribeTyping = mockSocket.on<{
+    const unsubscribeTyping = socket.on<{
       conversationId: string;
       isTyping: boolean;
       userName: string;
@@ -301,7 +304,7 @@ export const MessagesPage: React.FC = () => {
       setMessages((prev) => [...prev, tempMsg]);
       setTimeout(() => scrollToBottom('smooth'), 50);
 
-      // Call API layer which saves it and triggers mockSocket response
+      // Call the API layer, which persists the message and pushes it over the socket
       const serverMsg = await sendMessage(selectedConv.id, cleanedText);
 
       // Replace with confirmed server message
