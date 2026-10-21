@@ -14,7 +14,7 @@
 [Live Demo](#) · [Screenshots](#-screenshots) · [How It Works](#-how-the-pin-trade-works) · [Roadmap](#-roadmap)
 
 <!-- Replace with a screenshot or short GIF of your Home page -->
-<img src="docs/images/hero.png" alt="Campus Mart home page" width="90%" />
+<img src="docs/images/hero.png" alt="UniOLX home page" width="90%" />
 
 </div>
 
@@ -26,7 +26,7 @@ Every semester, seniors graduate and leave behind cycles, laptops, textbooks and
 
 ## ✨ The idea
 
-**Campus Mart** is a marketplace that only works inside your college. Sign up with your college email, tell the AI what you need in plain English, chat with a verified student from your own campus, meet on campus, and close the deal with a one-time PIN.
+**UniOLX** is a marketplace that only works inside your college. Sign up with your college email, tell the AI what you need in plain English, chat with a verified student from your own campus, meet on campus, and close the deal with a one-time PIN.
 
 > *"Find a second-hand laptop under ₹25,000 with 16 GB RAM for coding."*
 > That's the whole search. No filters, no scrolling.
@@ -144,8 +144,8 @@ flowchart TB
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-username>/campus-mart.git
-cd campus-mart
+git clone https://github.com/Apeksha-9683/UniOLX.git
+cd UniOLX
 
 # 2. Install dependencies
 npm install
@@ -186,7 +186,7 @@ Never commit real keys. Copy `.env.example` to `.env` and fill in:
 ## 📁 Project structure
 
 ```
-campus-mart/
+UniOLX/
 ├── src/
 │   ├── api/            # all data access (mock now, real API later)
 │   ├── data/           # mock colleges, listings, users
@@ -259,20 +259,20 @@ Ideas and pull requests from outside the team are welcome too.
 
 ## 👥 The team
 
-Campus Mart is a group project, built together by:
+UniOLX is a group project, built together by:
 
 | | Name | Role | Focus | GitHub |
 |---|---|---|---|---|
-| 👤 | **Ankush Shenoy** | Backend | Product, ChatBot, PIN system| [@username](https://github.com/ankush-cloud3) |
-| 👤 | **Amruta SH** | Frontend | UI, pages, design system | [@username](https://github.com/Amruta-s-h) |
-| 👤 | **Apeksha Ashok Gaonkar** | Backend | Auth, database, trades and PIN system | [@username](https://github.com/Apeksha-9683) |
-| 👤 | **Adithya ND** | AI | Campus Buddy search, embeddings, ranking | [@username](https://github.com/AdithyaND12) |
+| 👤 | **Ankush Shenoy** | Backend | Product, chatbot, chat system | [@ankush-cloud3](https://github.com/ankush-cloud3) |
+| 👤 | **Amruta SH** | Frontend | UI, pages, design system | [@Amruta-s-h](https://github.com/Amruta-s-h) |
+| 👤 | **Apeksha Ashok Gaonkar** | Backend | Auth, database, trades and PIN system | [@Apeksha-9683](https://github.com/Apeksha-9683) |
+| 👤 | **Adithya ND** | AI | Search, embeddings, ranking | [@AdithyaND12](https://github.com/AdithyaND12) |
 
-> Replace the rows above with your real team members. Add or remove rows as needed.
 
 We build with AI-assisted tools (AI Studio for the frontend and AI coding agents for the backend), and every change is reviewed by a teammate before it is merged.
 
 
+[![Contributors](https://img.shields.io/github/contributors/Apeksha-9683/UniOLX?style=for-the-badge&color=FF7A1A)](https://github.com/Apeksha-9683/UniOLX/graphs/contributors)
 
 ---
 
