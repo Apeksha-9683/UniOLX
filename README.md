@@ -87,7 +87,10 @@ flowchart LR
 
 If the AI is unavailable, search falls back to plain keyword filtering, so it never breaks.
 
-> **Current status:** the frontend ships with a rule-based mock of this pipeline so the full experience can be tested. The real LLM + embeddings backend is on the roadmap below.
+> **Current status:** Campus Buddy runs on the real pipeline: the query is parsed
+> by an LLM (Gemini), filtered in SQL against your campus, and ranked with
+> embeddings stored in pgvector. If the AI is unavailable, a local keyword
+> parser takes over, so search never breaks.
 
 ---
 
@@ -156,17 +159,47 @@ npm run dev
 
 Open the local URL shown in your terminal.
 
-> The frontend currently runs on **mock data** (see `src/data` and `src/api`), so no backend or keys are needed to try it. In dev mode, the OTP is shown on screen instead of being emailed.
+> The frontend talks to the API on `http://127.0.0.1:8000` through the Vite
+> dev server proxy, so both run on one origin and no CORS setup is needed.
+> In development the OTP is not emailed: the code `123456` works for any
+> account, and the real code is printed in the API log.
 
-### Run the backend *(coming soon)*
+### The quick way
 
 ```bash
+./dev.sh          # installs, migrates, seeds, starts the API and the frontend
+./dev.sh --reset  # same, but wipe the database and re-seed first
+./dev.sh --stop   # stop the API and the frontend
+```
+
+It picks the first free port from 3000, prints the URLs, and writes the logs to
+`backend/.logs/`.
+
+### Run the backend
+
+```bash
+# 1. Database (PostgreSQL 17 with pgvector)
+brew install postgresql@17 pgvector
+brew services start postgresql@17
+PG=/opt/homebrew/opt/postgresql@17/bin
+$PG/psql -d postgres -c "CREATE ROLE uniolx LOGIN PASSWORD 'uniolx' CREATEDB;"
+$PG/createdb -O uniolx uniolx
+$PG/psql -d uniolx -c "CREATE EXTENSION IF NOT EXISTS vector;"
+
+# 2. API
 cd backend
-python -m venv .venv && source .venv/bin/activate
+python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env      # then fill in your values
-uvicorn app.main:app --reload
+alembic upgrade head
+python scripts/seed.py    # loads the colleges and demo listings
+
+# 3. Start the API
+uvicorn app.main:app --reload --port 8000
 ```
+
+See [`backend/README.md`](backend/README.md) for the full setup, the endpoint
+list and the security rules.
 
 ### Environment variables
 
@@ -188,18 +221,21 @@ Never commit real keys. Copy `.env.example` to `.env` and fill in:
 ```
 UniOLX/
 ├── src/
-│   ├── api/            # all data access (mock now, real API later)
-│   ├── data/           # mock colleges, listings, users
+│   ├── api/            # all data access: http.ts, socket.ts, real.ts
+│   ├── data/           # seed fixtures for the backend loader
 │   ├── components/     # shared UI: Button, ProductCard, Modal, ...
 │   ├── layouts/        # AuthLayout, AppLayout
 │   ├── pages/          # Login, Home, Search, Listing, Chat, Orders, ...
 │   └── ...
+├── backend/            # FastAPI app: routers, services, models, tests
 ├── docs/               # design briefs, schema, chat and PIN system specs
-├── backend/            # FastAPI app (planned)
 └── README.md
 ```
 
-The `src/api` layer is the key design choice: pages never touch data directly, so swapping the mock for the real backend means replacing functions, not rewriting screens.
+The `src/api` layer is the key design choice: pages never touch data directly,
+so the mock and the real backend are interchangeable. `src/api/real.ts` talks to
+the API, and `src/api/mockApi.ts` keeps the old in-memory mock for running the
+UI without a server.
 
 ---
 
@@ -217,17 +253,17 @@ The `src/api` layer is the key design choice: pages never touch data directly, s
 ## 🗺️ Roadmap
 
 - [x] Design system and bright campus-themed UI
-- [x] College search, sign up and OTP verification flow (mock)
-- [x] Listings, product pages and sell flow (mock)
+- [x] College search, sign up and OTP verification flow
+- [x] Listings, product pages and sell flow
 - [x] Buyer–seller chat UI
 - [x] PIN-based trade flow UI
 - [x] Orders, notifications and profile pages
-- [ ] FastAPI backend and PostgreSQL database
-- [ ] Real college directory import and domain verification
-- [ ] Real email OTP delivery
-- [ ] Real-time chat over WebSockets
-- [ ] Server-side PIN trades with transaction locking
-- [ ] AI search with LLM parsing and semantic ranking
+- [x] FastAPI backend and PostgreSQL database
+- [x] Server-side PIN trades with transaction locking
+- [x] Real-time chat over WebSockets
+- [x] AI search with LLM parsing and semantic ranking
+- [x] Real college directory import and domain verification
+- [ ] Real email OTP delivery (Resend key still needed for production)
 - [ ] Image uploads and moderation tools
 - [ ] Mobile app / PWA
 - [ ] Deployment and launch at the first campus
@@ -252,7 +288,6 @@ We work as a team, so please follow this simple workflow:
 - Keep all data access inside `src/api` so the frontend can switch from mock data to the real backend easily.
 - Every backend route must check login and college scoping, and must have a test.
 - If you use an AI tool to generate code, read and run it before committing.
-
 Ideas and pull requests from outside the team are welcome too.
 
 ---
