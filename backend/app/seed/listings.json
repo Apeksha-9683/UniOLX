@@ -1,0 +1,1186 @@
+[
+  {
+    "id": "list_001",
+    "title": "Casio fx-991CW ClassWiz Scientific Calculator",
+    "description": "Used for 2 semesters in Engineering Mathematics & Signal Processing. Mint condition with original protective slip-on hard case, QR code verification intact, battery still full.",
+    "price": 950,
+    "originalPrice": 1595,
+    "category": "Electronics",
+    "condition": "Like New",
+    "status": "Available",
+    "collegeId": "rvce",
+    "collegeName": "RV College of Engineering",
+    "campusPickupSpot": "Cauvery Hostel Gate 2",
+    "seller": {
+      "id": "usr_seller_01",
+      "name": "Rohan Deshmukh",
+      "collegeId": "rvce",
+      "collegeName": "RVCE",
+      "branch": "ECE 6th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Rohan&backgroundColor=ff7a1a",
+      "isVerified": true,
+      "rating": 4.8,
+      "totalReviews": 9,
+      "hostelOrArea": "Cauvery Hostel Block A"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&auto=format&fit=crop&q=80"
+    ],
+    "quantity": 2,
+    "specs": {
+      "Model": "fx-991CW ClassWiz",
+      "Functions": "540+ functions",
+      "Display": "Natural Textbook Display",
+      "Power": "Dual Power (Solar + Battery)"
+    },
+    "tags": [
+      "calculator",
+      "casio",
+      "ece",
+      "maths",
+      "exam-approved"
+    ],
+    "postedAt": "2 hours ago",
+    "isWishlisted": false,
+    "viewsCount": 64
+  },
+  {
+    "id": "list_002",
+    "title": "Hero Sprint Pro 26T 21-Speed Gear Bicycle with Cable Lock",
+    "description": "Smooth gear shifting (Shimano Tourney 3x7). Perfect for commuting between RVCE Main Gate, Mysuru Road metro station, and hostel. Front suspension works great. Front basket & brass bell included.",
+    "price": 3800,
+    "originalPrice": 9499,
+    "category": "Cycles & Commute",
+    "condition": "Good",
+    "status": "Available",
+    "collegeId": "rvce",
+    "collegeName": "RV College of Engineering",
+    "campusPickupSpot": "Near Food Court & Canteen",
+    "seller": {
+      "id": "usr_seller_02",
+      "name": "Pooja Hegde",
+      "collegeId": "rvce",
+      "collegeName": "RVCE",
+      "branch": "Mechanical 8th Sem (Graduating)",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Pooja&backgroundColor=ffc72c",
+      "isVerified": true,
+      "rating": 5,
+      "totalReviews": 12,
+      "hostelOrArea": "Krishna Hostel"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Gears": "21 Speed Shimano",
+      "Brakes": "Front & Rear Disc Brakes",
+      "Frame": "Alloy Steel 18\"",
+      "Accessories": "Number lock + Bell + Mudguards"
+    },
+    "tags": [
+      "cycle",
+      "bicycle",
+      "gear cycle",
+      "commute",
+      "metro"
+    ],
+    "postedAt": "5 hours ago",
+    "isWishlisted": true,
+    "viewsCount": 142
+  },
+  {
+    "id": "list_003",
+    "title": "Higher Engineering Mathematics by Dr. B.S. Grewal (44th Edition)",
+    "description": "Essential for Sem 1-4 VTU & Autonomous syllabus. Clean pages, no highlights or pen marks. Binding is tight. Saved me during M1 and M2 exams!",
+    "price": 380,
+    "originalPrice": 850,
+    "category": "Textbooks",
+    "condition": "Good",
+    "status": "Available",
+    "collegeId": "rvce",
+    "collegeName": "RV College of Engineering",
+    "campusPickupSpot": "Central Library Lawns",
+    "seller": {
+      "id": "usr_seller_03",
+      "name": "Karthik Nair",
+      "collegeId": "rvce",
+      "collegeName": "RVCE",
+      "branch": "CSE 4th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Karthik&backgroundColor=ff7a1a",
+      "isVerified": true,
+      "rating": 4.7,
+      "totalReviews": 6,
+      "hostelOrArea": "Day Scholar (Kengeri)"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Author": "Dr. B.S. Grewal",
+      "Edition": "44th Edition (Latest revised)",
+      "Publisher": "Khanna Publishers",
+      "Pages": "1320"
+    },
+    "tags": [
+      "vtu",
+      "engineering maths",
+      "grewal",
+      "textbook",
+      "m1",
+      "m2"
+    ],
+    "postedAt": "1 day ago",
+    "isWishlisted": false,
+    "viewsCount": 88
+  },
+  {
+    "id": "list_004",
+    "title": "Sleepwell 4-Inch Single Bed High-Density Foam Mattress",
+    "description": "Standard single bed size (72x36 inches) tailored for hostel cots. Wrapped with water-resistant mattress cover. Used for only 1 year. Sanitized, very comfortable.",
+    "price": 1200,
+    "originalPrice": 3800,
+    "category": "Hostel Essentials",
+    "condition": "Good",
+    "status": "Reserved",
+    "collegeId": "rvce",
+    "collegeName": "RV College of Engineering",
+    "campusPickupSpot": "Cauvery Hostel Gate 2",
+    "seller": {
+      "id": "usr_seller_04",
+      "name": "Tanmay Varma",
+      "collegeId": "rvce",
+      "collegeName": "RVCE",
+      "branch": "ISE Final Year",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Tanmay&backgroundColor=ffc72c",
+      "isVerified": true,
+      "rating": 4.9,
+      "totalReviews": 14,
+      "hostelOrArea": "Cauvery Hostel Block C"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Dimensions": "72 x 36 x 4 inches",
+      "Material": "High Resilience PU Foam",
+      "Cover": "Zip-washable breathable jacquard",
+      "Weight": "Approx 4.5 kg"
+    },
+    "tags": [
+      "mattress",
+      "hostel",
+      "cauvery",
+      "bedding",
+      "single bed"
+    ],
+    "postedAt": "1 day ago",
+    "isWishlisted": false,
+    "viewsCount": 110
+  },
+  {
+    "id": "list_005",
+    "title": "Sony WH-1000XM4 Wireless Noise Cancelling Headphones (Black)",
+    "description": "The holy grail for studying in noisy hostel mess or library! Industry-leading ANC. 30hr battery life. Comes with hard carry case, 3.5mm aux cable, and airline adapter.",
+    "price": 13500,
+    "originalPrice": 24990,
+    "category": "Audio & Gadgets",
+    "condition": "Like New",
+    "status": "Available",
+    "collegeId": "bmsce",
+    "collegeName": "BMS College of Engineering",
+    "campusPickupSpot": "Main Canteen Ground Floor",
+    "seller": {
+      "id": "usr_seller_05",
+      "name": "Ananya Rao",
+      "collegeId": "bmsce",
+      "collegeName": "BMSCE",
+      "branch": "CSE 5th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Ananya&backgroundColor=ff7a1a",
+      "isVerified": true,
+      "rating": 4.9,
+      "totalReviews": 21,
+      "hostelOrArea": "Basavanagudi PG"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "ANC": "Dual Noise Sensor Technology",
+      "Battery": "Up to 30 Hours with ANC",
+      "Multipoint": "Connects 2 devices simultaneously",
+      "Codec": "LDAC, AAC, SBC"
+    },
+    "tags": [
+      "headphones",
+      "sony",
+      "anc",
+      "noise-cancelling",
+      "study"
+    ],
+    "postedAt": "3 hours ago",
+    "isWishlisted": true,
+    "viewsCount": 220
+  },
+  {
+    "id": "list_006",
+    "title": "Pure Cotton Lab Coat (Unisex Size L) + Safety Goggles",
+    "description": "Thick white 100% cotton lab coat required for Chemistry and Biology labs. Stitched college logo pocket. Worn only 8 times during first year. Freshly laundered.",
+    "price": 250,
+    "originalPrice": 650,
+    "category": "Lab & Drafting",
+    "condition": "Like New",
+    "status": "Available",
+    "collegeId": "rvce",
+    "collegeName": "RV College of Engineering",
+    "campusPickupSpot": "Mechanical Dept Portico",
+    "seller": {
+      "id": "usr_seller_06",
+      "name": "Aditya Kulkarni",
+      "collegeId": "rvce",
+      "collegeName": "RVCE",
+      "branch": "Chemical Engg 3rd Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Aditya&backgroundColor=ffc72c",
+      "isVerified": true,
+      "rating": 4.6,
+      "totalReviews": 5,
+      "hostelOrArea": "Chamundi Hostel"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Size": "Large (38-40 Chest)",
+      "Material": "100% Heavy Twill Cotton",
+      "Pockets": "2 deep side + 1 chest pocket",
+      "Includes": "Scratch-free UV safety goggles"
+    },
+    "tags": [
+      "lab coat",
+      "chemistry lab",
+      "safety goggles",
+      "first year"
+    ],
+    "postedAt": "2 days ago",
+    "isWishlisted": false,
+    "viewsCount": 75
+  },
+  {
+    "id": "list_007",
+    "title": "Engineering Mini Drafter (Omega Deluxe) with Sheet Container",
+    "description": "Engineering Graphics & CAD manual drawing essential! Omega steel arm mini drafter with clamp, scale, and waterproof cylindrical drawing sheet holder.",
+    "price": 420,
+    "originalPrice": 1100,
+    "category": "Lab & Drafting",
+    "condition": "Good",
+    "status": "Available",
+    "collegeId": "msrit",
+    "collegeName": "Ramaiah Institute of Technology",
+    "campusPickupSpot": "Freshers Block Courtyard",
+    "seller": {
+      "id": "usr_seller_07",
+      "name": "Divya S.",
+      "collegeId": "msrit",
+      "collegeName": "MSRIT",
+      "branch": "Civil Engg 4th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Divya&backgroundColor=ff7a1a",
+      "isVerified": true,
+      "rating": 4.8,
+      "totalReviews": 8,
+      "hostelOrArea": "Mathikere"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Brand": "Omega Deluxe Technical",
+      "Arm Type": "Heavy Duty Stainless Steel Rods",
+      "Holder": "Expandable black cylinder with strap"
+    },
+    "tags": [
+      "drafter",
+      "caed",
+      "graphics",
+      "drawing",
+      "first year",
+      "civil"
+    ],
+    "postedAt": "6 hours ago",
+    "isWishlisted": false,
+    "viewsCount": 92
+  },
+  {
+    "id": "list_008",
+    "title": "Apple MacBook Air M1 (8GB Unified RAM, 256GB SSD) - Space Grey",
+    "description": "Battery health 89%, 210 cycles only. Used for coding and CS assignments. Zero scratches on screen, always had dbrand skin on lid. Original 30W adapter and braided Type-C cable.",
+    "price": 43000,
+    "originalPrice": 79900,
+    "category": "Electronics",
+    "condition": "Like New",
+    "status": "Available",
+    "collegeId": "rvce",
+    "collegeName": "RV College of Engineering",
+    "campusPickupSpot": "Cauvery Hostel Gate 2",
+    "seller": {
+      "id": "usr_seller_08",
+      "name": "Nikhil Bharadwaj",
+      "collegeId": "rvce",
+      "collegeName": "RVCE",
+      "branch": "AI & Data Science 7th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Nikhil&backgroundColor=ffc72c",
+      "isVerified": true,
+      "rating": 5,
+      "totalReviews": 24,
+      "hostelOrArea": "Cauvery Hostel Block B"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Processor": "Apple M1 (8-core CPU / 7-core GPU)",
+      "RAM": "8GB Unified Memory",
+      "Storage": "256GB NVMe SSD",
+      "Battery Health": "89% (Normal)"
+    },
+    "tags": [
+      "macbook",
+      "apple",
+      "m1",
+      "laptop",
+      "coding",
+      "web dev"
+    ],
+    "postedAt": "4 hours ago",
+    "isWishlisted": true,
+    "viewsCount": 310
+  },
+  {
+    "id": "list_009",
+    "title": "Bajaj 1.5 Litre Stainless Steel Electric Kettle (Cordless)",
+    "description": "Hostel life lifesaver for midnight Maggi, coffee, and green tea during exam weeks. Auto shut-off, boils water in under 2 minutes. Clean base without scaling.",
+    "price": 550,
+    "originalPrice": 1399,
+    "category": "Hostel Essentials",
+    "condition": "Good",
+    "status": "Available",
+    "collegeId": "nitk",
+    "collegeName": "NITK Surathkal",
+    "campusPickupSpot": "Red Square / Main Admin Lawn",
+    "seller": {
+      "id": "usr_seller_09",
+      "name": "Gautam Krishna",
+      "collegeId": "nitk",
+      "collegeName": "NITK Surathkal",
+      "branch": "Mechanical 6th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Gautam&backgroundColor=ff7a1a",
+      "isVerified": true,
+      "rating": 4.7,
+      "totalReviews": 11,
+      "hostelOrArea": "Hostel Block 7"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1594213114663-dd9571fbe090?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Capacity": "1.5 Litres",
+      "Wattage": "1500 Watts Fast Boil",
+      "Body": "Food grade stainless steel 304",
+      "Safety": "Auto cut-off dry protection"
+    },
+    "tags": [
+      "kettle",
+      "hostel",
+      "maggi",
+      "appliances",
+      "tea"
+    ],
+    "postedAt": "12 hours ago",
+    "isWishlisted": false,
+    "viewsCount": 155
+  },
+  {
+    "id": "list_010",
+    "title": "Arduino Uno R3 Ultimate Starter Kit with 30+ Sensors & Breadboard",
+    "description": "Everything you need for IoT / Embedded Systems and microcontrollers lab. Contains Arduino Uno board, ultrasonic sensor, servo motor, LCD display 16x2, jumper cables, and resistor box.",
+    "price": 1100,
+    "originalPrice": 2450,
+    "category": "Electronics",
+    "condition": "Like New",
+    "status": "Available",
+    "collegeId": "iisc",
+    "collegeName": "Indian Institute of Science",
+    "campusPickupSpot": "Nesara Restaurant Circle",
+    "seller": {
+      "id": "usr_seller_10",
+      "name": "Priyanka Sen",
+      "collegeId": "iisc",
+      "collegeName": "IISc Bangalore",
+      "branch": "M.Tech Computational Sciences",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Priyanka&backgroundColor=ffc72c",
+      "isVerified": true,
+      "rating": 5,
+      "totalReviews": 16,
+      "hostelOrArea": "K Block Hostel"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Microcontroller": "ATmega328P Original Chip",
+      "Kit Contents": "32 Sensor modules + Breadboard + Cables",
+      "Compatibility": "Arduino IDE / PlatformIO"
+    },
+    "tags": [
+      "arduino",
+      "iot",
+      "robotics",
+      "sensors",
+      "project",
+      "embedded"
+    ],
+    "postedAt": "1 day ago",
+    "isWishlisted": true,
+    "viewsCount": 178
+  },
+  {
+    "id": "list_011",
+    "title": "GATE CSE 2026 Made Easy Postal Study Package (Full 14 Books)",
+    "description": "Complete set: Theory books, previous 30 years solved question papers, and short formula handbooks. Covers OS, DBMS, Algorithms, Theory of Computation, Compiler, and Computer Networks.",
+    "price": 2400,
+    "originalPrice": 7800,
+    "category": "Textbooks",
+    "condition": "Good",
+    "status": "Available",
+    "collegeId": "iit-dh",
+    "collegeName": "IIT Dharwad",
+    "campusPickupSpot": "Permanent Campus Main Porch",
+    "seller": {
+      "id": "usr_seller_11",
+      "name": "Vishal Joshi",
+      "collegeId": "iit-dh",
+      "collegeName": "IIT Dharwad",
+      "branch": "CSE 4th Year",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Vishal&backgroundColor=ff7a1a",
+      "isVerified": true,
+      "rating": 4.9,
+      "totalReviews": 7,
+      "hostelOrArea": "Block D"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Target Exam": "GATE / ISRO / BARC CSE",
+      "Institute": "Made Easy Education",
+      "Book Count": "14 Core Subject Volumes"
+    },
+    "tags": [
+      "gate",
+      "cse",
+      "made easy",
+      "competitive",
+      "algorithms",
+      "dbms"
+    ],
+    "postedAt": "3 days ago",
+    "isWishlisted": false,
+    "viewsCount": 140
+  },
+  {
+    "id": "list_012",
+    "title": "Firefox Target 29T Mountain Bicycle (Matt Black / Neon Orange)",
+    "description": "Rugged MTB with 29-inch wheels, front Zoom suspension fork, and Shimano trigger shifters. Perfect for long weekend campus rides and hill climbs. Tires replaced last month.",
+    "price": 6500,
+    "originalPrice": 16500,
+    "category": "Cycles & Commute",
+    "condition": "Good",
+    "status": "Available",
+    "collegeId": "iit-b",
+    "collegeName": "IIT Bombay",
+    "campusPickupSpot": "Hostel 12-13-14 Food Court",
+    "seller": {
+      "id": "usr_seller_12",
+      "name": "Manish Rawat",
+      "collegeId": "iit-b",
+      "collegeName": "IIT Bombay",
+      "branch": "Electrical Engg 3rd Year",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Manish&backgroundColor=ffc72c",
+      "isVerified": true,
+      "rating": 4.8,
+      "totalReviews": 13,
+      "hostelOrArea": "Hostel 14"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Wheel Size": "29 Inches",
+      "Gears": "21 Speed Shimano Tourney",
+      "Suspension": "Zoom 80mm travel with lockout",
+      "Frame": "Lightweight Hydroformed Alloy"
+    },
+    "tags": [
+      "firefox",
+      "mtb",
+      "cycle",
+      "powai",
+      "iitb"
+    ],
+    "postedAt": "8 hours ago",
+    "isWishlisted": false,
+    "viewsCount": 195
+  },
+  {
+    "id": "list_013",
+    "title": "LG 24-inch Full HD IPS Borderless Monitor (75Hz, AMD FreeSync)",
+    "description": "Perfect dual-screen setup for coding, gaming, and watching lectures. HDMI and VGA ports. Anti-glare coating, flicker safe, reader mode for late-night study sessions.",
+    "price": 5200,
+    "originalPrice": 11400,
+    "category": "Electronics",
+    "condition": "Like New",
+    "status": "Available",
+    "collegeId": "pes",
+    "collegeName": "PES University",
+    "campusPickupSpot": "GJBC 13th Floor Cafeteria",
+    "seller": {
+      "id": "usr_seller_13",
+      "name": "Siddharth M.",
+      "collegeId": "pes",
+      "collegeName": "PES University",
+      "branch": "AIML 6th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Siddharth&backgroundColor=ff7a1a",
+      "isVerified": true,
+      "rating": 4.9,
+      "totalReviews": 10,
+      "hostelOrArea": "Banashankari"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Screen Size": "24 Inch (60.4 cm)",
+      "Resolution": "1920 x 1080 Full HD IPS",
+      "Refresh Rate": "75 Hz",
+      "Response Time": "5ms"
+    },
+    "tags": [
+      "monitor",
+      "screen",
+      "coding",
+      "display",
+      "hdmi"
+    ],
+    "postedAt": "1 day ago",
+    "isWishlisted": true,
+    "viewsCount": 240
+  },
+  {
+    "id": "list_014",
+    "title": "Wipro Smart LED Desk Study Lamp with Phone Stand & Touch Dimmer",
+    "description": "Warm, natural, and white color temperature modes with seamless brightness control. Flexible 360-degree goose neck. USB rechargeable with built-in emergency backup battery.",
+    "price": 490,
+    "originalPrice": 1299,
+    "category": "Hostel Essentials",
+    "condition": "Like New",
+    "status": "Available",
+    "collegeId": "rvce",
+    "collegeName": "RV College of Engineering",
+    "campusPickupSpot": "Near Food Court & Canteen",
+    "seller": {
+      "id": "usr_seller_14",
+      "name": "Shreya Patel",
+      "collegeId": "rvce",
+      "collegeName": "RVCE",
+      "branch": "Biotech 4th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Shreya&backgroundColor=ffc72c",
+      "isVerified": true,
+      "rating": 4.7,
+      "totalReviews": 8,
+      "hostelOrArea": "Ganga Hostel"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Light Modes": "3 Color Temps (3000K - 6500K)",
+      "Battery": "2000mAh Lithium Backup",
+      "Features": "Mobile phone kickstand holder"
+    },
+    "tags": [
+      "lamp",
+      "study",
+      "desk",
+      "hostel",
+      "led"
+    ],
+    "postedAt": "7 hours ago",
+    "isWishlisted": false,
+    "viewsCount": 82
+  },
+  {
+    "id": "list_015",
+    "title": "Boat Stone 1200 14W Portable Bluetooth Speaker with RGB LED",
+    "description": "Loud punchy bass, IPX7 water resistance (safe from spillages), 9 hours playback. Has aux and TF card support. Ideal for hostel wing parties and celebrations.",
+    "price": 1300,
+    "originalPrice": 3990,
+    "category": "Audio & Gadgets",
+    "condition": "Good",
+    "status": "Available",
+    "collegeId": "dsce",
+    "collegeName": "Dayananda Sagar College of Engineering",
+    "campusPickupSpot": "Cafe Coffee Day Point near Mech Block",
+    "seller": {
+      "id": "usr_seller_15",
+      "name": "Varun Nair",
+      "collegeId": "dsce",
+      "collegeName": "DSCE",
+      "branch": "ISE 5th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Varun&backgroundColor=ff7a1a",
+      "isVerified": true,
+      "rating": 4.6,
+      "totalReviews": 15,
+      "hostelOrArea": "NRI Hostel"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Power Output": "14W RMS Stereo Sound",
+      "Waterproof": "IPX7 Certified",
+      "Battery": "Up to 9 Hours"
+    },
+    "tags": [
+      "speaker",
+      "boat",
+      "bluetooth",
+      "party",
+      "bass"
+    ],
+    "postedAt": "18 hours ago",
+    "isWishlisted": false,
+    "viewsCount": 119
+  },
+  {
+    "id": "list_016",
+    "title": "Yonex Muscle Power 29 Light Badminton Racquet + 3 Mavis 350 Shuttles",
+    "description": "Isometric head shape, high modulus graphite shaft, strung with BG65 at 24 lbs. Grip recently changed with towel overgrip. Selling because switching to squash.",
+    "price": 1450,
+    "originalPrice": 3200,
+    "category": "Fashion & Sports",
+    "condition": "Good",
+    "status": "Available",
+    "collegeId": "rvce",
+    "collegeName": "RV College of Engineering",
+    "campusPickupSpot": "Sports Complex Pavillion",
+    "seller": {
+      "id": "usr_seller_16",
+      "name": "Naveen Kumar",
+      "collegeId": "rvce",
+      "collegeName": "RVCE",
+      "branch": "Aerospace 6th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Naveen&backgroundColor=ffc72c",
+      "isVerified": true,
+      "rating": 4.9,
+      "totalReviews": 19,
+      "hostelOrArea": "Cauvery Hostel Block A"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Shaft": "High Modulus Carbon Graphite",
+      "Weight": "4U (80-84g)",
+      "String Tension": "24 lbs BG-65"
+    },
+    "tags": [
+      "badminton",
+      "yonex",
+      "sports",
+      "racquet",
+      "shuttle"
+    ],
+    "postedAt": "1 day ago",
+    "isWishlisted": false,
+    "viewsCount": 167
+  },
+  {
+    "id": "list_017",
+    "title": "Operating System Concepts by Silberschatz, Galvin & Gagne (10th Ed)",
+    "description": "The definitive Dinosaur book for Core CS Operating Systems! Clear explanations on thread scheduling, virtual memory paging, and deadlock synchronization.",
+    "price": 490,
+    "originalPrice": 1150,
+    "category": "Textbooks",
+    "condition": "Like New",
+    "status": "Available",
+    "collegeId": "christ",
+    "collegeName": "Christ University",
+    "campusPickupSpot": "Audi Block 1 Steps",
+    "seller": {
+      "id": "usr_seller_17",
+      "name": "Meera Thomas",
+      "collegeId": "christ",
+      "collegeName": "Christ University",
+      "branch": "BCA 4th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Meera&backgroundColor=ff7a1a",
+      "isVerified": true,
+      "rating": 4.9,
+      "totalReviews": 6,
+      "hostelOrArea": "Koramangala"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1532012164546-f432f2e3777a?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Authors": "Silberschatz, Galvin, Gagne",
+      "Edition": "10th Global Edition",
+      "Publisher": "Wiley"
+    },
+    "tags": [
+      "operating systems",
+      "cs",
+      "bca",
+      "textbook",
+      "dinosaur book"
+    ],
+    "postedAt": "2 days ago",
+    "isWishlisted": false,
+    "viewsCount": 104
+  },
+  {
+    "id": "list_018",
+    "title": "Foldable Stainless Steel Cloth Drying Stand with Wheel Castors",
+    "description": "Must-have for monsoon and hostel balconies! 3-tier drying rack holds two full bucket loads of clothes. Wheels make it effortless to roll inside room when it rains.",
+    "price": 850,
+    "originalPrice": 2299,
+    "category": "Hostel Essentials",
+    "condition": "Good",
+    "status": "Available",
+    "collegeId": "uvce",
+    "collegeName": "UVCE",
+    "campusPickupSpot": "KR Circle Heritage Portico",
+    "seller": {
+      "id": "usr_seller_18",
+      "name": "Basavaraj Hiremath",
+      "collegeId": "uvce",
+      "collegeName": "UVCE",
+      "branch": "Electrical 7th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Basu&backgroundColor=ffc72c",
+      "isVerified": true,
+      "rating": 4.7,
+      "totalReviews": 12,
+      "hostelOrArea": "Jnana Bharati Hostel"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Tiers": "3 Tiers with 24 Drying Rods",
+      "Material": "Rust-resistant Stainless Steel",
+      "Mobility": "4 Heavy-duty 360-degree wheels"
+    },
+    "tags": [
+      "laundry",
+      "stand",
+      "hostel",
+      "drying rack",
+      "clothes"
+    ],
+    "postedAt": "1 day ago",
+    "isWishlisted": false,
+    "viewsCount": 78
+  },
+  {
+    "id": "list_019",
+    "title": "Redragon K552 Kumara RGB Tenkeyless Mechanical Gaming Keyboard",
+    "description": "Outemu Blue tactile clicky switches. Great response for rapid coding and casual gaming. Solid metal base with splash-proof design and customizable lighting effects.",
+    "price": 1600,
+    "originalPrice": 3499,
+    "category": "Electronics",
+    "condition": "Good",
+    "status": "Available",
+    "collegeId": "bvb",
+    "collegeName": "KLE Tech (BVB College)",
+    "campusPickupSpot": "CTIE Innovation Centre Lawn",
+    "seller": {
+      "id": "usr_seller_19",
+      "name": "Suhas Kulkarni",
+      "collegeId": "bvb",
+      "collegeName": "BVB",
+      "branch": "Robotics 5th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Suhas&backgroundColor=ff7a1a",
+      "isVerified": true,
+      "rating": 4.8,
+      "totalReviews": 10,
+      "hostelOrArea": "Pushpa Hostel"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Layout": "87-Key Compact TKL",
+      "Switches": "Custom Outemu Blue Mechanical",
+      "Cable": "Gold-plated USB Braided"
+    },
+    "tags": [
+      "keyboard",
+      "mechanical",
+      "rgb",
+      "gaming",
+      "coding"
+    ],
+    "postedAt": "5 hours ago",
+    "isWishlisted": false,
+    "viewsCount": 133
+  },
+  {
+    "id": "list_020",
+    "title": "Wildcraft 35L Water-Resistant College Laptop Backpack (Grey / Orange)",
+    "description": "Padded sleeve fits up to 15.6\" laptop. Ergonomic back panel with sweat-free mesh padding, rain cover pouch at the bottom, and reinforced grab handle.",
+    "price": 750,
+    "originalPrice": 2199,
+    "category": "Fashion & Sports",
+    "condition": "Good",
+    "status": "Available",
+    "collegeId": "rvce",
+    "collegeName": "RV College of Engineering",
+    "campusPickupSpot": "Main Gate / Mysore Road Arch",
+    "seller": {
+      "id": "usr_seller_20",
+      "name": "Deepak Joshi",
+      "collegeId": "rvce",
+      "collegeName": "RVCE",
+      "branch": "Civil Engg 5th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Deepak&backgroundColor=ffc72c",
+      "isVerified": true,
+      "rating": 4.7,
+      "totalReviews": 4,
+      "hostelOrArea": "Kengeri Satellite Town"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Capacity": "35 Litres",
+      "Compartments": "3 zippered main + 2 bottle mesh pockets",
+      "Fabric": "High tenacity polyester"
+    },
+    "tags": [
+      "bag",
+      "backpack",
+      "wildcraft",
+      "laptop bag",
+      "college"
+    ],
+    "postedAt": "3 days ago",
+    "isWishlisted": false,
+    "viewsCount": 89
+  },
+  {
+    "id": "list_021",
+    "title": "Complete Human Anatomy BD Chaurasia Handbook Set (Vols 1 to 4)",
+    "description": "Must have for 1st Year MBBS & Biomedical students. Dissection markings, muscle charts, nerve supply tables clearly annotated with neat pencil notes.",
+    "price": 1100,
+    "originalPrice": 3200,
+    "category": "Textbooks",
+    "condition": "Good",
+    "status": "Available",
+    "collegeId": "msrit",
+    "collegeName": "Ramaiah Institute of Technology",
+    "campusPickupSpot": "Gate 4 (Gymkhana)",
+    "seller": {
+      "id": "usr_seller_21",
+      "name": "Dr. Shalini K.",
+      "collegeId": "msrit",
+      "collegeName": "MSRIT",
+      "branch": "Medical Electronics 6th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Shalini&backgroundColor=ff7a1a",
+      "isVerified": true,
+      "rating": 5,
+      "totalReviews": 15,
+      "hostelOrArea": "Aryabhatta Hostel"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Author": "B.D. Chaurasia",
+      "Volumes": "Upper Limb, Lower Limb, Head Neck, Neuroanatomy",
+      "Edition": "8th CBS Edition"
+    },
+    "tags": [
+      "anatomy",
+      "medical",
+      "biomedical",
+      "chaurasia",
+      "textbook"
+    ],
+    "postedAt": "2 days ago",
+    "isWishlisted": false,
+    "viewsCount": 63
+  },
+  {
+    "id": "list_022",
+    "title": "Stylus Pen for iPad with Palm Rejection & Tilt Sensitivity",
+    "description": "Works with iPad Air, iPad Pro, and 10th Gen iPads (2018-2024 models). Magnetic absorption to side, Type-C charging, 10-hour battery life. Great for GoodNotes note taking.",
+    "price": 1150,
+    "originalPrice": 2899,
+    "category": "Audio & Gadgets",
+    "condition": "Like New",
+    "status": "Available",
+    "collegeId": "iit-d",
+    "collegeName": "IIT Delhi",
+    "campusPickupSpot": "SAC Circle & Amul Parlour",
+    "seller": {
+      "id": "usr_seller_22",
+      "name": "Armaan Malik",
+      "collegeId": "iit-d",
+      "collegeName": "IIT Delhi",
+      "branch": "Mathematics & Computing 3rd Year",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Armaan&backgroundColor=ffc72c",
+      "isVerified": true,
+      "rating": 4.9,
+      "totalReviews": 17,
+      "hostelOrArea": "Girnar Hostel"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1583573636246-18cb2246697f?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Compatibility": "iPad 2018 - 2024 models",
+      "Features": "Palm rejection + Tilt angle shading",
+      "Charging": "USB Type-C Fast Charge"
+    },
+    "tags": [
+      "ipad",
+      "stylus",
+      "pencil",
+      "goodnotes",
+      "study"
+    ],
+    "postedAt": "9 hours ago",
+    "isWishlisted": false,
+    "viewsCount": 160
+  },
+  {
+    "id": "list_023",
+    "title": "Stainless Steel Double-Wall Vacuum Insulated Water Bottle (1000ml)",
+    "description": "Keeps water chilled for 24 hours in hot campus afternoons or hot coffee warm for 12 hours. Leak-proof spout lid with carrying loop.",
+    "price": 320,
+    "originalPrice": 899,
+    "category": "Hostel Essentials",
+    "condition": "Like New",
+    "status": "Available",
+    "collegeId": "rvce",
+    "collegeName": "RV College of Engineering",
+    "campusPickupSpot": "Cauvery Hostel Gate 2",
+    "seller": {
+      "id": "usr_seller_23",
+      "name": "Neha Murthy",
+      "collegeId": "rvce",
+      "collegeName": "RVCE",
+      "branch": "ISE 4th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Neha&backgroundColor=ff7a1a",
+      "isVerified": true,
+      "rating": 4.8,
+      "totalReviews": 11,
+      "hostelOrArea": "Krishna Hostel"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Capacity": "1000 ml / 1 Litre",
+      "Insulation": "Double Wall Vacuum Copper Plating",
+      "Body": "18/8 Food Grade Steel"
+    },
+    "tags": [
+      "bottle",
+      "flask",
+      "hostel",
+      "water bottle",
+      "milton"
+    ],
+    "postedAt": "4 hours ago",
+    "isWishlisted": false,
+    "viewsCount": 52
+  },
+  {
+    "id": "list_024",
+    "title": "Raspberry Pi 4 Model B (4GB RAM) with Aluminium Heatsink Case",
+    "description": "Used for final year IoT smart surveillance capstone project. Includes 32GB SanDisk Extreme MicroSD preloaded with Raspberry Pi OS, official 15W Type-C power supply, and micro-HDMI cable.",
+    "price": 4200,
+    "originalPrice": 7999,
+    "category": "Electronics",
+    "condition": "Like New",
+    "status": "Available",
+    "collegeId": "rvce",
+    "collegeName": "RV College of Engineering",
+    "campusPickupSpot": "Mechanical Dept Portico",
+    "seller": {
+      "id": "usr_seller_24",
+      "name": "Sanjay Hegde",
+      "collegeId": "rvce",
+      "collegeName": "RVCE",
+      "branch": "ECE 8th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Sanjay&backgroundColor=ffc72c",
+      "isVerified": true,
+      "rating": 5,
+      "totalReviews": 29,
+      "hostelOrArea": "Cauvery Hostel Block B"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1517055729445-fa7d27394b48?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "RAM": "4GB LPDDR4 SDRAM",
+      "Processor": "Broadcom BCM2711 quad-core Cortex-A72",
+      "Case": "CNC Armour Dual-Fan Aluminium Heatsink"
+    },
+    "tags": [
+      "raspberry pi",
+      "rpi4",
+      "iot",
+      "linux",
+      "capstone",
+      "ece"
+    ],
+    "postedAt": "1 hour ago",
+    "isWishlisted": true,
+    "viewsCount": 189
+  },
+  {
+    "id": "list_025",
+    "title": "Lenovo ThinkPad T480 (16GB RAM, 512GB NVMe SSD, Core i5)",
+    "description": "Legendary ThinkPad dual battery with legendary keyboard! Upgraded to 16GB dual-channel RAM and 512GB high-speed SSD. Perfect for VS Code, Docker, Linux, and Web Dev. Battery lasts 7-8 hours. Includes 65W Type-C charger.",
+    "price": 21500,
+    "originalPrice": 48000,
+    "category": "Electronics",
+    "condition": "Good",
+    "status": "Available",
+    "collegeId": "rvce",
+    "collegeName": "RV College of Engineering",
+    "campusPickupSpot": "Cauvery Hostel Gate 2",
+    "seller": {
+      "id": "usr_seller_25",
+      "name": "Nikhil R.",
+      "collegeId": "rvce",
+      "collegeName": "RVCE",
+      "branch": "CSE 7th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=NikhilR&backgroundColor=ffc72c",
+      "isVerified": true,
+      "rating": 4.9,
+      "totalReviews": 22,
+      "hostelOrArea": "Cauvery Hostel Block A"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "RAM": "16GB DDR4 Dual-Channel",
+      "Processor": "Intel Core i5-8350U Quad Core",
+      "Storage": "512GB NVMe M.2 SSD",
+      "Display": "14.0\" Full HD IPS Anti-glare",
+      "OS": "Ubuntu 24.04 LTS / Windows 11 Pro Dual Boot"
+    },
+    "tags": [
+      "laptop",
+      "thinkpad",
+      "lenovo",
+      "coding",
+      "16gb ram",
+      "programming"
+    ],
+    "postedAt": "30 mins ago",
+    "isWishlisted": false,
+    "viewsCount": 204
+  },
+  {
+    "id": "list_026",
+    "title": "Engineering Mechanics by S. Timoshenko & D.H. Young (5th Revised Edition)",
+    "description": "Standard textbook for 1st Year Engineering Mechanics (Statics & Dynamics). Clear diagrams, solved VTU numericals, and zero page tearing. Perfect for Midterms and Semester finals.",
+    "price": 320,
+    "originalPrice": 750,
+    "category": "Textbooks",
+    "condition": "Like New",
+    "status": "Available",
+    "collegeId": "rvce",
+    "collegeName": "RV College of Engineering",
+    "campusPickupSpot": "Mechanical Dept Portico",
+    "seller": {
+      "id": "usr_seller_26",
+      "name": "Harish Babu",
+      "collegeId": "rvce",
+      "collegeName": "RVCE",
+      "branch": "Mechanical 4th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Harish&backgroundColor=ff7a1a",
+      "isVerified": true,
+      "rating": 4.8,
+      "totalReviews": 8,
+      "hostelOrArea": "Chamundi Hostel"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1532012164546-f432f2e3777a?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Author": "S. Timoshenko, D.H. Young, J.V. Rao",
+      "Edition": "5th Revised McGraw Hill",
+      "Condition": "No pen marks or highlights"
+    },
+    "tags": [
+      "textbook",
+      "mechanics",
+      "timoshenko",
+      "first year",
+      "vtu",
+      "engineering mechanics"
+    ],
+    "postedAt": "1 hour ago",
+    "isWishlisted": false,
+    "viewsCount": 68
+  },
+  {
+    "id": "list_027",
+    "title": "Atlas Motion 26T Single Speed Commuter Bicycle with Basket",
+    "description": "Sturdy, zero-maintenance single speed cycle with front basket for bags, rear carrier, and bell. Serviced last week with fresh brake pads and greased chain. Perfect for hostel-to-class trips.",
+    "price": 2600,
+    "originalPrice": 6200,
+    "category": "Cycles & Commute",
+    "condition": "Good",
+    "status": "Available",
+    "collegeId": "rvce",
+    "collegeName": "RV College of Engineering",
+    "campusPickupSpot": "Near Food Court & Canteen",
+    "seller": {
+      "id": "usr_seller_27",
+      "name": "Arun Kumar",
+      "collegeId": "rvce",
+      "collegeName": "RVCE",
+      "branch": "Civil 6th Sem",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Arun&backgroundColor=ffc72c",
+      "isVerified": true,
+      "rating": 4.7,
+      "totalReviews": 6,
+      "hostelOrArea": "Krishna Hostel"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=600&auto=format&fit=crop&q=80"
+    ],
+    "specs": {
+      "Wheel Size": "26T",
+      "Gears": "Single Speed (Zero Maintenance)",
+      "Frame": "High Tensile Steel",
+      "Accessories": "Front basket + Number lock"
+    },
+    "tags": [
+      "cycle",
+      "bicycle",
+      "commuter",
+      "under 3000",
+      "hostel"
+    ],
+    "postedAt": "2 hours ago",
+    "isWishlisted": false,
+    "viewsCount": 95
+  }
+]
