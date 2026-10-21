@@ -15,6 +15,7 @@ from app.schemas.listing import Listing
 from app.schemas.notification import NotificationItem
 from app.schemas.trade import Trade
 from app.schemas.user import SellerInfo, User
+from app.services.places import PlaceIndex
 
 
 def iso(value: datetime | None) -> str | None:
@@ -31,16 +32,32 @@ def joined_date(value: datetime) -> str:
     return value.strftime("%B %Y")
 
 
-def college_to_schema(college: CollegeModel) -> College:
+def college_to_schema(
+    college: CollegeModel, places: "PlaceIndex | None" = None
+) -> College:
+    """The frontend shape, unchanged.
+
+    `name`, `city` and `state` are derived from the place tree and
+    `campusSpots` comes from the pickup spots table.
+    """
+    location = college.location
+    city = ""
+    state = ""
+    if places is not None and location is not None:
+        city_location = places.city_of(location)
+        state_location = places.state_of(location)
+        city = city_location.name if city_location is not None else ""
+        state = state_location.name if state_location is not None else ""
+
     return College(
         id=college.id,
-        name=college.name,
+        name=location.name if location is not None else college.id,
         short_name=college.short_name,
-        city=college.city,
-        state=college.state,
+        city=city,
+        state=state,
         domain=college.domain,
         status=college.status,
-        campus_spots=list(college.campus_spots or []),
+        campus_spots=[spot.name for spot in college.pickup_spots or []],
         popular_branches=list(college.popular_branches or []),
         is_verified=college.is_verified,
     )
@@ -64,13 +81,18 @@ def seller_info(user: UserModel) -> SellerInfo:
 
 def user_to_schema(user: UserModel) -> User:
     college = user.college
+    college_name = ""
+    college_short_name = user.college_id
+    if college is not None:
+        college_short_name = college.short_name
+        college_name = college.location.name if college.location is not None else college.id
     return User(
         id=str(user.id),
         name=user.name,
         email=user.email,
         college_id=user.college_id,
-        college_name=college.name if college else user.college_id,
-        college_short_name=college.short_name if college else user.college_id,
+        college_name=college_name,
+        college_short_name=college_short_name,
         branch=user.branch,
         year=user.year,
         semester=user.semester,
@@ -86,6 +108,11 @@ def user_to_schema(user: UserModel) -> User:
 
 def listing_to_schema(listing: ListingModel, wishlisted: bool = False) -> Listing:
     college = listing.college
+    college_name = ""
+    if college is not None:
+        college_name = (
+            college.location.name if college.location is not None else college.id
+        )
     return Listing(
         id=str(listing.id),
         title=listing.title,
@@ -96,7 +123,7 @@ def listing_to_schema(listing: ListingModel, wishlisted: bool = False) -> Listin
         condition=listing.condition,
         status=listing.status,
         college_id=listing.college_id,
-        college_name=college.name if college else listing.college_id,
+        college_name=college_name or listing.college_id,
         campus_pickup_spot=listing.campus_pickup_spot or "",
         seller=seller_info(listing.seller),
         images=[image.url for image in listing.images],

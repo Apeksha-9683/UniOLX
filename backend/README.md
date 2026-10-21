@@ -18,16 +18,26 @@ server-enforced PIN trades, real-time chat and AI search.
 
 ## Database structure
 
+17 tables. The OLX browsing core is the place tree, the category tree and the
+filterable attributes.
+
 ```mermaid
 erDiagram
-    colleges ||--o{ users : "hosts"
+    locations ||--o{ locations : "parent"
+    locations ||--o{ colleges : "campus"
+    locations ||--o{ users : "area"
+    locations ||--o{ listings : "place"
+    colleges ||--o{ pickup_spots : "landmarks"
+    colleges ||--o{ users : "students"
     colleges ||--o{ listings : "scopes"
-    users ||--o{ listings : "sells"
-    users ||--o{ wishlists : "saves"
-    listings ||--o{ wishlists : "saved as"
-    listings ||--o{ listing_images : "has"
+    categories ||--o{ categories : "parent"
+    categories ||--o{ category_attributes : "fields"
+    categories ||--o{ listings : "files"
+    listings ||--o{ listing_attributes : "parameters"
+    listings ||--o{ listing_images : "photos"
     listings ||--o{ trades : "traded in"
     listings ||--o{ conversations : "discussed in"
+    listings ||--o{ wishlists : "saved as"
     trades }o--|| users : "buyer / seller"
     conversations ||--o{ messages : "contains"
     users ||--o{ messages : "sends"
@@ -35,53 +45,96 @@ erDiagram
     users ||--o{ otp_codes : "verifies with"
     users ||--o{ refresh_tokens : "holds"
 
-    colleges {
-        varchar id PK
-        varchar name
-        varchar short_name
-        varchar city
-        varchar state
-        varchar domain UK
-        varchar status
-        jsonb campus_spots
-        jsonb popular_branches
-        boolean is_verified
-    }
-    users {
+    locations {
         uuid id PK
-        varchar email UK
-        varchar password_hash
+        varchar slug UK "india/karnataka/bengaluru"
         varchar name
+        varchar type "country|state|city|district|campus"
+        uuid parent_id FK
+        uuid_array ancestors "materialised path, GIN"
+        numeric latitude
+        numeric longitude
+        text address_line
+        integer sort_order
+    }
+    categories {
+        uuid id PK
+        varchar slug UK "electronics/laptops"
+        varchar name
+        varchar alias
+        uuid parent_id FK
+        uuid_array ancestors
+        integer level
+        integer position
+        varchar path
+        varchar view_type "gallery|list"
+        integer photos_max
+    }
+    category_attributes {
+        uuid id PK
+        uuid category_id FK
+        varchar key "ram"
+        varchar label "RAM"
+        varchar data_type "enum|range|text|number|boolean"
+        jsonb options
+        numeric min_value
+        numeric max_value
+        varchar unit
+    }
+    listing_attributes {
+        uuid listing_id PK,FK
+        uuid category_id FK
+        varchar key PK
+        text value
+        numeric value_num
+        boolean value_bool
+    }
+    pickup_spots {
+        uuid id PK
         varchar college_id FK
-        varchar branch
-        integer year
-        integer semester
-        varchar hostel
-        varchar avatar
-        boolean is_verified
-        float rating
-        integer total_reviews
-        integer completed_trades
+        varchar name
+        numeric latitude
+        numeric longitude
+        integer sort_order
+    }
+    colleges {
+        varchar id PK "rvce"
+        uuid location_id FK
+        varchar short_name
+        varchar domain
+        varchar status
+        jsonb popular_branches
     }
     listings {
         uuid id PK
         uuid seller_id FK
         varchar college_id FK
+        uuid category_id FK
+        uuid location_id FK
+        uuid pickup_spot_id FK
         varchar title
-        text description
         numeric price
         numeric original_price
-        varchar category
+        varchar category "mirror of the category name"
         varchar condition
         varchar status
-        varchar campus_pickup_spot
+        varchar campus_pickup_spot "mirror of the spot name"
         integer quantity
-        jsonb specs
+        jsonb specs "mirror of listing_attributes"
         varchar_array tags
-        integer views_count
+        numeric latitude
+        numeric longitude
         vector embedding "768 dims, pgvector"
         tsvector search_vector "generated"
-        timestamptz posted_at
+    }
+    users {
+        uuid id PK
+        varchar email UK
+        varchar password_hash
+        varchar college_id FK
+        uuid location_id FK
+        boolean is_verified
+        float rating
     }
     trades {
         uuid id PK
@@ -89,71 +142,12 @@ erDiagram
         uuid buyer_id FK
         uuid seller_id FK
         numeric price
-        integer quantity
-        varchar pickup_spot
-        varchar scheduled_time
         varchar status
         varchar pin_hash "argon2id"
         varchar pin_enc "AES-GCM, buyer only"
         integer attempts_left
         boolean is_locked
         timestamptz expires_at
-        timestamptz created_at
-        timestamptz completed_at
-        timestamptz cancelled_at
-    }
-    conversations {
-        uuid id PK
-        uuid listing_id FK
-        uuid buyer_id FK
-        uuid seller_id FK
-        timestamptz last_message_at
-    }
-    messages {
-        uuid id PK
-        uuid conversation_id FK
-        uuid sender_id FK
-        text text
-        varchar status
-        boolean is_system_card
-        uuid trade_id FK
-    }
-    notifications {
-        uuid id PK
-        uuid user_id FK
-        varchar type
-        varchar title
-        text message
-        varchar link
-        boolean read
-        timestamptz created_at
-    }
-    otp_codes {
-        uuid id PK
-        varchar email
-        uuid user_id FK
-        varchar code_hash "argon2id"
-        varchar purpose
-        integer attempts
-        timestamptz expires_at
-        timestamptz used_at
-    }
-    refresh_tokens {
-        uuid id PK
-        uuid user_id FK
-        varchar token_hash UK
-        timestamptz expires_at
-        timestamptz revoked_at
-    }
-    wishlists {
-        uuid user_id PK
-        uuid listing_id PK
-    }
-    listing_images {
-        uuid id PK
-        uuid listing_id FK
-        varchar url
-        integer position
     }
 ```
 
@@ -163,6 +157,18 @@ Inspect it yourself:
 psql postgresql://uniolx:uniolx@localhost:5432/uniolx -c "\d listings"
 psql postgresql://uniolx:uniolx@localhost:5432/uniolx -c "\dt"
 ```
+
+### How it behaves like OLX
+
+| OLX behaviour | How it works here |
+|---|---|
+| Locations are a tree with coordinates at every level | `locations.ancestors` is the materialised path, so "everything in Bengaluru" is `WHERE :id = ANY(ancestors)` |
+| A location carries its live listing count | `GET /api/locations/tree` returns `offerCount` per node, rolled up through the ancestors |
+| Categories are a tree with depth, position, path, live counts and a photo limit | `categories` plus `GET /api/categories/tree` (`offerCount`, `photosMax`, `childIds`, `level`, `path`) |
+| Per-category filter fields | `category_attributes` declares the fields; `listing_attributes` stores the typed values, so `ram = 16` is a real SQL predicate |
+| Search combines keyword + category + location + page + size | `GET /api/listings/search` returns `{items, total, page, size, nextPage}` |
+| Distance search and "near me" | `?lat=&lng=&radiusKm=` and `?sortBy=distance`, using a bounding box then a haversine |
+| Category-scoped photo limits | `photos_max` is enforced on create and patch |
 
 ## Setup
 
@@ -270,12 +276,25 @@ Everything below is enforced on the server. The browser only renders it.
 | `GET` | `/api/auth/me` | The signed-in user |
 | `PATCH` | `/api/users/me` | Update the profile |
 | `GET` | `/api/colleges` | Every college |
+| `GET` | `/api/locations` | The place tree, flat |
+| `GET` | `/api/locations/tree` | The place tree with live listing counts |
+| `GET` | `/api/locations/{slug}` | One place, by id or slug |
+| `GET` | `/api/locations/search?q=` | Place typeahead for the header picker |
+| `GET` | `/api/locations/popular` | The busiest places |
+| `GET` | `/api/locations/{id}/listings` | Listings in a place and everything under it |
+| `GET` | `/api/categories` | The category tree, flat |
+| `GET` | `/api/categories/tree` | The category tree with counts and photo limits |
+| `GET` | `/api/categories/{slug}` | One category |
+| `GET` | `/api/categories/{id}/attributes` | The filter fields for a category |
+| `GET` | `/api/pickup-spots?collegeId=` | The campus landmarks |
 | `GET` | `/api/colleges/search?q=` | College search |
 | `POST` | `/api/colleges/requests` | Request a new campus |
 | `GET` | `/api/listings` | Campus-scoped listings with filters |
 | `GET` | `/api/listings/featured` | Six latest available listings |
 | `GET` | `/api/listings/{id}` | Listing detail (campus scoped) |
 | `POST` | `/api/listings` | Create a listing |
+| `GET` | `/api/listings/search` | OLX envelope: items, total, page, size, nextPage |
+| `PATCH` | `/api/listings/{id}/location` | Set the place, the pickup spot and the point |
 | `PATCH` | `/api/listings/{id}` | Edit a listing (seller only) |
 | `POST` | `/api/listings/{id}/status` | Set the status (seller only) |
 | `POST` | `/api/listings/{id}/deactivate` | Toggle Available / Reserved |
@@ -315,11 +334,13 @@ the partner-campus list.
 ## Tests
 
 ```bash
-pytest                       # 52 tests against the uniolx_test database
+pytest                       # 85 tests against the uniolx_test database
 python scripts/smoke_test.py # end-to-end run against a live server
 ```
 
 The suite covers college scoping (including a cross-campus conversation leak
-that this backend blocks), the OTP policy, every PIN rule, and a concurrency
-test that fires two simultaneous trade requests at the same listing to prove
-only one can win.
+that this backend blocks), the OTP policy, every PIN rule, a concurrency test
+that fires two simultaneous trade requests at the same listing to prove only one
+can win, the place and category tree integrity, the facet counts, the filterable
+attributes, the distance filter (including the bounding-box edge case) and the
+response shapes the frontend consumes.

@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.core.config import settings
+from app.models.category import Category
 from app.models.listing import Listing
 from app.models.user import User
 from app.schemas.listing import Listing as ListingSchema
@@ -42,6 +43,11 @@ def _to_schema(criteria: list[Criterion]) -> list[ParsedCriterion]:
         )
         for c in criteria
     ]
+
+
+async def _category_map(db: AsyncSession) -> dict[str, Category]:
+    result = await db.execute(select(Category))
+    return {category.slug: category for category in result.scalars().all()}
 
 
 def _criterion_value(criteria: list[Criterion], key: str) -> str | None:
@@ -100,40 +106,43 @@ async def _load_candidates(
     return output
 
 
-def _matches_category(listing: Listing, target: str) -> bool:
-    if ":" in target:
-        category, sub = target.split(":", 1)
-        if sub == "laptop":
-            return (
-                "laptop" in listing.tags
-                or "thinkpad" in listing.title.lower()
-                or "macbook" in listing.title.lower()
-                or "laptop" in listing.title.lower()
-            )
-        if sub == "calculator":
-            return (
-                "calculator" in listing.tags
-                or "casio" in listing.title.lower()
-                or "calculator" in listing.title.lower()
-            )
-        if sub == "cycle":
-            return (
-                listing.category == "Cycles & Commute"
-                or "cycle" in listing.tags
-                or "bicycle" in listing.tags
-            )
-        if sub == "book":
-            return listing.category == "Textbooks" or "textbook" in listing.tags or "book" in listing.tags
-        if sub == "mattress":
-            return "mattress" in listing.tags or "mattress" in listing.title.lower()
-        if sub == "audio":
-            return (
-                listing.category == "Audio & Gadgets"
-                or "headphones" in listing.tags
-                or "speaker" in listing.tags
-            )
-        return listing.category == category
-    return listing.category == target or any(target.lower() in tag.lower() for tag in listing.tags)
+def _matches_category(
+    listing: Listing, target: str, categories_by_slug: dict[str, Category]
+) -> bool:
+    """True when the listing sits in the requested category or below it."""
+    target_category = categories_by_slug.get(target)
+    listing_category = listing.category_detail
+
+    if target_category is not None and listing_category is not None:
+        if listing_category.id == target_category.id:
+            return True
+        # the listing sits under the requested category
+        if target_category.id in (listing_category.ancestors or []):
+            return True
+        return False
+
+    # No tree entry on one side: fall back to the text.
+    needle = (target or "").lower()
+    if not needle:
+        return True
+    return listing.category.lower() == needle or any(
+        needle in tag.lower() for tag in listing.tags
+    )
+
+
+def _is_soft_category_match(
+    listing: Listing, target: str, categories_by_slug: dict[str, Category]
+) -> bool:
+    """True when the listing sits above the requested category.
+
+    A listing filed under "Electronics" is a weak match for a search for
+    "electronics/laptops", so it is a close match rather than a result.
+    """
+    target_category = categories_by_slug.get(target)
+    listing_category = listing.category_detail
+    if target_category is None or listing_category is None:
+        return False
+    return listing_category.id in (target_category.ancestors or [])
 
 
 def _inr(value: float) -> str:
@@ -145,6 +154,7 @@ def _score(
     criteria: list[Criterion],
     semantic: float,
     keyword: float,
+    categories_by_slug: dict[str, Category],
 ) -> tuple[int, list[str], list[str]]:
     reasons: list[str] = []
     unmatched: list[str] = []
@@ -155,7 +165,7 @@ def _score(
     category = _criterion_value(criteria, "category")
     if category:
         total += 1
-        if _matches_category(listing, category):
+        if _matches_category(listing, category, categories_by_slug):
             matched += 1
             display = next((c.display_value for c in criteria if c.key == "category"), category)
             reasons.append(f"{display} category ✓")
@@ -291,12 +301,19 @@ async def ai_search(
     previous_criteria: list[Criterion] | None = None,
 ) -> AISearchResult:
     raw = (query or "").strip()
+    categories_by_slug = await _category_map(db)
 
     if criteria_overrides:
         criteria = criteria_overrides
         is_vague = False
     else:
-        parsed = await parse_query(raw, previous_criteria)
+        catalogue = [
+            (slug, category.name)
+            for slug, category in sorted(
+                categories_by_slug.items(), key=lambda item: item[1].level
+            )
+        ]
+        parsed = await parse_query(raw, previous_criteria, catalogue)
         criteria = parsed.criteria
         is_vague = parsed.is_vague_or_greeting
 
@@ -325,7 +342,9 @@ async def ai_search(
     close: list[AIRankedListing] = []
 
     for listing, semantic, keyword in candidates:
-        score, reasons, unmatched = _score(listing, criteria, semantic, keyword)
+        score, reasons, unmatched = _score(
+            listing, criteria, semantic, keyword, categories_by_slug
+        )
         entry = AIRankedListing(
             listing=listing_to_schema(listing),
             match_score=score,
@@ -335,7 +354,11 @@ async def ai_search(
 
         is_available = listing.status == "Available"
         over_budget = max_budget is not None and float(listing.price) > max_budget
-        if is_available and not over_budget and not _is_hard_mismatch(listing, criteria):
+        if (
+            is_available
+            and not over_budget
+            and not _is_hard_mismatch(listing, criteria, categories_by_slug)
+        ):
             ranked.append(entry)
         else:
             close.append(entry)
@@ -366,10 +389,17 @@ async def ai_search(
     )
 
 
-def _is_hard_mismatch(listing: Listing, criteria: list[Criterion]) -> bool:
+def _is_hard_mismatch(
+    listing: Listing,
+    criteria: list[Criterion],
+    categories_by_slug: dict[str, Category],
+) -> bool:
     category = _criterion_value(criteria, "category")
-    if category and not _matches_category(listing, category):
-        return True
+    if category and not _matches_category(listing, category, categories_by_slug):
+        # A listing filed above the requested category is a close match, not
+        # a hard miss.
+        if not _is_soft_category_match(listing, category, categories_by_slug):
+            return True
 
     ram = _criterion_value(criteria, "ram")
     if ram and "laptop" in (category or ""):

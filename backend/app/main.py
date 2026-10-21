@@ -11,9 +11,11 @@ from app.core.config import settings
 from app.db.session import engine
 from app.routers import (
     auth,
+    categories,
     colleges,
     conversations,
     listings,
+    locations,
     notifications,
     search,
     trades,
@@ -51,6 +53,9 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(auth.users_router)
 app.include_router(colleges.router)
+app.include_router(categories.router)
+app.include_router(locations.router)
+app.include_router(locations.pickup_router)
 app.include_router(listings.router)
 app.include_router(listings.wishlist_router)
 app.include_router(trades.router)

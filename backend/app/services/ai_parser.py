@@ -49,45 +49,51 @@ class ParsedQuery:
 
 
 CATEGORY_NAMES = {
-    "textbooks": "Textbooks",
-    "textbook": "Textbooks",
-    "books": "Textbooks",
-    "electronics": "Electronics",
-    "cycles & commute": "Cycles & Commute",
-    "cycles": "Cycles & Commute",
-    "hostel essentials": "Hostel Essentials",
-    "hostel": "Hostel Essentials",
-    "lab & drafting": "Lab & Drafting",
-    "lab": "Lab & Drafting",
-    "audio & gadgets": "Audio & Gadgets",
-    "audio": "Audio & Gadgets",
-    "fashion & sports": "Fashion & Sports",
-    "sports": "Fashion & Sports",
+    "textbooks": "textbooks",
+    "textbook": "textbooks",
+    "books": "textbooks",
+    "engineering": "textbooks/engineering",
+    "electronics": "electronics",
+    "cycles & commute": "cycles-commute",
+    "cycles": "cycles-commute",
+    "bicycles": "cycles-commute/bicycles",
+    "hostel essentials": "hostel-essentials",
+    "hostel": "hostel-essentials",
+    "furniture": "hostel-essentials/furniture",
+    "lab & drafting": "lab-drafting",
+    "lab": "lab-drafting",
+    "audio & gadgets": "audio-gadgets",
+    "audio": "audio-gadgets",
+    "headphones": "audio-gadgets/headphones",
+    "fashion & sports": "fashion-sports",
+    "sports": "fashion-sports",
+    "laptops": "electronics/laptops",
+    "calculators": "electronics/calculators",
 }
 
 
 def normalize_category(value: str) -> str:
-    """Bring a category from any source into the `Category:sub` form.
+    """Bring a category from any source into a tree slug.
 
-    The LLM is free to answer "laptop", "Laptops" or "Electronics:laptop".
-    The matcher only understands `Category:sub` or a plain category name.
+    The LLM is free to answer "laptop", "Laptops" or "Electronics > Laptops";
+    the matcher only understands a slug such as "electronics/laptops".
     """
     raw = (value or "").strip()
     if not raw:
         return raw
-    if ":" in raw:
-        return raw
+    if "/" in raw:
+        return raw.lower()
 
     lowered = raw.lower()
 
-    for keywords, category, sub, _label in CATEGORY_SYNONYMS:
+    for keywords, slug, _label in CATEGORY_SYNONYMS:
         if lowered in keywords:
-            return f"{category}:{sub}" if sub else category
+            return slug
 
     if lowered in CATEGORY_NAMES:
         return CATEGORY_NAMES[lowered]
 
-    return raw
+    return raw.lower()
 
 
 def _criterion(key: str, value: str, display: str, label: str | None = None) -> Criterion:
@@ -103,17 +109,22 @@ def _criterion(key: str, value: str, display: str, label: str | None = None) -> 
 # ---------------------------------------------------------------------------
 # Regex fallback
 # ---------------------------------------------------------------------------
-CATEGORY_SYNONYMS: list[tuple[tuple[str, ...], str, str | None, str]] = [
-    (("laptop", "macbook", "thinkpad", "notebook", "computer"), "Electronics", "laptop", "Category: Laptops"),
-    (("calculator", "casio", "991", "classwiz"), "Electronics", "calculator", "Category: Calculators"),
-    (("cycle", "bicycle", "bike", "firefox", "atlas", "sprint"), "Cycles & Commute", "cycle", "Category: Cycles"),
-    (("textbook", "book", "notes", "grewal", "timoshenko", "chaurasia", "silberschatz"), "Textbooks", "book", "Category: Textbooks"),
-    (("mattress", "bed", "bedding", "sleepwell"), "Hostel Essentials", "mattress", "Category: Mattresses"),
-    (("headphone", "headphones", "earphone", "speaker", "audio", "anc", "sony wh"), "Audio & Gadgets", "audio", "Category: Audio & Headphones"),
-    (("kettle", "lamp", "drying stand", "bottle", "flask"), "Hostel Essentials", None, "Category: Hostel Essentials"),
-    (("lab coat", "drafter", "mini drafter", "goggles"), "Lab & Drafting", None, "Category: Lab & Drafting"),
-    (("monitor", "screen", "keyboard", "arduino", "raspberry pi", "rpi"), "Electronics", None, "Category: Electronics"),
-    (("backpack", "badminton", "racquet"), "Fashion & Sports", None, "Category: Sports & Gear"),
+# (keywords, category slug, label) - the slugs match the category tree.
+CATEGORY_SYNONYMS: list[tuple[tuple[str, ...], str, str]] = [
+    (("laptop", "macbook", "thinkpad", "notebook", "computer"), "electronics/laptops", "Category: Laptops"),
+    (("calculator", "casio", "991", "classwiz"), "electronics/calculators", "Category: Calculators"),
+    (("cycle", "bicycle", "bike", "firefox", "atlas", "sprint"), "cycles-commute/bicycles", "Category: Cycles"),
+    (("textbook", "book", "notes", "grewal", "timoshenko", "chaurasia", "silberschatz"), "textbooks/engineering", "Category: Textbooks"),
+    (("mattress", "bed", "bedding", "sleepwell"), "hostel-essentials/furniture", "Category: Furniture"),
+    (("headphone", "headphones", "earphone", "audio", "anc", "sony wh"), "audio-gadgets/headphones", "Category: Headphones"),
+    (("kettle", "lamp", "drying stand", "bottle", "flask"), "hostel-essentials/kitchen-appliances", "Category: Kitchen & Appliances"),
+    (("lab coat", "goggles"), "lab-drafting/lab-coats-safety", "Category: Lab Coats & Safety"),
+    (("drafter", "mini drafter", "drafting"), "lab-drafting/drafting-tools", "Category: Drafting Tools"),
+    (("monitor", "screen", "keyboard"), "electronics/monitors-peripherals", "Category: Monitors & Peripherals"),
+    (("arduino", "raspberry pi", "rpi", "diy"), "electronics/arduino-diy", "Category: Arduino & DIY"),
+    (("mobile", "phone", "smartphone"), "electronics/mobiles-accessories", "Category: Mobiles & Accessories"),
+    (("badminton", "racquet"), "fashion-sports/sports-gear", "Category: Sports Gear"),
+    (("backpack", "bag"), "fashion-sports/clothing-footwear", "Category: Clothing & Footwear"),
 ]
 
 BRANDS: list[tuple[str, tuple[str, ...]]] = [
@@ -164,11 +175,11 @@ def parse_with_regex(query: str, previous: list[Criterion] | None = None) -> Par
         criteria.append(new)
 
     category_criterion: Criterion | None = None
-    for keywords, category, sub, label in CATEGORY_SYNONYMS:
+    for keywords, slug, label in CATEGORY_SYNONYMS:
         if any(word in lower for word in keywords):
-            value = f"{category}:{sub}" if sub else category
-            value = normalize_category(value)
-            category_criterion = _criterion("category", value, label.replace("Category: ", ""), label)
+            category_criterion = _criterion(
+                "category", slug, label.replace("Category: ", ""), label
+            )
             break
 
     if category_criterion is not None:
@@ -255,19 +266,30 @@ class _ParseOut(BaseModel):
 SYSTEM_INSTRUCTION = (
     "You extract structured search filters from a college marketplace query. "
     "Only include a criterion when the user actually asked for it. "
-    "Prices are numbers in rupees. Never invent a budget that was not mentioned."
+    "Prices are numbers in rupees. Never invent a budget that was not mentioned. "
+    "The category value must be one of the category slugs you are given, "
+    "or empty when the query does not name a category."
 )
 
 
-async def parse_with_gemini(query: str) -> ParsedQuery | None:
+async def parse_with_gemini(
+    query: str, categories: list[tuple[str, str]] | None = None
+) -> ParsedQuery | None:
     raw = (query or "").strip()
     if not raw:
         return None
+
+    catalogue = ""
+    if categories:
+        catalogue = "\nCategories (use the slug as the value):\n" + "\n".join(
+            f"- {slug} ({name})" for slug, name in categories
+        )
 
     prompt = (
         f"Query from a student: {raw}\n\n"
         "Extract the filters. Available keys: budget (max price), minPrice, ram, storage, "
         "use (coding/gaming/design/study/commute), category, condition, brand, location."
+        f"{catalogue}"
     )
 
     data = await gemini.generate_json(prompt, SYSTEM_INSTRUCTION, _ParseOut)
@@ -297,8 +319,12 @@ async def parse_with_gemini(query: str) -> ParsedQuery | None:
     )
 
 
-async def parse_query(query: str, previous: list[Criterion] | None = None) -> ParsedQuery:
-    parsed = await parse_with_gemini(query)
+async def parse_query(
+    query: str,
+    previous: list[Criterion] | None = None,
+    categories: list[tuple[str, str]] | None = None,
+) -> ParsedQuery:
+    parsed = await parse_with_gemini(query, categories)
     if parsed is not None:
         return parsed
     return parse_with_regex(query, previous)

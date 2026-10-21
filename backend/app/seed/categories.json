@@ -1,0 +1,327 @@
+{
+  "categories": [
+    {
+      "slug": "electronics",
+      "name": "Electronics",
+      "alias": "electronics",
+      "position": 1,
+      "viewType": "gallery",
+      "photosMax": 8,
+      "children": [
+        {
+          "slug": "electronics/laptops",
+          "name": "Laptops",
+          "alias": "laptops",
+          "position": 1,
+          "viewType": "gallery",
+          "photosMax": 8,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "enum", "options": ["Apple", "Lenovo", "Dell", "HP", "Asus", "Acer", "Other"] },
+            { "key": "ram", "label": "RAM", "dataType": "range", "minValue": 2, "maxValue": 128, "unit": "GB" },
+            { "key": "storage", "label": "Storage", "dataType": "range", "minValue": 32, "maxValue": 4096, "unit": "GB" },
+            { "key": "processor", "label": "Processor", "dataType": "text" },
+            { "key": "screen_size", "label": "Screen size", "dataType": "range", "minValue": 10, "maxValue": 20, "unit": "inch" }
+          ]
+        },
+        {
+          "slug": "electronics/calculators",
+          "name": "Calculators",
+          "alias": "calculators",
+          "position": 2,
+          "viewType": "gallery",
+          "photosMax": 6,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "enum", "options": ["Casio", "Texas Instruments", "HP", "Sharp", "Other"] },
+            { "key": "functions", "label": "Functions", "dataType": "text" },
+            { "key": "exam_approved", "label": "Exam approved", "dataType": "boolean" }
+          ]
+        },
+        {
+          "slug": "electronics/mobiles-accessories",
+          "name": "Mobiles & Accessories",
+          "alias": "mobiles-accessories",
+          "position": 3,
+          "viewType": "gallery",
+          "photosMax": 8,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "enum", "options": ["Apple", "Samsung", "Xiaomi", "Realme", "OnePlus", "Other"] },
+            { "key": "storage", "label": "Storage", "dataType": "range", "minValue": 16, "maxValue": 512, "unit": "GB" },
+            { "key": "sim_slots", "label": "SIM slots", "dataType": "number" }
+          ]
+        },
+        {
+          "slug": "electronics/monitors-peripherals",
+          "name": "Monitors & Peripherals",
+          "alias": "monitors-peripherals",
+          "position": 4,
+          "viewType": "gallery",
+          "photosMax": 8,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "enum", "options": ["LG", "Dell", "Samsung", "HP", "BenQ", "Other"] },
+            { "key": "screen_size", "label": "Screen size", "dataType": "range", "minValue": 13, "maxValue": 49, "unit": "inch" },
+            { "key": "resolution", "label": "Resolution", "dataType": "enum", "options": ["1080p", "1440p", "2K", "4K"] }
+          ]
+        },
+        {
+          "slug": "electronics/arduino-diy",
+          "name": "Arduino & DIY",
+          "alias": "arduino-diy",
+          "position": 5,
+          "viewType": "gallery",
+          "photosMax": 8,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "enum", "options": ["Arduino", "Raspberry Pi", "ESP32", "Other"] },
+            { "key": "kit_contents", "label": "Kit contents", "dataType": "text" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "textbooks",
+      "name": "Textbooks",
+      "alias": "textbooks",
+      "position": 2,
+      "viewType": "list",
+      "photosMax": 5,
+      "children": [
+        {
+          "slug": "textbooks/engineering",
+          "name": "Engineering",
+          "alias": "engineering",
+          "position": 1,
+          "viewType": "list",
+          "photosMax": 5,
+          "attributes": [
+            { "key": "author", "label": "Author", "dataType": "text" },
+            { "key": "subject", "label": "Subject", "dataType": "enum", "options": ["Mechanical", "Civil", "Electrical", "Computer Science", "Electronics", "Mathematics"] },
+            { "key": "edition", "label": "Edition", "dataType": "text" }
+          ]
+        },
+        {
+          "slug": "textbooks/competitive-exams",
+          "name": "Competitive Exams",
+          "alias": "competitive-exams",
+          "position": 2,
+          "viewType": "list",
+          "photosMax": 5,
+          "attributes": [
+            { "key": "publisher", "label": "Publisher", "dataType": "text" },
+            { "key": "exam", "label": "Exam", "dataType": "enum", "options": ["GATE", "JEE", "CAT", "SSC", "UPSC", "Banking"] },
+            { "key": "year", "label": "Year", "dataType": "range", "minValue": 2000, "maxValue": 2030 }
+          ]
+        },
+        {
+          "slug": "textbooks/notes-handouts",
+          "name": "Notes & Handouts",
+          "alias": "notes-handouts",
+          "position": 3,
+          "viewType": "list",
+          "photosMax": 5,
+          "attributes": [
+            { "key": "branch", "label": "Branch", "dataType": "enum", "options": ["CSE", "ECE", "Mechanical", "Civil", "ISE", "AI & DS"] },
+            { "key": "semester", "label": "Semester", "dataType": "range", "minValue": 1, "maxValue": 10 }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "cycles-commute",
+      "name": "Cycles & Commute",
+      "alias": "cycles-commute",
+      "position": 3,
+      "viewType": "gallery",
+      "photosMax": 8,
+      "children": [
+        {
+          "slug": "cycles-commute/bicycles",
+          "name": "Bicycles",
+          "alias": "bicycles",
+          "position": 1,
+          "viewType": "gallery",
+          "photosMax": 8,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "enum", "options": ["Hero", "Firefox", "Atlas", "BTwin", "Trek", "Other"] },
+            { "key": "gears", "label": "Gears", "dataType": "number" },
+            { "key": "frame_size", "label": "Frame size", "dataType": "enum", "options": ["Small", "Medium", "Large", "XL"] },
+            { "key": "colour", "label": "Colour", "dataType": "text" }
+          ]
+        },
+        {
+          "slug": "cycles-commute/helmets-safety",
+          "name": "Helmets & Safety",
+          "alias": "helmets-safety",
+          "position": 2,
+          "viewType": "gallery",
+          "photosMax": 6,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "enum", "options": ["Studds", "Steelbird", "AGV", "Vega", "Other"] },
+            { "key": "size", "label": "Size", "dataType": "enum", "options": ["S", "M", "L", "XL"] }
+          ]
+        },
+        {
+          "slug": "cycles-commute/accessories",
+          "name": "Cycle Accessories",
+          "alias": "cycle-accessories",
+          "position": 3,
+          "viewType": "gallery",
+          "photosMax": 6,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "text" },
+            { "key": "type", "label": "Type", "dataType": "enum", "options": ["Lock", "Basket", "Bell", "Light", "Stand", "Pump"] }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "hostel-essentials",
+      "name": "Hostel Essentials",
+      "alias": "hostel-essentials",
+      "position": 4,
+      "viewType": "gallery",
+      "photosMax": 8,
+      "children": [
+        {
+          "slug": "hostel-essentials/furniture",
+          "name": "Furniture",
+          "alias": "furniture",
+          "position": 1,
+          "viewType": "gallery",
+          "photosMax": 8,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "text" },
+            { "key": "material", "label": "Material", "dataType": "enum", "options": ["Wood", "Metal", "Plastic", "Fabric", "Mattress"] },
+            { "key": "size", "label": "Size", "dataType": "enum", "options": ["Single", "Double", "Queen", "King"] }
+          ]
+        },
+        {
+          "slug": "hostel-essentials/kitchen-appliances",
+          "name": "Kitchen & Appliances",
+          "alias": "kitchen-appliances",
+          "position": 2,
+          "viewType": "gallery",
+          "photosMax": 6,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "enum", "options": ["Philips", "Bosch", "Havells", "Prestige", "Butterfly", "Other"] },
+            { "key": "capacity", "label": "Capacity", "dataType": "range", "minValue": 0.5, "maxValue": 10, "unit": "L" }
+          ]
+        },
+        {
+          "slug": "hostel-essentials/study-gear",
+          "name": "Study Gear",
+          "alias": "study-gear",
+          "position": 3,
+          "viewType": "gallery",
+          "photosMax": 6,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "text" },
+            { "key": "type", "label": "Type", "dataType": "enum", "options": ["Lamp", "Table", "Organiser", "Clock", "Board"] }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "lab-drafting",
+      "name": "Lab & Drafting",
+      "alias": "lab-drafting",
+      "position": 5,
+      "viewType": "list",
+      "photosMax": 6,
+      "children": [
+        {
+          "slug": "lab-drafting/lab-coats-safety",
+          "name": "Lab Coats & Safety",
+          "alias": "lab-coats-safety",
+          "position": 1,
+          "viewType": "list",
+          "photosMax": 6,
+          "attributes": [
+            { "key": "size", "label": "Size", "dataType": "enum", "options": ["S", "M", "L", "XL", "XXL"] },
+            { "key": "material", "label": "Material", "dataType": "enum", "options": ["Cotton", "Polyester", "Cotton Blend"] }
+          ]
+        },
+        {
+          "slug": "lab-drafting/drafting-tools",
+          "name": "Drafting Tools",
+          "alias": "drafting-tools",
+          "position": 2,
+          "viewType": "list",
+          "photosMax": 6,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "enum", "options": ["Omega", "Aakash", "Camlin", "Other"] },
+            { "key": "type", "label": "Type", "dataType": "enum", "options": ["Mini Drafter", "Sheet", "Scale", "Compass", "Instrument Box"] }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "audio-gadgets",
+      "name": "Audio & Gadgets",
+      "alias": "audio-gadgets",
+      "position": 6,
+      "viewType": "gallery",
+      "photosMax": 8,
+      "children": [
+        {
+          "slug": "audio-gadgets/headphones",
+          "name": "Headphones",
+          "alias": "headphones",
+          "position": 1,
+          "viewType": "gallery",
+          "photosMax": 8,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "enum", "options": ["Sony", "Bose", "JBL", "Boat", "Noise", "Other"] },
+            { "key": "type", "label": "Type", "dataType": "enum", "options": ["Over Ear", "On Ear", "In Ear", "Wireless"] },
+            { "key": "connectivity", "label": "Connectivity", "dataType": "enum", "options": ["Wired", "Bluetooth", "Both"] }
+          ]
+        },
+        {
+          "slug": "audio-gadgets/speakers",
+          "name": "Speakers",
+          "alias": "speakers",
+          "position": 2,
+          "viewType": "gallery",
+          "photosMax": 6,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "enum", "options": ["JBL", "boAt", "Sony", "Philips", "Other"] },
+            { "key": "power", "label": "Power", "dataType": "range", "minValue": 5, "maxValue": 100, "unit": "W" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "fashion-sports",
+      "name": "Fashion & Sports",
+      "alias": "fashion-sports",
+      "position": 7,
+      "viewType": "list",
+      "photosMax": 6,
+      "children": [
+        {
+          "slug": "fashion-sports/sports-gear",
+          "name": "Sports Gear",
+          "alias": "sports-gear",
+          "position": 1,
+          "viewType": "list",
+          "photosMax": 6,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "enum", "options": ["Yonex", "Nivia", "SG", "Adidas", "Wildcraft", "Other"] },
+            { "key": "size", "label": "Size", "dataType": "text" },
+            { "key": "type", "label": "Type", "dataType": "enum", "options": ["Racquet", "Football", "Cricket", "Badminton", "Boxing"] }
+          ]
+        },
+        {
+          "slug": "fashion-sports/clothing-footwear",
+          "name": "Clothing & Footwear",
+          "alias": "clothing-footwear",
+          "position": 2,
+          "viewType": "list",
+          "photosMax": 6,
+          "attributes": [
+            { "key": "brand", "label": "Brand", "dataType": "text" },
+            { "key": "size", "label": "Size", "dataType": "enum", "options": ["XS", "S", "M", "L", "XL", "XXL"] }
+          ]
+        }
+      ]
+    }
+  ]
+}

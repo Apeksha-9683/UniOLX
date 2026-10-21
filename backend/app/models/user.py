@@ -21,6 +21,9 @@ class User(Base):
     college_id: Mapped[str] = mapped_column(
         String(64), ForeignKey("colleges.id", ondelete="RESTRICT"), nullable=False, index=True
     )
+    location_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("locations.id", ondelete="SET NULL"), nullable=True, index=True
+    )
     branch: Mapped[str] = mapped_column(String(120), nullable=False, default="Undergraduate")
     year: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
     semester: Mapped[int] = mapped_column(Integer, nullable=False, default=1)

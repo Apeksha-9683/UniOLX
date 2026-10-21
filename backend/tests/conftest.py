@@ -7,6 +7,9 @@ os.environ.setdefault("JWT_SECRET", "test-jwt-secret-that-is-long-enough-for-sha
 os.environ.setdefault("PIN_SECRET", "test-pin-secret-that-is-long-enough-for-aes")
 os.environ.setdefault("DEBUG", "true")
 os.environ.setdefault("DEMO_AUTO_REPLY", "false")
+# The tests must not depend on a live Gemini quota, so the local
+# keyword parser is used instead.
+os.environ["GEMINI_API_KEY"] = ""
 
 import uuid  # noqa: E402
 
@@ -47,13 +50,82 @@ async def clean_tables(create_schema):
     async with TestSession() as session:
         await session.execute(
             text(
-                "TRUNCATE listings, listing_images, wishlists, trades, conversations, "
-                "messages, notifications, otp_codes, refresh_tokens, users, colleges "
-                "RESTART IDENTITY CASCADE"
+                "TRUNCATE listing_attributes, pickup_spots, category_attributes, "
+                "categories, locations, listings, listing_images, wishlists, trades, "
+                "conversations, messages, notifications, otp_codes, refresh_tokens, "
+                "users, colleges RESTART IDENTITY CASCADE"
             )
         )
         await session.commit()
     yield
+
+
+@pytest_asyncio.fixture
+async def category_tree(db):
+    """A small category tree so the category resolution path is exercised."""
+    from app.models.category import Category, CategoryAttribute
+
+    electronics = Category(
+        id=uuid.uuid4(),
+        slug="electronics",
+        name="Electronics",
+        alias="electronics",
+        parent_id=None,
+        ancestors=[],
+        level=1,
+        position=1,
+        path="electronics",
+        view_type="gallery",
+        photos_max=8,
+    )
+    db.add(electronics)
+    await db.flush()
+
+    laptops = Category(
+        id=uuid.uuid4(),
+        slug="electronics/laptops",
+        name="Laptops",
+        alias="laptops",
+        parent_id=electronics.id,
+        ancestors=[electronics.id],
+        level=2,
+        position=1,
+        path="electronics/laptops",
+        view_type="gallery",
+        photos_max=8,
+    )
+    db.add(laptops)
+    await db.flush()
+
+    db.add(
+        CategoryAttribute(
+            id=uuid.uuid4(),
+            category_id=laptops.id,
+            key="ram",
+            label="RAM",
+            data_type="range",
+            options=[],
+            min_value=2,
+            max_value=128,
+            unit="GB",
+            is_filterable=True,
+            sort_order=1,
+        )
+    )
+    db.add(
+        CategoryAttribute(
+            id=uuid.uuid4(),
+            category_id=laptops.id,
+            key="brand",
+            label="Brand",
+            data_type="enum",
+            options=["Apple", "Lenovo", "Dell"],
+            is_filterable=True,
+            sort_order=2,
+        )
+    )
+    await db.commit()
+    return {"electronics": electronics, "laptops": laptops}
 
 
 @pytest_asyncio.fixture
@@ -71,31 +143,67 @@ async def client():
 
 @pytest_asyncio.fixture
 async def college(db) -> College:
+    from app.models.location import PickupSpot
+    from app.services.places import create_campus_location, ensure_place_chain
+
+    state_location, city_location = await ensure_place_chain(db, "Bengaluru", "Karnataka")
+    city_location.latitude = 12.9716
+    city_location.longitude = 77.5946
+
+    campus_location = await create_campus_location(
+        db, "RV College of Engineering", city_location, slug_hint="rvce"
+    )
+    campus_location.latitude = 12.9700
+    campus_location.longitude = 77.5900
+
     college = College(
         id="rvce",
-        name="RV College of Engineering",
+        location_id=campus_location.id,
         short_name="RVCE",
-        city="Bengaluru",
-        state="Karnataka",
         domain="rvce.edu.in",
         status="verified",
-        campus_spots=["Central Library Lawns"],
         popular_branches=["CSE"],
+        is_verified=True,
     )
     db.add(college)
 
-    other = College(
-        id="bmsce",
-        name="BMS College of Engineering",
-        short_name="BMSCE",
-        city="Bengaluru",
-        state="Karnataka",
-        domain="bmsce.ac.in",
-        status="verified",
+    other_city = await ensure_place_chain(db, "Bengaluru", "Karnataka")
+    other_campus = await create_campus_location(
+        db, "BMS College of Engineering", other_city[1], slug_hint="bmsce"
     )
-    db.add(other)
+    other_campus.latitude = 12.9800
+    other_campus.longitude = 77.6000
+    db.add(
+        College(
+            id="bmsce",
+            location_id=other_campus.id,
+            short_name="BMSCE",
+            domain="bmsce.ac.in",
+            status="verified",
+            is_verified=True,
+        )
+    )
     await db.commit()
     return college
+
+
+@pytest_asyncio.fixture
+async def pickup_spot(db, college):
+    """A campus landmark with its own coordinates."""
+    from app.models.location import PickupSpot
+
+    spot = PickupSpot(
+        id=uuid.uuid4(),
+        college_id="rvce",
+        name="Central Library Lawns",
+        latitude=12.9750,
+        longitude=77.5950,
+        sort_order=1,
+        is_active=True,
+    )
+    db.add(spot)
+    await db.commit()
+    return spot
 
 
 @pytest_asyncio.fixture

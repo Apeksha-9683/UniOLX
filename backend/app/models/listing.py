@@ -6,6 +6,7 @@ from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
     Boolean,
     Computed,
+    Index,
     DateTime,
     ForeignKey,
     Integer,
@@ -23,6 +24,9 @@ from app.db.base import Base
 
 class Listing(Base):
     __tablename__ = "listings"
+    __table_args__ = (
+        Index("ix_listings_geo", "latitude", "longitude"),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
     seller_id: Mapped[uuid.UUID] = mapped_column(
@@ -30,6 +34,15 @@ class Listing(Base):
     )
     college_id: Mapped[str] = mapped_column(
         String(64), ForeignKey("colleges.id", ondelete="RESTRICT"), nullable=False, index=True
+    )
+    category_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("categories.id", ondelete="SET NULL"), nullable=True, index=True
+    )
+    location_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("locations.id", ondelete="SET NULL"), nullable=True, index=True
+    )
+    pickup_spot_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("pickup_spots.id", ondelete="SET NULL"), nullable=True, index=True
     )
 
     title: Mapped[str] = mapped_column(String(255), nullable=False)
@@ -49,6 +62,8 @@ class Listing(Base):
     embedding: Mapped[list | None] = mapped_column(
         Vector(settings.embedding_dimensions), nullable=True
     )
+    latitude: Mapped[float | None] = mapped_column(Numeric(9, 6), nullable=True)
+    longitude: Mapped[float | None] = mapped_column(Numeric(9, 6), nullable=True)
 
     search_vector: Mapped[Any] = mapped_column(
         TSVECTOR,
@@ -66,6 +81,11 @@ class Listing(Base):
 
     seller = relationship("User", lazy="joined")
     college = relationship("College", lazy="joined")
+    # Named `category_detail` so it does not shadow the `category` column,
+    # which stays as the denormalised mirror of the category name.
+    category_detail = relationship("Category", lazy="joined")
+    location = relationship("Location", lazy="joined")
+    pickup_spot = relationship("PickupSpot", lazy="joined")
     images = relationship(
         "ListingImage",
         back_populates="listing",

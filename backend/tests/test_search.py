@@ -4,11 +4,14 @@ from app.models.listing import Listing
 from tests.conftest import auth_headers
 
 
-async def make_listing(db, seller, title, price, category="Electronics", specs=None, tags=None):
+async def make_listing(
+    db, seller, title, price, category="Electronics", specs=None, tags=None, category_id=None
+):
     listing = Listing(
         id=uuid.uuid4(),
         seller_id=seller.id,
         college_id=seller.college_id,
+        category_id=category_id,
         title=title,
         description="A well kept item",
         price=price,
@@ -27,9 +30,14 @@ async def make_listing(db, seller, title, price, category="Electronics", specs=N
     return listing
 
 
-async def test_ai_search_parses_a_budget(client, college, buyer, seller, db):
-    await make_listing(db, seller, "Lenovo ThinkPad T480", 21000, specs={"RAM": "16 GB"})
-    await make_listing(db, seller, "Cheap thinkpad", 9000)
+async def test_ai_search_parses_a_budget(client, college, buyer, seller, db, category_tree):
+    await make_listing(
+        db, seller, "Lenovo ThinkPad T480", 21000, specs={"RAM": "16 GB"},
+        category_id=category_tree["laptops"].id,
+    )
+    await make_listing(
+        db, seller, "Cheap thinkpad", 9000, category_id=category_tree["laptops"].id
+    )
 
     headers = await auth_headers(client, "buyer@rvce.edu.in")
     response = await client.post(
@@ -44,9 +52,13 @@ async def test_ai_search_parses_a_budget(client, college, buyer, seller, db):
     assert body["summary"]
 
 
-async def test_ai_search_respects_the_budget(client, college, buyer, seller, db):
-    await make_listing(db, seller, "Expensive laptop", 90000)
-    await make_listing(db, seller, "Cheap laptop", 12000)
+async def test_ai_search_respects_the_budget(client, college, buyer, seller, db, category_tree):
+    await make_listing(
+        db, seller, "Expensive laptop", 90000, category_id=category_tree["laptops"].id
+    )
+    await make_listing(
+        db, seller, "Cheap laptop", 12000, category_id=category_tree["laptops"].id
+    )
 
     headers = await auth_headers(client, "buyer@rvce.edu.in")
     body = (
@@ -60,10 +72,12 @@ async def test_ai_search_respects_the_budget(client, college, buyer, seller, db)
     assert 12000 in prices
 
 
-async def test_ai_search_only_returns_the_own_college(client, college, buyer, outsider, db):
+async def test_ai_search_only_returns_the_own_college(
+    client, college, buyer, outsider, db, category_tree
+):
     from app.models.listing import Listing as ListingModel
 
-    await make_listing(db, buyer, "RVCE laptop", 12000)
+    await make_listing(db, buyer, "RVCE laptop", 12000, category_id=category_tree["laptops"].id)
     db.add(
         ListingModel(
             id=uuid.uuid4(),
@@ -78,6 +92,7 @@ async def test_ai_search_only_returns_the_own_college(client, college, buyer, ou
             status="Available",
             campus_pickup_spot="Library",
             quantity=1,
+            category_id=category_tree["laptops"].id,
         )
     )
     await db.commit()
@@ -105,9 +120,10 @@ async def test_ai_search_handles_a_greeting(client, college, buyer):
     assert body["alternativeSuggestions"]
 
 
-async def test_ai_search_gives_reasons(client, college, buyer, seller, db):
+async def test_ai_search_gives_reasons(client, college, buyer, seller, db, category_tree):
     await make_listing(
-        db, seller, "MacBook Air M1", 42000, specs={"RAM": "8 GB", "Storage": "256 GB"}
+        db, seller, "MacBook Air M1", 42000, specs={"RAM": "8 GB", "Storage": "256 GB"},
+        category_id=category_tree["laptops"].id,
     )
     headers = await auth_headers(client, "buyer@rvce.edu.in")
     body = (
