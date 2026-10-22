@@ -19,8 +19,32 @@ import { mockTrades } from '../data/trades';
 import { mockConversations, mockMessages } from '../data/conversations';
 import { mockNotifications } from '../data/notifications';
 
-// In-memory clones to allow mutations during runtime session
-let memoryListings: Listing[] = [...mockListings];
+// In-memory clones with localStorage persistence to allow mutations during runtime session
+const LISTINGS_STORAGE_KEY = 'campus_mart_listings';
+
+function loadListings(): Listing[] {
+  try {
+    const raw = localStorage.getItem(LISTINGS_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch {
+    // ignore
+  }
+  return [...mockListings];
+}
+
+let memoryListings: Listing[] = loadListings();
+
+function saveListings() {
+  try {
+    localStorage.setItem(LISTINGS_STORAGE_KEY, JSON.stringify(memoryListings));
+  } catch {
+    // ignore
+  }
+}
+
 let memoryTrades: Trade[] = [...mockTrades];
 let memoryConversations: Conversation[] = [...mockConversations];
 let memoryMessages: Record<string, ChatMessage[]> = { ...mockMessages };
@@ -548,6 +572,7 @@ export async function createListing(data: {
   };
 
   memoryListings.unshift(newListing);
+  saveListings();
   return newListing;
 }
 
@@ -556,6 +581,7 @@ export async function updateListingStatus(id: string, status: ListingStatus): Pr
   const index = memoryListings.findIndex((l) => l.id === id);
   if (index === -1) return null;
   memoryListings[index] = { ...memoryListings[index], status };
+  saveListings();
   return { ...memoryListings[index] };
 }
 
@@ -565,6 +591,7 @@ export async function toggleWishlist(listingId: string): Promise<boolean> {
   if (index === -1) return false;
   const current = !!memoryListings[index].isWishlisted;
   memoryListings[index] = { ...memoryListings[index], isWishlisted: !current };
+  saveListings();
   return !current;
 }
 
@@ -787,6 +814,7 @@ export async function deactivateListing(listingId: string): Promise<Listing | nu
   const listing = memoryListings.find((l) => l.id === listingId);
   if (!listing) return null;
   listing.status = listing.status === 'Reserved' ? 'Available' : 'Reserved';
+  saveListings();
   return { ...listing };
 }
 
@@ -795,6 +823,7 @@ export async function archiveListing(listingId: string): Promise<boolean> {
   const index = memoryListings.findIndex((l) => l.id === listingId);
   if (index !== -1) {
     memoryListings.splice(index, 1);
+    saveListings();
     return true;
   }
   return false;
@@ -805,6 +834,7 @@ export async function updateListing(listingId: string, updates: Partial<Listing>
   const listing = memoryListings.find((l) => l.id === listingId);
   if (!listing) return null;
   Object.assign(listing, updates);
+  saveListings();
   return { ...listing };
 }
 
@@ -1124,6 +1154,18 @@ export async function searchListingsWithAI(
         'Casio scientific calculator',
         'Single bed mattress for hostel'
       ],
+      closeMatches: []
+    };
+  }
+
+  if (memoryListings.length === 0) {
+    return {
+      query: rawQ,
+      isVagueOrGreeting: false,
+      summary: "No listings yet. Be the first to sell something!",
+      parsedCriteria: [],
+      results: [],
+      alternativeSuggestions: [],
       closeMatches: []
     };
   }

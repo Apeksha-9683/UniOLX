@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { getListings, getColleges } from '../api';
 import { Listing, College } from '../types';
 import { ProductCard } from '../components/ui/ProductCard';
@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 
 export const CategoriesPage: React.FC = () => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCategory = searchParams.get('category') || 'All';
   const initialSearch = searchParams.get('q') || '';
@@ -337,10 +338,14 @@ export const CategoriesPage: React.FC = () => {
         </div>
       ) : (
         <EmptyState
-          title="No campus items match your filters"
-          description="Try broadening your price range, clearing some filters, or asking Campus Buddy in natural language."
-          actionLabel="Reset All Filters"
-          onAction={handleResetFilters}
+          title="No listings yet. Be the first to sell something!"
+          description={
+            allListings.length === 0
+              ? "Your campus marketplace is just getting started. Be the first student to list textbooks, electronics, cycles, or hostel essentials!"
+              : "No campus items match your active filters. Try broadening your criteria or be the first to sell this item."
+          }
+          actionLabel={allListings.length === 0 ? "Post a Listing" : "Reset All Filters"}
+          onAction={allListings.length === 0 ? () => navigate('/sell') : handleResetFilters}
         />
       )}
 
