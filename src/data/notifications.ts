@@ -26,7 +26,7 @@ export const mockNotifications: NotificationItem[] = [
     type: 'price_drop',
     read: true,
     timestamp: '4 hours ago',
-    link: '/listing/list_008'
+    link: '/categories'
   },
   {
     id: 'notif_04',

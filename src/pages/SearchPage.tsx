@@ -24,7 +24,9 @@ import {
   CornerDownRight,
   Send,
   AlertTriangle,
-  RotateCcw
+  RotateCcw,
+  PackageOpen,
+  Plus
 } from 'lucide-react';
 
 interface SearchTurn {
@@ -664,44 +666,26 @@ export const SearchPage: React.FC = () => {
                           /* No Results State with Specific Suggestions */
                           <div className="bg-white rounded-3xl p-8 border-2 border-[#EFE6D8] text-center space-y-6">
                             <div className="w-14 h-14 rounded-2xl bg-[#FFF3C4] border-2 border-[#FFD966] text-[#FF7A1A] flex items-center justify-center mx-auto">
-                              <AlertTriangle className="w-7 h-7 text-[#FF7A1A]" />
+                              <PackageOpen className="w-7 h-7 text-[#FF7A1A]" />
                             </div>
 
                             <div className="space-y-1.5 max-w-md mx-auto">
                               <h3 className="text-xl font-black text-[#1F1A17]">
-                                No exact campus matches found
+                                No listings yet. Be the first to sell something!
                               </h3>
                               <p className="text-xs sm:text-sm text-[#6B625A] leading-relaxed">
-                                No available listings currently match all your exact filters. Try relaxing a spec or tap a suggestion below.
+                                No available listings match your search right now. Be the first student to post this item or list your gear on campus!
                               </p>
                             </div>
 
-                            {/* Suggestions */}
-                            {turn.data.alternativeSuggestions && turn.data.alternativeSuggestions.length > 0 && (
-                              <div className="bg-[#FFF8EC] p-4 rounded-2xl border border-[#EFE6D8] max-w-lg mx-auto text-left space-y-2">
-                                <span className="text-xs font-bold text-[#8C6500] uppercase tracking-wider block">
-                                  Campus Buddy Suggestions:
-                                </span>
-                                <div className="space-y-1.5">
-                                  {turn.data.alternativeSuggestions.map((sug, idx) => (
-                                    <button
-                                      key={idx}
-                                      type="button"
-                                      onClick={() => executeSearch(sug, true)}
-                                      className="w-full text-left p-2.5 rounded-xl bg-white hover:bg-[#FFF3C4] border border-[#EFE6D8] text-xs font-semibold text-[#1F1A17] flex items-center justify-between transition-colors cursor-pointer"
-                                    >
-                                      <span>{sug}</span>
-                                      <ArrowRight className="w-3.5 h-3.5 text-[#FF7A1A]" />
-                                    </button>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-
-                            {/* "Notify me when one is listed" Button */}
-                            <div className="pt-2">
+                            <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+                              <Link to="/sell">
+                                <Button variant="primary" size="md" icon={<Plus className="w-4 h-4" />}>
+                                  Post a Listing
+                                </Button>
+                              </Link>
                               <Button
-                                variant="primary"
+                                variant="outline"
                                 size="md"
                                 icon={<Bell className="w-4 h-4" />}
                                 onClick={() => {

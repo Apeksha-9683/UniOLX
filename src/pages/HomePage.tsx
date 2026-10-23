@@ -31,7 +31,9 @@ import {
   CheckCircle2,
   Clock,
   Layers,
-  Zap
+  Zap,
+  PackageOpen,
+  Plus
 } from 'lucide-react';
 import {
   CampusDoodleBicycle,
@@ -241,101 +243,113 @@ export const HomePage: React.FC = () => {
 
       {/* 4. SECTIONS: JUST LISTED, STUDENT ESSENTIALS, RECOMMENDED DEALS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Section A: Just Listed on Your Campus */}
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF7A1A] uppercase tracking-wider mb-1">
-                <Clock className="w-3.5 h-3.5" />
-                <span>Fresh Campus Inventory</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-[#1F1A17] tracking-tight">
-                Just listed on your campus
-              </h2>
-            </div>
-            <Link to="/categories">
-              <Button variant="outline" size="sm" icon={<ArrowRight className="w-3.5 h-3.5" />}>
-                View All
-              </Button>
-            </Link>
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Skeleton variant="card" count={4} />
           </div>
-
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Skeleton variant="card" count={4} />
+        ) : listings.length === 0 ? (
+          <div className="bg-white rounded-3xl p-8 sm:p-12 border-2 border-dashed border-[#EFE6D8] text-center max-w-xl mx-auto space-y-4">
+            <div className="w-16 h-16 rounded-3xl bg-gradient-to-br from-[#FFF3C4] to-[#FFE2BF] flex items-center justify-center text-[#FF7A1A] mx-auto shadow-xs">
+              <PackageOpen className="w-8 h-8" />
             </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {justListed.map((item) => (
-                <ProductCard key={item.id} listing={item} />
-              ))}
+            <h3 className="text-xl sm:text-2xl font-black text-[#1F1A17]">
+              No listings yet. Be the first to sell something!
+            </h3>
+            <p className="text-xs sm:text-sm text-[#6B625A] max-w-sm mx-auto leading-relaxed">
+              Have unused textbooks, a lab coat, electronics, or a cycle? List it on Campus Mart in under 2 minutes for direct student handover.
+            </p>
+            <div className="pt-2">
+              <Link to="/sell">
+                <Button variant="primary" size="md" icon={<Plus className="w-4 h-4" />}>
+                  Post a Listing
+                </Button>
+              </Link>
             </div>
-          )}
-        </div>
-
-        {/* Section B: Student Essentials */}
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#8C6500] uppercase tracking-wider mb-1">
-                <Sparkles className="w-3.5 h-3.5 text-[#FF7A1A]" />
-                <span>Hostel & Academic Must-Haves</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-[#1F1A17] tracking-tight">
-                Student essentials
-              </h2>
-            </div>
-            <Link to="/categories?category=Hostel+Essentials">
-              <Button variant="outline" size="sm" icon={<ArrowRight className="w-3.5 h-3.5" />}>
-                See Essentials
-              </Button>
-            </Link>
           </div>
-
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Skeleton variant="card" count={4} />
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {studentEssentials.map((item) => (
-                <ProductCard key={item.id} listing={item} />
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Section C: Recommended Deals */}
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E5383B] uppercase tracking-wider mb-1">
-                <Flame className="w-3.5 h-3.5" />
-                <span>High Discount Value</span>
+        ) : (
+          <>
+            {/* Section A: Just Listed on Your Campus */}
+            {justListed.length > 0 && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF7A1A] uppercase tracking-wider mb-1">
+                      <Clock className="w-3.5 h-3.5" />
+                      <span>Fresh Campus Inventory</span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-black text-[#1F1A17] tracking-tight">
+                      Just listed on your campus
+                    </h2>
+                  </div>
+                  <Link to="/categories">
+                    <Button variant="outline" size="sm" icon={<ArrowRight className="w-3.5 h-3.5" />}>
+                      View All
+                    </Button>
+                  </Link>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {justListed.map((item) => (
+                    <ProductCard key={item.id} listing={item} />
+                  ))}
+                </div>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-[#1F1A17] tracking-tight">
-                Recommended deals
-              </h2>
-            </div>
-            <Link to="/categories?sort=discount">
-              <Button variant="outline" size="sm" icon={<ArrowRight className="w-3.5 h-3.5" />}>
-                Top Discounts
-              </Button>
-            </Link>
-          </div>
+            )}
 
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Skeleton variant="card" count={4} />
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {recommendedDeals.map((item) => (
-                <ProductCard key={item.id} listing={item} />
-              ))}
-            </div>
-          )}
-        </div>
+            {/* Section B: Student Essentials */}
+            {studentEssentials.length > 0 && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#8C6500] uppercase tracking-wider mb-1">
+                      <Sparkles className="w-3.5 h-3.5 text-[#FF7A1A]" />
+                      <span>Hostel & Academic Must-Haves</span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-black text-[#1F1A17] tracking-tight">
+                      Student essentials
+                    </h2>
+                  </div>
+                  <Link to="/categories?category=Hostel+Essentials">
+                    <Button variant="outline" size="sm" icon={<ArrowRight className="w-3.5 h-3.5" />}>
+                      See Essentials
+                    </Button>
+                  </Link>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {studentEssentials.map((item) => (
+                    <ProductCard key={item.id} listing={item} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Section C: Recommended Deals */}
+            {recommendedDeals.length > 0 && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E5383B] uppercase tracking-wider mb-1">
+                      <Flame className="w-3.5 h-3.5" />
+                      <span>High Discount Value</span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-black text-[#1F1A17] tracking-tight">
+                      Recommended deals
+                    </h2>
+                  </div>
+                  <Link to="/categories?sort=discount">
+                    <Button variant="outline" size="sm" icon={<ArrowRight className="w-3.5 h-3.5" />}>
+                      Top Discounts
+                    </Button>
+                  </Link>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {recommendedDeals.map((item) => (
+                    <ProductCard key={item.id} listing={item} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
+        )}
       </section>
 
       {/* 5. NORMAL WAY VS CAMPUS MART WAY COMPARISON */}

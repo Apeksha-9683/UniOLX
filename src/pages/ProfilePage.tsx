@@ -405,9 +405,9 @@ export const ProfilePage: React.FC = () => {
             </div>
           ) : (
             <EmptyState
-              title="No listings yet"
-              description="Have unused textbooks, a lab coat, or a dorm mini-cooler? List it on Campus Mart in 2 minutes."
-              actionLabel="Create Listing"
+              title="No listings yet. Be the first to sell something!"
+              description="Have unused textbooks, a lab coat, or a cycle? List it on Campus Mart in 2 minutes for direct student handover."
+              actionLabel="Post a Listing"
               onAction={() => navigate('/sell')}
             />
           )}

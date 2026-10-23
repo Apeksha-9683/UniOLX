@@ -9,7 +9,7 @@
 ![Status](https://img.shields.io/badge/status-in%20development-FF7A1A?style=for-the-badge)
 ![Frontend](https://img.shields.io/badge/frontend-React%20%2B%20TypeScript-FFC72C?style=for-the-badge&labelColor=1F1A17)
 ![Backend](https://img.shields.io/badge/backend-FastAPI%20%2B%20PostgreSQL-E5383B?style=for-the-badge)
-![Built with AI](https://img.shields.io/badge/built%20with-AI%20agents-FF7A1A?style=for-the-badge)
+
 
 [Live Demo](#) · [Screenshots](#-screenshots) · [How It Works](#-how-the-pin-trade-works) · [Roadmap](#-roadmap)
 
