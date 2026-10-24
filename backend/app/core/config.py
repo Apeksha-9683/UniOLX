@@ -42,6 +42,13 @@ class Settings(BaseSettings):
     embedding_dimensions: int = 768
     gemini_timeout_seconds: int = 20
 
+    rerank_enabled: bool = True
+    rerank_model: str = "Xenova/ms-marco-MiniLM-L-6-v2"
+    candidate_k: int = 50
+    rerank_timeout_seconds: int = 30
+    use_hyde: bool = False
+    generate_answer: bool = True
+
     cors_origins: list[str] = [
         "http://localhost:3000",
         "http://127.0.0.1:3000",

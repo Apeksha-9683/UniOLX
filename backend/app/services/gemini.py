@@ -75,6 +75,37 @@ async def embed_text(text: str) -> list[float] | None:
         return None
 
 
+async def generate_text(prompt: str, system_instruction: str = "") -> str | None:
+    client = _client()
+    if client is None:
+        return None
+
+    def _call() -> str | None:
+        config: dict[str, Any] = {}
+        if system_instruction:
+            config["system_instruction"] = system_instruction
+        response = client.models.generate_content(
+            model=settings.llm_model,
+            contents=prompt,
+            config=config,
+        )
+        text = getattr(response, "text", None)
+        if not text:
+            return None
+        return text.strip() or None
+
+    try:
+        return await asyncio.wait_for(
+            asyncio.to_thread(_call), timeout=settings.gemini_timeout_seconds + 10
+        )
+    except asyncio.TimeoutError:
+        logger.error("[gemini] generate_text timed out")
+        return None
+    except Exception as exc:
+        logger.error("[gemini] generate_text failed: %s", str(exc).replace("\n", " ")[:200])
+        return None
+
+
 async def generate_json(prompt: str, system_instruction: str, schema: Any) -> dict | None:
     client = _client()
     if client is None:

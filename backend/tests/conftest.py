@@ -10,6 +10,9 @@ os.environ.setdefault("DEMO_AUTO_REPLY", "false")
 # The tests must not depend on a live Gemini quota, so the local
 # keyword parser is used instead.
 os.environ["GEMINI_API_KEY"] = ""
+# Cross-encoder reranking would download an ONNX model on first use; the
+# rerank tests inject a fake encoder instead.
+os.environ["RERANK_ENABLED"] = "false"
 
 import uuid  # noqa: E402
 

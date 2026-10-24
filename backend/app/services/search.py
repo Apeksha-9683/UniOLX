@@ -18,7 +18,7 @@ from app.schemas.search import (
     CampusBuddyResponse,
     ParsedCriterion,
 )
-from app.services import gemini
+from app.services import gemini, rag, reranker
 from app.services.ai_parser import Criterion, parse_query
 
 logger = logging.getLogger("uniolx.search")
@@ -60,7 +60,7 @@ def _criterion_value(criteria: list[Criterion], key: str) -> str | None:
 async def _load_candidates(
     db: AsyncSession,
     college_ids: list[str],
-    query_vector: list[float] | None,
+    query_vectors: list[list[float]],
     query_text: str,
 ) -> list[tuple[Listing, float, float]]:
     """Returns (listing, semantic_score, keyword_score) for every candidate."""
@@ -85,12 +85,17 @@ async def _load_candidates(
         )
     )
 
-    if query_vector:
-        # pgvector's own comparator binds the vector as a proper array, which
-        # keeps the type handling correct.
-        stmt = stmt.add_columns(
-            (1.0 - Listing.embedding.cosine_distance(query_vector)).label("cosine_score")
+    if query_vectors:
+        # pgvector's own comparator binds each vector as a proper array, which
+        # keeps the type handling correct. The query vector plus the optional
+        # HyDE expansion are unioned by keeping the best cosine similarity.
+        similarities = [
+            1.0 - Listing.embedding.cosine_distance(vector) for vector in query_vectors
+        ]
+        best_similarity = (
+            func.greatest(*similarities) if len(similarities) > 1 else similarities[0]
         )
+        stmt = stmt.add_columns(best_similarity.label("cosine_score"))
     else:
         stmt = stmt.add_columns(literal(0.0).label("cosine_score"))
 
@@ -293,6 +298,39 @@ def _score(
     return score, reasons[:3], unmatched[:2]
 
 
+async def _rerank_scores(
+    query: str, entries: list[tuple[AIRankedListing, bool]]
+) -> dict[str, float]:
+    """Cross-encoder scores for the top candidates (search stage two).
+
+    Returns listing-id -> relevance in (0, 1), or an empty dict when reranking
+    is disabled or unavailable so callers keep the stage-one ordering.
+    """
+    if not entries or not settings.rerank_enabled or not query.strip():
+        return {}
+
+    order = sorted(range(len(entries)), key=lambda index: -entries[index][0].match_score)
+    top = order[: max(1, settings.candidate_k)]
+    documents = [
+        f"Title: {entries[index][0].listing.title}\n"
+        f"Description: {entries[index][0].listing.description or ''}".strip()
+        for index in top
+    ]
+
+    scores = await reranker.rerank_documents(query, documents)
+    if scores is None:
+        return {}
+    return {
+        str(entries[index][0].listing.id): score
+        for index, score in zip(top, scores, strict=True)
+    }
+
+
+def _final_score(stage_one: int, rerank_score: float) -> int:
+    """Blend the criteria score with the cross-encoder signal (rerank-dominant)."""
+    return max(1, min(99, round(0.45 * stage_one + 0.55 * rerank_score * 100)))
+
+
 async def ai_search(
     db: AsyncSession,
     user: User,
@@ -333,13 +371,16 @@ async def ai_search(
 
     college_ids = [user.college_id]
     query_vector = await gemini.embed_text(raw) if raw else None
-    candidates = await _load_candidates(db, college_ids, query_vector, raw or "")
+    vectors: list[list[float]] = [query_vector] if query_vector else []
+    hyde = await rag.hyde_vector(raw)
+    if hyde:
+        vectors.append(hyde)
+    candidates = await _load_candidates(db, college_ids, vectors, raw or "")
 
     budget = _criterion_value(criteria, "budget")
     max_budget = float(budget) if budget is not None else None
 
-    ranked: list[AIRankedListing] = []
-    close: list[AIRankedListing] = []
+    entries: list[tuple[AIRankedListing, bool]] = []
 
     for listing, semantic, keyword in candidates:
         score, reasons, unmatched = _score(
@@ -354,20 +395,26 @@ async def ai_search(
 
         is_available = listing.status == "Available"
         over_budget = max_budget is not None and float(listing.price) > max_budget
-        if (
+        is_result = (
             is_available
             and not over_budget
             and not _is_hard_mismatch(listing, criteria, categories_by_slug)
-        ):
-            ranked.append(entry)
-        else:
-            close.append(entry)
+        )
+        entries.append((entry, is_result))
 
+    rerank_scores = await _rerank_scores(raw, entries)
+    for entry, _is_result in entries:
+        boost = rerank_scores.get(str(entry.listing.id))
+        if boost is not None:
+            entry.match_score = _final_score(entry.match_score, boost)
+
+    ranked = [entry for entry, is_result in entries if is_result]
+    close = [entry for entry, is_result in entries if not is_result]
     ranked.sort(key=lambda item: item.match_score, reverse=True)
     close.sort(key=lambda item: item.match_score, reverse=True)
 
     if ranked:
-        summary = (
+        summary = await rag.summarise(raw, ranked[:5]) or (
             f"Campus Buddy found {len(ranked)} verified available item"
             f"{'s' if len(ranked) > 1 else ''} on campus matching your request!"
         )
