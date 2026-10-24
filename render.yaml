@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: uniolx-api
+    runtime: python
+    plan: starter
+    buildCommand: pip install -e .
+    startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.15
+      - key: UNIOLX_JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: https://apeksha-9683.github.io
+      - key: RAGOLX_CHROMA_PATH
+        value: /opt/render/project/src/data/chroma_db
+      - key: UNIOLX_DATABASE_PATH
+        value: /opt/render/project/src/data/uniolx.db
+      - key: OPENROUTER_API_KEY
+        sync: false
+    disk:
+      name: uniolx-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1

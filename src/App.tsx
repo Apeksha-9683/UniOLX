@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ProtectedRoute } from './components/layout/ProtectedRoute';
 import { AuthLayout } from './components/layout/AuthLayout';
 import { ToastProvider } from './components/ui/Toast';
@@ -28,7 +28,7 @@ export default function App() {
   return (
     <ToastProvider>
       <AuthProvider>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             {/* Auth routes using AuthLayout */}
             <Route element={<AuthLayout />}>
@@ -59,7 +59,7 @@ export default function App() {
             {/* Catch-all route -> home (redirects to /login if unauthenticated) */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </AuthProvider>
     </ToastProvider>
   );
