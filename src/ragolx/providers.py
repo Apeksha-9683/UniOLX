@@ -22,6 +22,7 @@ def build_chat_model(settings: Settings) -> ChatOpenAI:
         api_key=settings.openrouter_api_key.get_secret_value(),
         base_url=settings.openrouter_base_url,
         temperature=settings.temperature,
+        max_tokens=2048,
         max_retries=3,
         timeout=60,
         use_responses_api=False,
