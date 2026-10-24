@@ -1,0 +1,452 @@
+[
+  {
+    "id": "a0000001-0000-4000-8000-000000000001",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "MacBook Air M1 2020 (8GB/256GB)",
+    "category": "Laptops",
+    "description": "Moving out of the hostel and selling my MacBook Air M1. It has been my daily driver for coding assignments, VS Code, light Docker, Figma, and Netflix. Battery still lasts a full class day. There is a small scuff near the left corner of the lid, but the Retina screen and keyboard are flawless. Comes with the original 30W charger and a sleeve.",
+    "price": 42000,
+    "condition": "good",
+    "specs": {
+      "chip": "Apple M1",
+      "ram_gb": 8,
+      "storage": "256 GB SSD",
+      "screen": "13.3 inch Retina",
+      "battery_cycles": 214
+    },
+    "pickup_location": "Hostel Block A, RVCE",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-18T09:30:00+05:30"
+  },
+  {
+    "id": "a0000002-0000-4000-8000-000000000002",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "Dell G3 Gaming Laptop (i5, GTX 1650)",
+    "category": "Laptops",
+    "description": "i5 10th gen gaming laptop with a GTX 1650. Runs Valorant, GTA V, and SolidWorks comfortably. Used for two years, fans cleaned last month, keyboard and screen work perfectly. Some scratches on the lid and the battery lasts about two hours. Charger included.",
+    "price": 38000,
+    "condition": "fair",
+    "specs": {
+      "cpu": "Intel Core i5-10300H",
+      "gpu": "NVIDIA GTX 1650 4GB",
+      "ram_gb": 16,
+      "storage": "512 GB SSD",
+      "display": "15.6 inch 120Hz"
+    },
+    "pickup_location": "Hostel Block C, RVCE",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-16T18:10:00+05:30"
+  },
+  {
+    "id": "a0000003-0000-4000-8000-000000000003",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa3",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "Lenovo ThinkPad T480 (16GB/512GB)",
+    "category": "Laptops",
+    "description": "Reliable ThinkPad for coding and note-taking. 16GB RAM and a 512GB SSD, runs Ubuntu and Windows without issues. Excellent keyboard, dual battery still gives five to six hours. Minor shine on the palm rest. Great cheap laptop for a first-year student who wants something durable.",
+    "price": 22000,
+    "condition": "good",
+    "specs": {
+      "cpu": "Intel Core i5-8250U",
+      "ram_gb": 16,
+      "storage": "512 GB SSD",
+      "os": "Windows 11 / Ubuntu",
+      "battery_hours": "5-6"
+    },
+    "pickup_location": "Malleshwaram, Bengaluru",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-14T11:45:00+05:30"
+  },
+  {
+    "id": "a0000004-0000-4000-8000-000000000004",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa4",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "HP Pavilion 15 Laptop (sold)",
+    "category": "Laptops",
+    "description": "HP Pavilion 15 with an i5 processor, 8GB RAM, and a 1TB hard drive. Was using it for assignments and movies before upgrading. This one is already sold, keeping the listing for history.",
+    "price": 18000,
+    "condition": "fair",
+    "specs": {
+      "cpu": "Intel Core i5",
+      "ram_gb": 8,
+      "storage": "1 TB HDD",
+      "display": "15.6 inch"
+    },
+    "pickup_location": "Jayanagar, Bengaluru",
+    "quantity_total": 1,
+    "quantity_available": 0,
+    "status": "sold",
+    "created_at": "2026-09-28T15:00:00+05:30"
+  },
+  {
+    "id": "a0000005-0000-4000-8000-000000000005",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "Casio FX-991EX Classwiz Calculator",
+    "category": "Calculators",
+    "description": "Casio Classwiz FX-991EX scientific calculator, perfect for engineering maths, circuits, and statistics. All keys are responsive and the slide cover is included. A few light scratches on the back. Ideal for first and second year exams, including matrix and complex number calculations.",
+    "price": 900,
+    "condition": "good",
+    "specs": {
+      "model": "FX-991EX Classwiz",
+      "power": "Solar and battery",
+      "functions": 552
+    },
+    "pickup_location": "Hostel Block A, RVCE",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-20T08:20:00+05:30"
+  },
+  {
+    "id": "a0000006-0000-4000-8000-000000000006",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "Hero Sprint 21-Speed Hybrid Cycle",
+    "category": "Cycles",
+    "description": "Hero Sprint 21-speed hybrid cycle with new tires and freshly serviced brakes. Used for commuting from the hostel to classes and weekend rides around campus. Frame size medium, fits riders around 5 foot 6 to 5 foot 10. Includes a cycle lock and bottle holder. Small paint chips on the top tube.",
+    "price": 6500,
+    "condition": "good",
+    "specs": {
+      "gears": 21,
+      "frame": "Medium",
+      "wheel_size": "700c",
+      "brakes": "Disc"
+    },
+    "pickup_location": "Hostel Block C, RVCE",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-12T07:30:00+05:30"
+  },
+  {
+    "id": "a0000007-0000-4000-8000-000000000007",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa3",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "Study Table with Chair",
+    "category": "Furniture",
+    "description": "Compact study table with a matching chair, perfect for hostel rooms. The table is 4 feet wide with a drawer and cable cutout; the chair has a cushioned seat. Bought last year, sturdy with only minor scratches. Selling because I am graduating and moving cities.",
+    "price": 2500,
+    "condition": "good",
+    "specs": {
+      "length": "4 ft",
+      "material": "Engineered wood",
+      "includes": ["chair", "drawer"]
+    },
+    "pickup_location": "Hostel Block B, RVCE",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-11T16:00:00+05:30"
+  },
+  {
+    "id": "a0000008-0000-4000-8000-000000000008",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa4",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "45L Mini Fridge for Hostel",
+    "category": "Appliances",
+    "description": "45 litre single-door mini fridge, ideal for a hostel room. Cools quickly, the freezer box works, and it is quiet enough to sleep next to. Bought eight months ago, no dents, cleaned and ready for pickup. Great for keeping milk, fruit, and cold water.",
+    "price": 4500,
+    "condition": "like_new",
+    "specs": {
+      "capacity_litres": 45,
+      "type": "Single door",
+      "defrost": "Manual"
+    },
+    "pickup_location": "Jayanagar, Bengaluru",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-19T13:15:00+05:30"
+  },
+  {
+    "id": "a0000009-0000-4000-8000-000000000009",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "Single Bed Foam Mattress",
+    "category": "Furniture",
+    "description": "Single bed foam mattress, 4 inch thickness, used with a mattress protector. Clean and no stains or tears, though the foam has softened a little. Good budget option for a hostel room or a PG. Pickup from the hostel gate.",
+    "price": 1800,
+    "condition": "fair",
+    "specs": {
+      "size": "Single",
+      "thickness_inch": 4,
+      "material": "Foam"
+    },
+    "pickup_location": "Hostel Block A, RVCE",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-09-30T10:00:00+05:30"
+  },
+  {
+    "id": "a0000010-0000-4000-8000-000000000010",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "Logitech MX Master 3 Wireless Mouse",
+    "category": "Accessories",
+    "description": "Logitech MX Master 3 wireless mouse with USB-C charging. Excellent for coding, CAD, and long study sessions. The scroll wheel, side buttons, and Bluetooth all work perfectly. Slight shine on the thumb rest. USB receiver and charging cable included.",
+    "price": 4500,
+    "condition": "like_new",
+    "specs": {
+      "connectivity": ["Bluetooth", "USB receiver"],
+      "battery": "70 days",
+      "color": "Graphite"
+    },
+    "pickup_location": "Hostel Block C, RVCE",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-21T19:40:00+05:30"
+  },
+  {
+    "id": "a0000011-0000-4000-8000-000000000011",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa3",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "boAt Stone 350 Bluetooth Speaker",
+    "category": "Audio",
+    "description": "boAt Stone 350 portable Bluetooth speaker. Loud enough for a hostel room, good bass, and the battery lasts around eight hours. One small scratch on the grille. Charging cable included. Nice for movie nights and small gatherings.",
+    "price": 1200,
+    "condition": "good",
+    "specs": {
+      "output_watts": 10,
+      "battery_hours": 8,
+      "water_resistance": "IPX7"
+    },
+    "pickup_location": "Malleshwaram, Bengaluru",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-15T21:00:00+05:30"
+  },
+  {
+    "id": "a0000012-0000-4000-8000-000000000012",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa4",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "Yamaha F310 Acoustic Guitar with Bag",
+    "category": "Instruments",
+    "description": "Yamaha F310 acoustic guitar with a padded gig bag, capo, and extra strings. Recently set up with new strings and low action, comfortable for beginners. A couple of small dents on the body, no cracks. Great for hostel jam sessions and learning chords.",
+    "price": 6000,
+    "condition": "good",
+    "specs": {
+      "model": "F310",
+      "type": "Acoustic",
+      "includes": ["gig bag", "capo", "strings"]
+    },
+    "pickup_location": "Jayanagar, Bengaluru",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-09T17:30:00+05:30"
+  },
+  {
+    "id": "a0000013-0000-4000-8000-000000000013",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "B.S. Grewal Higher Engineering Mathematics",
+    "category": "Books",
+    "description": "B.S. Grewal Higher Engineering Mathematics, 44th edition. Covers calculus, linear algebra, differential equations, and transforms. Some formulas and solved examples are highlighted in pencil, binding is intact. Useful for first-year maths and exam revision.",
+    "price": 350,
+    "condition": "good",
+    "specs": {
+      "edition": "44th",
+      "subject": "Engineering Mathematics",
+      "author": "B.S. Grewal"
+    },
+    "pickup_location": "Hostel Block A, RVCE",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-17T12:15:00+05:30"
+  },
+  {
+    "id": "a0000014-0000-4000-8000-000000000014",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "Lab Coat Size L (Set of 2)",
+    "category": "Lab supplies",
+    "description": "Two brand-new white lab coats, size large, cotton blend. Bought for first-year chemistry labs but never used. Clean, no stains or tears, with two pockets each. Selling as a pair, ideal for lab sessions and workshops.",
+    "price": 300,
+    "condition": "new",
+    "specs": {
+      "size": "L",
+      "quantity": 2,
+      "material": "Cotton blend"
+    },
+    "pickup_location": "Hostel Block C, RVCE",
+    "quantity_total": 2,
+    "quantity_available": 2,
+    "status": "available",
+    "created_at": "2026-10-10T09:00:00+05:30"
+  },
+  {
+    "id": "a0000015-0000-4000-8000-000000000015",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa3",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "1.5L Electric Kettle",
+    "category": "Appliances",
+    "description": "1.5 litre electric kettle with auto shut-off. Used for Maggi, tea, and instant coffee in the hostel. Heats water in about five minutes, no leaks or scale buildup. Base and cable included. Good for late-night study sessions.",
+    "price": 600,
+    "condition": "good",
+    "specs": {
+      "capacity_litres": 1.5,
+      "power_watts": 1500,
+      "auto_shutoff": true
+    },
+    "pickup_location": "Malleshwaram, Bengaluru",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-13T20:10:00+05:30"
+  },
+  {
+    "id": "a0000016-0000-4000-8000-000000000016",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa4",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "Yonex Astrox 88D Pro Badminton Racket",
+    "category": "Sports",
+    "description": "Yonex Astrox 88D Pro badminton racket, 4U, strung at 26 lbs with BG80 strings. Powerful head-heavy racket for doubles. Used for one semester, no cracks or chips, original grip replaced. Comes with a full-size racket bag.",
+    "price": 7000,
+    "condition": "like_new",
+    "specs": {
+      "model": "Astrox 88D Pro",
+      "weight": "4U",
+      "string": "BG80 at 26 lbs",
+      "includes": "racket bag"
+    },
+    "pickup_location": "Jayanagar, Bengaluru",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-08T18:50:00+05:30"
+  },
+  {
+    "id": "a0000017-0000-4000-8000-000000000017",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "LG 24 inch IPS Monitor (75Hz)",
+    "category": "Monitors",
+    "description": "24 inch LG IPS monitor, 75Hz, full HD. Great secondary screen for coding, assignments, and movies. HDMI and VGA ports, stand included. No dead pixels or scratches. Selling because I upgraded to a larger display.",
+    "price": 5500,
+    "condition": "good",
+    "specs": {
+      "size_inch": 24,
+      "resolution": "1920x1080",
+      "panel": "IPS",
+      "refresh_hz": 75,
+      "ports": ["HDMI", "VGA"]
+    },
+    "pickup_location": "Hostel Block A, RVCE",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-07T14:20:00+05:30"
+  },
+  {
+    "id": "a0000018-0000-4000-8000-000000000018",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa3",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "55L Personal Air Cooler",
+    "category": "Appliances",
+    "description": "55 litre personal air cooler for hostel rooms. Works well in dry Bangalore summers, three fan speeds, and a swing mode. Some cosmetic yellowing on the body, but the pump and fan work fine. Needs a window nearby for the best airflow.",
+    "price": 3200,
+    "condition": "fair",
+    "specs": {
+      "capacity_litres": 55,
+      "speeds": 3,
+      "type": "Personal air cooler"
+    },
+    "pickup_location": "Malleshwaram, Bengaluru",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-09-26T11:00:00+05:30"
+  },
+  {
+    "id": "a0000019-0000-4000-8000-000000000019",
+    "seller_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2",
+    "college_id": "11111111-1111-4111-8111-111111111111",
+    "title": "HP DeskJet 2331 Printer (reserved)",
+    "category": "Electronics",
+    "description": "HP DeskJet 2331 inkjet printer that can print, scan, and copy. Works with USB and has been used for lab reports and assignments. Currently reserved for another buyer until the weekend. Listing will be removed if the pickup goes through.",
+    "price": 2800,
+    "condition": "good",
+    "specs": {
+      "type": "Inkjet",
+      "functions": ["print", "scan", "copy"],
+      "connectivity": "USB"
+    },
+    "pickup_location": "Hostel Block C, RVCE",
+    "quantity_total": 1,
+    "quantity_available": 0,
+    "status": "reserved",
+    "created_at": "2026-10-06T16:30:00+05:30"
+  },
+  {
+    "id": "b0000001-0000-4000-8000-000000000001",
+    "seller_id": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1",
+    "college_id": "22222222-2222-4222-8222-222222222222",
+    "title": "Portable Table Fan",
+    "category": "Appliances",
+    "description": "Small portable table fan with three speeds and a quiet motor. Perfect for a hostel desk during summer. Used for one semester, blades and grill cleaned. Works with Indian plugs and does not take much space.",
+    "price": 700,
+    "condition": "good",
+    "specs": {
+      "speeds": 3,
+      "power_watts": 45,
+      "type": "Table fan"
+    },
+    "pickup_location": "Hostel Block B, MSRIT",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-15T10:30:00+05:30"
+  },
+  {
+    "id": "b0000002-0000-4000-8000-000000000002",
+    "seller_id": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1",
+    "college_id": "22222222-2222-4222-8222-222222222222",
+    "title": "Engineering Drawing Board Set",
+    "category": "Lab supplies",
+    "description": "Engineering drawing board with T-square and set squares. Used for first-year graphics lab, board surface is clean and clips are intact. Set includes a drawing sheet holder and instrument box. Good for graphics assignments and technical drawing practice.",
+    "price": 800,
+    "condition": "good",
+    "specs": {
+      "size": "A2",
+      "includes": ["T-square", "set squares", "instrument box"]
+    },
+    "pickup_location": "Hostel Block B, MSRIT",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-10-05T09:15:00+05:30"
+  },
+  {
+    "id": "b0000003-0000-4000-8000-000000000003",
+    "seller_id": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1",
+    "college_id": "22222222-2222-4222-8222-222222222222",
+    "title": "Casio FX-82MS Scientific Calculator",
+    "category": "Calculators",
+    "description": "Casio FX-82MS calculator for basic engineering maths and physics labs. All keys work, cover included, and the battery was replaced recently. Some wear on the case. Budget option for first-year students.",
+    "price": 350,
+    "condition": "fair",
+    "specs": {
+      "model": "FX-82MS",
+      "power": "Battery",
+      "functions": 240
+    },
+    "pickup_location": "Hostel Block B, MSRIT",
+    "quantity_total": 1,
+    "quantity_available": 1,
+    "status": "available",
+    "created_at": "2026-09-25T13:40:00+05:30"
+  }
+]

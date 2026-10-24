@@ -1,0 +1,45 @@
+[project]
+name = "ragolx"
+version = "0.1.0"
+description = "Filtered semantic retrieval with cross-encoder reranking"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "chromadb>=0.6,<2",
+    "fastembed>=0.9,<1",
+    "httpx>=0.27,<1",
+    "langchain>=0.3,<2",
+    "langchain-core>=0.3,<2",
+    "langchain-openai>=0.3,<2",
+    "langgraph>=0.2,<2",
+    "pydantic>=2.9,<3",
+    "pydantic-settings>=2.5,<3",
+    "python-dotenv>=1.0,<2",
+    "rich>=13.9,<15",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3,<10",
+    "ruff>=0.8,<1",
+]
+
+[project.scripts]
+ragolx = "ragolx.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ragolx"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
