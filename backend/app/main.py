@@ -47,6 +47,15 @@ app.add_middleware(
 )
 
 
+@app.get("/")
+def root() -> dict[str, str]:
+    return {
+        "message": "UniOLX API is running",
+        "docs": "/docs",
+        "health": "/api/health",
+    }
+
+
 def _public_user(row: dict) -> dict:
     result = dict(row)
     result.pop("password_hash", None)
@@ -63,6 +72,11 @@ def health(settings: BackendSettings = Depends(get_settings)) -> HealthResponse:
     except Exception:
         count = 0
     return HealthResponse(status="ok", rag_indexed_listings=count)
+
+
+@app.get("/health", response_model=HealthResponse, include_in_schema=False)
+def health_compatibility(settings: BackendSettings = Depends(get_settings)) -> HealthResponse:
+    return health(settings)
 
 
 @app.post("/api/auth/register", response_model=AuthResponse, status_code=201)
