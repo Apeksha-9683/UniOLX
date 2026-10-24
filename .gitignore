@@ -14,5 +14,30 @@ node_modules/
 coverage/
 .DS_Store
 *.log
+
+# Environment files — NEVER commit real .env files
 .env*
 !.env.example
+!backend/.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments (common names)
+venv/
+.venv/
+env/
+backend/venv/
+backend/.venv/
+
+# Python packaging
+*.egg-info/
+dist/
+*.egg
+
+# Alembic — do NOT ignore the versions/ folder itself, only temp files
+alembic/versions/*.pyc
