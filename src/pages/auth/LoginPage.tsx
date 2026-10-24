@@ -27,7 +27,7 @@ export const LoginPage: React.FC = () => {
   const { showToast } = useToast();
 
   const [email, setEmail] = useState('aarav.sharma.cs22@rvce.edu.in');
-  const [password, setPassword] = useState('password123');
+  const [password, setPassword] = useState('campus2026!');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 

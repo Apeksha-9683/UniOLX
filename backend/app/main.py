@@ -37,8 +37,24 @@ app = FastAPI(title="UniOLX API", version="1.0.0")
 
 @app.on_event("startup")
 def initialize_database() -> None:
-    get_settings()
-    Database(get_settings().database_path).initialize()
+    settings = get_settings()
+    database = Database(settings.database_path)
+    database.initialize()
+    with database.connection() as connection:
+        connection.execute(
+            """INSERT OR IGNORE INTO users
+               (id, name, email, password_hash, college_id, branch, created_at)
+               VALUES (?, ?, ?, ?, ?, ?, ?)""",
+            (
+                "demo-user-aarav",
+                "Aarav Sharma",
+                "aarav.sharma.cs22@rvce.edu.in",
+                hash_password("campus2026!"),
+                "11111111-1111-4111-8111-111111111111",
+                "Computer Science",
+                "2026-01-01T00:00:00+00:00",
+            ),
+        )
 
 
 app.add_middleware(
