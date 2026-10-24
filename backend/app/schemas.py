@@ -32,6 +32,16 @@ class ListingCreate(BaseModel):
     pickup_location: str | None = Field(default=None, max_length=200)
     quantity_total: int = Field(default=1, ge=1, le=100)
 
+class ListingUpdate(BaseModel):
+    title: str | None = Field(default=None, max_length=200)
+    description: str | None = Field(default=None, max_length=5000)
+    price: int | None = Field(default=None, ge=0)
+    category: str | None = Field(default=None, max_length=100)
+    condition: str | None = Field(default=None, max_length=50)
+    pickup_location: str | None = Field(default=None, max_length=200)
+    status: str | None = None
+    specs: dict[str, Any] | None = None
+
 
 class SearchRequest(BaseModel):
     query: str = Field(min_length=1, max_length=500)
@@ -49,6 +59,14 @@ class TradeCreate(BaseModel):
 
 class TradeConfirm(BaseModel):
     pin: str = Field(min_length=4, max_length=32)
+
+class ProfileUpdate(BaseModel):
+    name: str | None = Field(default=None, min_length=1, max_length=120)
+    branch: str | None = Field(default=None, max_length=120)
+    year: int | None = Field(default=None, ge=1, le=10)
+    semester: int | None = Field(default=None, ge=1, le=20)
+    hostel: str | None = Field(default=None, max_length=200)
+    avatar: str | None = Field(default=None, max_length=500)
 
 
 class HealthResponse(BaseModel):

@@ -24,6 +24,7 @@ import {
   isBackendConfigured,
   searchWithBackend
 } from './backend';
+import * as backend from './backend';
 
 // In-memory clones with localStorage persistence to allow mutations during runtime session
 const LISTINGS_STORAGE_KEY = 'campus_mart_listings';
@@ -93,11 +94,13 @@ let memoryUser: User | null = loadStoredUser();
 const delay = (ms: number = 80) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function getColleges(): Promise<College[]> {
+  if (isBackendConfigured()) return backend.backendGetColleges();
   await delay(60);
   return [...memoryColleges];
 }
 
 export async function getCollegeById(id: string): Promise<College | null> {
+  if (isBackendConfigured()) return backend.backendGetCollege(id).catch(() => null);
   await delay(40);
   return memoryColleges.find((c) => c.id.toLowerCase() === id.toLowerCase()) || null;
 }
@@ -108,6 +111,7 @@ export async function getCollegeById(id: string): Promise<College | null> {
  * Returns up to 8 matched colleges.
  */
 export async function searchColleges(query: string): Promise<College[]> {
+  if (isBackendConfigured()) return backend.backendRequest<College[]>(`/api/colleges?query=${encodeURIComponent(query)}`);
   await delay(120);
   const q = (query || '').trim().toLowerCase();
   if (!q || q.length < 2) {
@@ -137,6 +141,7 @@ export async function requestCollege(data: {
   state: string;
   domain?: string;
 }): Promise<College> {
+  if (isBackendConfigured()) return backend.backendRequest<College>('/api/colleges', { method: 'POST', body: JSON.stringify(data) });
   await delay(150);
   const newCol: College = {
     id: `col_req_${Date.now()}`,
@@ -179,11 +184,13 @@ export async function requestNewCollege(data: {
 }
 
 export async function getCurrentUser(): Promise<User | null> {
+  if (isBackendConfigured()) return backend.getBackendUser().catch(() => null);
   await delay(40);
   return memoryUser ? { ...memoryUser } : null;
 }
 
 export async function updateCurrentUser(patch: Partial<User>): Promise<User> {
+  if (isBackendConfigured()) return backend.backendUpdateMe(patch);
   await delay(50);
   if (!memoryUser) {
     throw new Error('No user is logged in');
@@ -440,6 +447,20 @@ export async function verifyOtp(
   arg1: { email?: string; code: string } | string,
   arg2?: string
 ): Promise<{ success: boolean; user?: User; error?: string }> {
+  if (isBackendConfigured()) {
+    try {
+      const user = await backend.getBackendUser();
+      memoryUser = user;
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
+      return { success: true, user };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Verification failed'
+      };
+    }
+  }
+
   await delay(180);
   const email = typeof arg1 === 'object' ? arg1.email || '' : arg1;
   const code = typeof arg1 === 'object' ? arg1.code : arg2 || '';
@@ -498,6 +519,7 @@ export async function logout(): Promise<void> {
 export const logoutUser = logout;
 
 export async function getListings(filters?: ListingFilters): Promise<Listing[]> {
+  if (isBackendConfigured()) return backend.backendGetListings(filters?.collegeId && filters.collegeId !== 'all' ? filters.collegeId : undefined);
   await delay();
   let results = [...memoryListings];
 
@@ -551,12 +573,14 @@ export async function getListings(filters?: ListingFilters): Promise<Listing[]> 
 }
 
 export async function getListingById(id: string): Promise<Listing | null> {
+  if (isBackendConfigured()) return backend.backendRequest<Listing>(`/api/listings/${id}`).catch(() => null);
   await delay();
   const listing = memoryListings.find((l) => l.id === id);
   return listing ? { ...listing } : null;
 }
 
 export async function getFeaturedListings(collegeId?: string): Promise<Listing[]> {
+  if (isBackendConfigured()) return backend.backendGetListings(collegeId);
   await delay();
   let items = [...memoryListings];
   if (collegeId && collegeId !== 'all') {
@@ -578,6 +602,7 @@ export async function createListing(data: {
   tags?: string[];
   quantity?: number;
 }): Promise<Listing> {
+  if (isBackendConfigured()) return backend.backendRequest<Listing>('/api/listings', { method: 'POST', body: JSON.stringify({ ...data, pickup_location: data.campusPickupSpot, quantity_total: data.quantity, specs: data.specs || {} }) });
   await delay(150);
   const activeUser = memoryUser || currentUser;
   const newListing: Listing = {
@@ -619,6 +644,7 @@ export async function createListing(data: {
 }
 
 export async function updateListingStatus(id: string, status: ListingStatus): Promise<Listing | null> {
+  if (isBackendConfigured()) return backend.backendRequest<Listing>(`/api/listings/${id}`, { method: 'PATCH', body: JSON.stringify({ status: status.toLowerCase() }) }).catch(() => null);
   await delay();
   const index = memoryListings.findIndex((l) => l.id === id);
   if (index === -1) return null;
@@ -628,6 +654,7 @@ export async function updateListingStatus(id: string, status: ListingStatus): Pr
 }
 
 export async function toggleWishlist(listingId: string): Promise<boolean> {
+  if (isBackendConfigured()) return backend.backendToggleWishlist(listingId).then((r) => r.wishlisted);
   await delay();
   const index = memoryListings.findIndex((l) => l.id === listingId);
   if (index === -1) return false;
@@ -638,16 +665,19 @@ export async function toggleWishlist(listingId: string): Promise<boolean> {
 }
 
 export async function getWishlist(): Promise<Listing[]> {
+  if (isBackendConfigured()) return backend.backendGetWishlist();
   await delay();
   return memoryListings.filter((l) => l.isWishlisted);
 }
 
 export async function getTrades(): Promise<Trade[]> {
+  if (isBackendConfigured()) return backend.backendGetTrades();
   await delay();
   return [...memoryTrades];
 }
 
 export async function getTradeById(id: string): Promise<Trade | null> {
+  if (isBackendConfigured()) return backend.backendGetTrade(id).catch(() => null);
   await delay();
   const trade = memoryTrades.find((t) => t.id === id);
   return trade ? { ...trade } : null;
@@ -659,6 +689,7 @@ export async function createTrade(data: {
   scheduledTime: string;
   quantity?: number;
 }): Promise<Trade> {
+  if (isBackendConfigured()) return backend.backendCreateTrade({ listing_id: data.listingId, pickup_location: data.pickupSpot });
   await delay(150);
   const listing = memoryListings.find((l) => l.id === data.listingId);
   if (!listing) {
@@ -721,6 +752,7 @@ export async function confirmTradePin(
   expired?: boolean;
   unavailable?: boolean;
 }> {
+  if (isBackendConfigured()) return backend.backendConfirmTrade(tradeId, enteredPin).then(() => ({ success: true, message: 'Trade completed, listing marked as sold!' })).catch((e) => ({ success: false, message: e instanceof Error ? e.message : 'Unable to confirm trade' }));
   await delay(200);
   const trade = memoryTrades.find((t) => t.id === tradeId);
   if (!trade) {
@@ -808,6 +840,7 @@ export async function confirmTradePin(
 }
 
 export async function cancelTrade(tradeId: string, reason?: string): Promise<{ success: boolean; message: string }> {
+  if (isBackendConfigured()) return backend.backendCancelTrade(tradeId);
   await delay(150);
   const trade = memoryTrades.find((t) => t.id === tradeId);
   if (!trade) {
@@ -837,6 +870,7 @@ export async function cancelTrade(tradeId: string, reason?: string): Promise<{ s
 }
 
 export async function regenerateTradePin(tradeId: string): Promise<{ success: boolean; newPin: string; message: string }> {
+  if (isBackendConfigured()) return backend.backendRegenerateTrade(tradeId);
   await delay(150);
   const trade = memoryTrades.find((t) => t.id === tradeId);
   if (!trade) {
@@ -852,6 +886,7 @@ export async function regenerateTradePin(tradeId: string): Promise<{ success: bo
 }
 
 export async function deactivateListing(listingId: string): Promise<Listing | null> {
+  if (isBackendConfigured()) return backend.backendRequest<Listing>(`/api/listings/${listingId}`, { method: 'PATCH', body: JSON.stringify({ status: 'available' }) }).catch(() => null);
   await delay(100);
   const listing = memoryListings.find((l) => l.id === listingId);
   if (!listing) return null;
@@ -861,6 +896,7 @@ export async function deactivateListing(listingId: string): Promise<Listing | nu
 }
 
 export async function archiveListing(listingId: string): Promise<boolean> {
+  if (isBackendConfigured()) { await backend.backendRequest(`/api/listings/${listingId}`, { method: 'DELETE' }); return true; }
   await delay(100);
   const index = memoryListings.findIndex((l) => l.id === listingId);
   if (index !== -1) {
@@ -872,6 +908,7 @@ export async function archiveListing(listingId: string): Promise<boolean> {
 }
 
 export async function updateListing(listingId: string, updates: Partial<Listing>): Promise<Listing | null> {
+  if (isBackendConfigured()) return backend.backendRequest<Listing>(`/api/listings/${listingId}`, { method: 'PATCH', body: JSON.stringify(updates) }).catch(() => null);
   await delay(150);
   const listing = memoryListings.find((l) => l.id === listingId);
   if (!listing) return null;
@@ -881,6 +918,7 @@ export async function updateListing(listingId: string, updates: Partial<Listing>
 }
 
 export async function getConversations(): Promise<Conversation[]> {
+  if (isBackendConfigured()) return backend.backendGetConversations();
   await delay(30);
   // Requirement 3: A conversation appears in the left sidebar ONLY after at least one message has been sent
   return memoryConversations.filter(
@@ -889,6 +927,7 @@ export async function getConversations(): Promise<Conversation[]> {
 }
 
 export async function getConversationById(id: string): Promise<Conversation | null> {
+  if (isBackendConfigured()) return backend.backendRequest<Conversation>(`/api/conversations/${id}`).catch(() => null);
   await delay(30);
   const conv = memoryConversations.find((c) => c.id === id);
   return conv ? { ...conv } : null;
@@ -915,11 +954,13 @@ mockSocket.on<ChatMessage>('message', (incomingMsg) => {
 });
 
 export async function getMessages(conversationId: string): Promise<ChatMessage[]> {
+  if (isBackendConfigured()) return backend.backendGetMessages(conversationId);
   await delay(30);
   return memoryMessages[conversationId] ? [...memoryMessages[conversationId]] : [];
 }
 
 export async function sendMessage(conversationId: string, text: string): Promise<ChatMessage> {
+  if (isBackendConfigured()) return backend.backendSendMessage(conversationId, text);
   await delay(80);
   const activeUser = memoryUser || currentUser;
   const newMsg: ChatMessage = {
@@ -985,6 +1026,7 @@ export async function retrySendMessage(conversationId: string, messageId: string
 }
 
 export async function createOrGetConversation(listingId: string): Promise<Conversation> {
+  if (isBackendConfigured()) return backend.backendCreateConversation(listingId);
   await delay(60);
   const existing = memoryConversations.find((c) => c.listingId === listingId);
   if (existing) return existing;
@@ -1035,11 +1077,13 @@ export async function createOrGetConversation(listingId: string): Promise<Conver
 }
 
 export async function getNotifications(): Promise<NotificationItem[]> {
+  if (isBackendConfigured()) return backend.backendGetNotifications();
   await delay();
   return [...memoryNotifications];
 }
 
 export async function markNotificationRead(id: string): Promise<void> {
+  if (isBackendConfigured()) { await backend.backendReadNotification(id); return; }
   await delay();
   const n = memoryNotifications.find((item) => item.id === id);
   if (n) {
@@ -1056,6 +1100,16 @@ export interface CampusBuddyResponse {
 }
 
 export async function searchCampusBuddy(query: string, collegeId?: string): Promise<CampusBuddyResponse> {
+  if (isBackendConfigured()) {
+    const result = await searchWithBackend(query, collegeId || memoryUser?.collegeId);
+    const matchedListings = result.results.map((item) => item.listing);
+    return {
+      answer: result.summary,
+      matchedListings,
+      collegeSpotTip: 'Meet at a designated campus pickup spot and inspect items before confirming the trade.',
+      suggestedPrompts: result.alternativeSuggestions
+    };
+  }
   await delay(250);
   const q = query.toLowerCase().trim();
   let matched = [...memoryListings];
