@@ -5,6 +5,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 chroma_db/
+data/uniolx.db
 dist/
 build/
 *.egg-info/

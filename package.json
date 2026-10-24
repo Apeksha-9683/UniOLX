@@ -8,6 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
+    "backend": "uvicorn backend.app.main:app --reload --port 8000",
+    "backend:seed": "python -m backend.app.seed",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

@@ -18,6 +18,12 @@ import { mockListings } from '../data/listings';
 import { mockTrades } from '../data/trades';
 import { mockConversations, mockMessages } from '../data/conversations';
 import { mockNotifications } from '../data/notifications';
+import {
+  backendLogin,
+  backendRegister,
+  isBackendConfigured,
+  searchWithBackend
+} from './backend';
 
 // In-memory clones with localStorage persistence to allow mutations during runtime session
 const LISTINGS_STORAGE_KEY = 'campus_mart_listings';
@@ -217,6 +223,21 @@ export async function login(
   arg1: { email: string; password: string } | string,
   arg2?: string
 ): Promise<{ success: boolean; user?: User; error?: string }> {
+  if (isBackendConfigured()) {
+    try {
+      const result = await backendLogin(
+        typeof arg1 === 'object' ? arg1.email : arg1,
+        typeof arg1 === 'object' ? arg1.password : arg2 || ''
+      );
+      memoryUser = result.user;
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(result.user));
+      localStorage.setItem(TOKEN_STORAGE_KEY, result.token);
+      return { success: true, user: result.user };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : 'Login failed' };
+    }
+  }
+
   await delay(120);
   const email = typeof arg1 === 'object' ? arg1.email : arg1;
   const password = typeof arg1 === 'object' ? arg1.password : arg2 || '';
@@ -309,6 +330,27 @@ export async function registerUser(data: {
   password: string;
   branch?: string;
 }): Promise<{ success: boolean; user?: User; error?: string }> {
+  if (isBackendConfigured()) {
+    try {
+      const result = await backendRegister({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        collegeId: data.collegeId,
+        branch: data.branch
+      });
+      memoryUser = result.user;
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(result.user));
+      localStorage.setItem(TOKEN_STORAGE_KEY, result.token);
+      return { success: true, user: result.user };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Registration failed'
+      };
+    }
+  }
+
   await delay(150);
   const cleanEmail = (data.email || '').trim().toLowerCase();
   const college = memoryColleges.find((c) => c.id === data.collegeId) || memoryColleges[0];
@@ -1132,6 +1174,11 @@ export async function searchListingsWithAI(
   criteriaOverrides?: ParsedCriterion[],
   previousCriteria?: ParsedCriterion[]
 ): Promise<AISearchResult> {
+  if (isBackendConfigured() && !criteriaOverrides && !previousCriteria) {
+    const activeUser = memoryUser || currentUser;
+    return searchWithBackend(query, activeUser.collegeId);
+  }
+
   await delay(250);
   const rawQ = (query || '').trim();
   const q = rawQ.toLowerCase();
@@ -1647,4 +1694,3 @@ export async function searchListingsWithAI(
     closeMatches: closeMatchItems.slice(0, 3)
   };
 }
-

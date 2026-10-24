@@ -158,15 +158,33 @@ Open the local URL shown in your terminal.
 
 > The frontend currently runs on **mock data** (see `src/data` and `src/api`), so no backend or keys are needed to try it. In dev mode, the OTP is shown on screen instead of being emailed.
 
-### Run the backend *(coming soon)*
+### Run the backend
+
+The backend is now a local-first FastAPI service. It persists users, listings,
+trades, and messages in SQLite and exposes the real Python RAG pipeline through
+`POST /api/rag/search`.
 
 ```bash
-cd backend
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env      # then fill in your values
-uvicorn app.main:app --reload
+python3.11 -m venv .venv
+source .venv/bin/activate
+pip install -e '.[dev]'
+cp .env.example .env
+# Set OPENROUTER_API_KEY and UNIOLX_JWT_SECRET in .env.
+python -m backend.app.seed
+uvicorn backend.app.main:app --reload --port 8000
 ```
+
+Run the frontend against it with:
+
+```bash
+VITE_API_BASE_URL=http://localhost:8000 npm run dev
+```
+
+The first RAG search requires an indexed Chroma collection. Seed the SQLite
+catalog, then run `POST /api/rag/ingest` as `admin@uniolx.local` (the seed
+password is `admin-password-change-me`, and must be changed outside local
+development). The endpoint is intentionally authenticated because ingestion
+uses the configured OpenRouter key and mutates the vector index.
 
 ### Environment variables
 
@@ -178,7 +196,10 @@ Never commit real keys. Copy `.env.example` to `.env` and fill in:
 | `JWT_SECRET` | Signs login tokens |
 | `PIN_SECRET` | Hashes and protects trade PINs |
 | `EMAIL_API_KEY` | OTP email provider key |
-| `LLM_API_KEY` | AI search provider key (backend only) |
+| `OPENROUTER_API_KEY` | AI search and embedding provider key (backend only) |
+| `UNIOLX_DATABASE_PATH` | SQLite database location |
+| `UNIOLX_JWT_SECRET` | Secret used to sign access tokens |
+| `VITE_API_BASE_URL` | Frontend URL for the FastAPI backend |
 | `DEV_MODE` | `true` shows OTPs in the console, never in production |
 
 ---
