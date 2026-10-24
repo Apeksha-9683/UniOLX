@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-primary-yellow: #FFC72C;
+    --color-vibrant-orange: #FF7A1A;
+    --color-bold-red: #E5383B;
+    --color-warm-cream: #FFF8EC;
+    --color-card-white: #FFFFFF;
+    --color-text-dark: #1F1A17;
+    --color-text-secondary: #6B625A;
+    --color-border-warm: #E8DFD3;
+    --color-success-green: #10B981;
+  }
+
+  body {
+    background-color: #FFF8EC;
+    color: #1F1A17;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  * {
+    border-color: #E8DFD3;
+  }
+}
+
+/* Custom scrollbars with warm theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF8EC;
+}
+::-webkit-scrollbar-thumb {
+  background: #E4D6C3;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FFC72C;
+}
+
+/* Campus doodle pattern background helper */
+.campus-dots-pattern {
+  background-image: radial-gradient(#FFC72C 0.75px, transparent 0.75px), radial-gradient(#FF7A1A 0.75px, #FFF8EC 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+  background-opacity: 0.15;
+}
+
+/* Remove harsh default browser square focus outlines on inputs, selects, textareas */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: none;
+}
+
+/* Accessible focus ring only for buttons and links when navigating via keyboard */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #FF7A1A;
+  outline-offset: 2px;
+}
+
+/* Global input resets: no square focus rings, no tap highlight */
+input,
+textarea,
+select {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* AI search pill inner inputs & chat textareas */
+.ai-search-inner-input,
+.chat-inner-textarea {
+  outline: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  background-color: transparent !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+/* AI search pill outer container soft orange glow */
+.ai-search-pill-container {
+  transition: box-shadow 200ms ease, border-color 200ms ease;
+}
+
+.ai-search-pill-container:focus-within {
+  box-shadow: 0 0 0 4px rgba(255, 122, 26, 0.18), 0 8px 24px rgba(255, 122, 26, 0.18) !important;
+}
+
+/* Shared form field focus style across the app */
+.campus-field-input {
+  border: 1px solid #E8DFD3;
+  background-color: #FFFFFF;
+  border-radius: 14px;
+  transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
+  outline: none;
+}
+
+.campus-field-input:focus,
+.campus-field-input:focus-within {
+  border-color: #FF7A1A !important;
+  box-shadow: 0 0 0 4px rgba(255, 122, 26, 0.18) !important;
+  outline: none !important;
+}
+
+.campus-field-input-error {
+  border-color: #E5383B !important;
+  box-shadow: 0 0 0 4px rgba(229, 56, 59, 0.18) !important;
+}
+
+/* Smooth Page Load / Transition Animation */
+@keyframes pageEntryFade {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main > * {
+  animation: pageEntryFade 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Micro-interaction transition defaults */
+button:not(:disabled):active {
+  transform: scale(0.98);
+}

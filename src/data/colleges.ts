@@ -1,0 +1,881 @@
+import { College } from '../types';
+
+export const colleges: College[] = [
+  // --- Original 13 Campuses ---
+  {
+    id: 'rvce',
+    name: 'RV College of Engineering',
+    shortName: 'RVCE',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'rvce.edu.in',
+    status: 'verified',
+    campusSpots: [
+      'Cauvery Hostel Gate 2',
+      'Near Food Court & Canteen',
+      'Mechanical Dept Portico',
+      'Central Library Lawns',
+      'Main Gate / Mysore Road Arch',
+      'Sports Complex Pavillion'
+    ],
+    popularBranches: ['CSE', 'ECE', 'ISE', 'Mechanical', 'Aerospace', 'AI & DS']
+  },
+  {
+    id: 'bmsce',
+    name: 'BMS College of Engineering',
+    shortName: 'BMSCE',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'bmsce.ac.in',
+    status: 'verified',
+    campusSpots: [
+      'Main Canteen Ground Floor',
+      'Bull Temple Road Gate',
+      'Platinum Block Foyer',
+      'PG Hostel Quadrangle',
+      'Central Library Stairs'
+    ],
+    popularBranches: ['CSE', 'ECE', 'Mechanical', 'Civil', 'Biotechnology']
+  },
+  {
+    id: 'msrit',
+    name: 'Ramaiah Institute of Technology',
+    shortName: 'MSRIT',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'msrit.edu',
+    status: 'verified',
+    campusSpots: [
+      'Freshers Block Courtyard',
+      'Apex Block Canteen',
+      'Gate 4 (Gymkhana)',
+      'Aryabhatta Hostel Entrance'
+    ],
+    popularBranches: ['CSE', 'ISE', 'ECE', 'EEE', 'Medical Electronics']
+  },
+  {
+    id: 'iisc',
+    name: 'Indian Institute of Science',
+    shortName: 'IISc Bangalore',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'iisc.ac.in',
+    status: 'verified',
+    campusSpots: [
+      'Main Building Faculty Lawns',
+      'Nesara Restaurant Circle',
+      'Prakruthi Vegetarian Mess',
+      'K block Hostel Lawn',
+      'Gymkhana Ground'
+    ],
+    popularBranches: ['Computational Data Sciences', 'Physics', 'CSA', 'Materials', 'Electrical']
+  },
+  {
+    id: 'nitk',
+    name: 'National Institute of Technology Karnataka',
+    shortName: 'NITK Surathkal',
+    city: 'Surathkal',
+    state: 'Karnataka',
+    domain: 'nitk.edu.in',
+    status: 'verified',
+    campusSpots: [
+      'Red Square / Main Admin Lawn',
+      'Beach Gate Viewpoint',
+      'Mega Tower Hostel Block',
+      'Nescafe Kiosk near Central Library',
+      'Students Activity Center (SAC)'
+    ],
+    popularBranches: ['CSE', 'IT', 'ECE', 'Chemical', 'Mining']
+  },
+  {
+    id: 'iit-dh',
+    name: 'Indian Institute of Technology Dharwad',
+    shortName: 'IIT Dharwad',
+    city: 'Dharwad',
+    state: 'Karnataka',
+    domain: 'iitdh.ac.in',
+    status: 'verified',
+    campusSpots: [
+      'Permanent Campus Main Porch',
+      'Dining Hall Foyer',
+      'Hostel Block D Reception',
+      'Library Circle'
+    ],
+    popularBranches: ['CSE', 'EE', 'Mechanical', 'Engineering Physics']
+  },
+  {
+    id: 'iit-b',
+    name: 'Indian Institute of Technology Bombay',
+    shortName: 'IIT Bombay',
+    city: 'Mumbai',
+    state: 'Maharashtra',
+    domain: 'iitb.ac.in',
+    status: 'verified',
+    campusSpots: [
+      'Hostel 12-13-14 Food Court',
+      'SOM (Shailesh J. Mehta) Foyer',
+      'Y-Point Gate',
+      'Gymkhana Grounds',
+      'SAC (Students Activity Centre)'
+    ],
+    popularBranches: ['CSE', 'Electrical', 'Mechanical', 'Aerospace', 'Design']
+  },
+  {
+    id: 'iit-d',
+    name: 'Indian Institute of Technology Delhi',
+    shortName: 'IIT Delhi',
+    city: 'New Delhi',
+    state: 'Delhi',
+    domain: 'iitd.ac.in',
+    status: 'verified',
+    campusSpots: [
+      'SDA Market Pedestrian Bridge',
+      'SAC Circle & Amul Parlour',
+      'Girnar Hostel Front Lawn',
+      'LHC (Lecture Hall Complex) Portico'
+    ],
+    popularBranches: ['CSE', 'Mathematics & Computing', 'Electrical', 'Textile', 'Civil']
+  },
+  {
+    id: 'uvce',
+    name: 'University Visvesvaraya College of Engineering',
+    shortName: 'UVCE',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'uvce.ac.in',
+    status: 'verified',
+    campusSpots: [
+      'KR Circle Heritage Portico',
+      'Dept of Mechanical Corridor',
+      'Jnana Bharati Boys Hostel',
+      'Central Gazebo'
+    ],
+    popularBranches: ['CSE', 'ECE', 'Mechanical', 'Civil', 'Architecture']
+  },
+  {
+    id: 'pes',
+    name: 'PES University',
+    shortName: 'PES University',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'pes.edu',
+    status: 'verified',
+    campusSpots: [
+      'GJBC 13th Floor Cafeteria',
+      'B-Block Open Amphitheatre',
+      'Main Gate Footbridge',
+      'Hostel Block 1 Lobby'
+    ],
+    popularBranches: ['CSE', 'ECE', 'AIML', 'Biotechnology', 'Management']
+  },
+  {
+    id: 'dsce',
+    name: 'Dayananda Sagar College of Engineering',
+    shortName: 'DSCE',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'dsce.edu.in',
+    status: 'verified',
+    campusSpots: [
+      'Heritage Building Fountain Area',
+      'Cafe Coffee Day Point near Mech Block',
+      'Gate 2 Security Booth',
+      'NRI Hostel Lawn'
+    ],
+    popularBranches: ['CSE', 'ISE', 'Aeronautical', 'Electronics', 'Chemical']
+  },
+  {
+    id: 'christ',
+    name: 'Christ University',
+    shortName: 'Christ University',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'christuniversity.in',
+    status: 'verified',
+    campusSpots: [
+      'Central Block Gourmet Extension',
+      'Birds Park Bench Area',
+      'Audi Block 1 Steps',
+      'Hosur Road Gate 1'
+    ],
+    popularBranches: ['Commerce', 'Computer Applications', 'Law', 'Psychology', 'Economics']
+  },
+  {
+    id: 'bvb',
+    name: 'KLE Technological University (BVB College)',
+    shortName: 'BVB',
+    city: 'Hubballi',
+    state: 'Karnataka',
+    domain: 'kletech.ac.in',
+    status: 'verified',
+    campusSpots: [
+      'CTIE Innovation Centre Lawn',
+      'Main Administrative Quadrangle',
+      'Pushpa Hostel Entrance',
+      'Canteen Veranda'
+    ],
+    popularBranches: ['CSE', 'Automobile', 'Robotics & Automation', 'Mechanical', 'Civil']
+  },
+
+  // --- Additional Premier Indian Colleges & Universities (50+ more) ---
+  {
+    id: 'iit-m',
+    name: 'Indian Institute of Technology Madras',
+    shortName: 'IIT Madras',
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    domain: 'iitm.ac.in',
+    status: 'verified',
+    popularBranches: ['Computer Science', 'Electrical', 'Mechanical', 'Aerospace', 'Ocean Engg']
+  },
+  {
+    id: 'iit-kgp',
+    name: 'Indian Institute of Technology Kharagpur',
+    shortName: 'IIT Kharagpur',
+    city: 'Kharagpur',
+    state: 'West Bengal',
+    domain: 'iitkgp.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'Electronics', 'Industrial Systems', 'Mining', 'Architecture']
+  },
+  {
+    id: 'iit-k',
+    name: 'Indian Institute of Technology Kanpur',
+    shortName: 'IIT Kanpur',
+    city: 'Kanpur',
+    state: 'Uttar Pradesh',
+    domain: 'iitk.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'Electrical', 'Mechanical', 'Aerospace', 'Materials Science']
+  },
+  {
+    id: 'iit-r',
+    name: 'Indian Institute of Technology Roorkee',
+    shortName: 'IIT Roorkee',
+    city: 'Roorkee',
+    state: 'Uttarakhand',
+    domain: 'iitr.ac.in',
+    status: 'verified',
+    popularBranches: ['Civil', 'CSE', 'Electrical', 'Earth Sciences', 'Chemical']
+  },
+  {
+    id: 'iit-g',
+    name: 'Indian Institute of Technology Guwahati',
+    shortName: 'IIT Guwahati',
+    city: 'Guwahati',
+    state: 'Assam',
+    domain: 'iitg.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'Design', 'Electronics', 'Biosciences', 'Mechanical']
+  },
+  {
+    id: 'iit-hyd',
+    name: 'Indian Institute of Technology Hyderabad',
+    shortName: 'IIT Hyderabad',
+    city: 'Hyderabad',
+    state: 'Telangana',
+    domain: 'iith.ac.in',
+    status: 'verified',
+    popularBranches: ['AI', 'CSE', 'Electrical', 'Biomedical', 'Engineering Science']
+  },
+  {
+    id: 'iit-bhu',
+    name: 'Indian Institute of Technology (BHU) Varanasi',
+    shortName: 'IIT BHU',
+    city: 'Varanasi',
+    state: 'Uttar Pradesh',
+    domain: 'iitbhu.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'Ceramic', 'Metallurgy', 'Electrical', 'Pharmaceutics']
+  },
+  {
+    id: 'iit-gn',
+    name: 'Indian Institute of Technology Gandhinagar',
+    shortName: 'IIT Gandhinagar',
+    city: 'Gandhinagar',
+    state: 'Gujarat',
+    domain: 'iitgn.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'Mechanical', 'Electrical', 'Cognitive Science']
+  },
+  {
+    id: 'iit-indore',
+    name: 'Indian Institute of Technology Indore',
+    shortName: 'IIT Indore',
+    city: 'Indore',
+    state: 'Madhya Pradesh',
+    domain: 'iiti.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'Electrical', 'Mechanical', 'Space Sciences']
+  },
+  {
+    id: 'iit-ropar',
+    name: 'Indian Institute of Technology Ropar',
+    shortName: 'IIT Ropar',
+    city: 'Rupnagar',
+    state: 'Punjab',
+    domain: 'iitrpr.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'Mathematics & Computing', 'Electrical', 'Mechanical']
+  },
+  {
+    id: 'bits-pilani',
+    name: 'BITS Pilani - Pilani Campus',
+    shortName: 'BITS Pilani',
+    city: 'Pilani',
+    state: 'Rajasthan',
+    domain: 'pilani.bits-pilani.ac.in',
+    status: 'verified',
+    popularBranches: ['CS', 'Economics Dual', 'ECE', 'EEE', 'Mechanical']
+  },
+  {
+    id: 'bits-goa',
+    name: 'BITS Pilani - K.K. Birla Goa Campus',
+    shortName: 'BITS Goa',
+    city: 'Zuarinagar',
+    state: 'Goa',
+    domain: 'goa.bits-pilani.ac.in',
+    status: 'verified',
+    popularBranches: ['CS', 'ECE', 'Chemical', 'Physics Dual', 'EEE']
+  },
+  {
+    id: 'bits-hyd',
+    name: 'BITS Pilani - Hyderabad Campus',
+    shortName: 'BITS Hyderabad',
+    city: 'Hyderabad',
+    state: 'Telangana',
+    domain: 'hyderabad.bits-pilani.ac.in',
+    status: 'verified',
+    popularBranches: ['CS', 'ECE', 'Mechanical', 'Civil', 'Pharmacy']
+  },
+  {
+    id: 'nit-trichy',
+    name: 'National Institute of Technology Tiruchirappalli',
+    shortName: 'NIT Trichy',
+    city: 'Tiruchirappalli',
+    state: 'Tamil Nadu',
+    domain: 'nitt.edu',
+    status: 'verified',
+    popularBranches: ['CSE', 'ECE', 'EEE', 'Mechanical', 'Instrumentation']
+  },
+  {
+    id: 'nit-warangal',
+    name: 'National Institute of Technology Warangal',
+    shortName: 'NIT Warangal',
+    city: 'Warangal',
+    state: 'Telangana',
+    domain: 'nitw.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'ECE', 'Mechanical', 'Civil', 'Chemical']
+  },
+  {
+    id: 'nit-calicut',
+    name: 'National Institute of Technology Calicut',
+    shortName: 'NIT Calicut',
+    city: 'Kozhikode',
+    state: 'Kerala',
+    domain: 'nitc.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'ECE', 'Production Engg', 'Architecture', 'Electrical']
+  },
+  {
+    id: 'nit-rourkela',
+    name: 'National Institute of Technology Rourkela',
+    shortName: 'NIT Rourkela',
+    city: 'Rourkela',
+    state: 'Odisha',
+    domain: 'nitrkl.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'Biomedical', 'Ceramic Engg', 'Metallurgical', 'Mining']
+  },
+  {
+    id: 'vnit-nagpur',
+    name: 'Visvesvaraya National Institute of Technology',
+    shortName: 'VNIT Nagpur',
+    city: 'Nagpur',
+    state: 'Maharashtra',
+    domain: 'vnit.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'ECE', 'Mechanical', 'Civil', 'Mining']
+  },
+  {
+    id: 'mnit-jaipur',
+    name: 'Malaviya National Institute of Technology',
+    shortName: 'MNIT Jaipur',
+    city: 'Jaipur',
+    state: 'Rajasthan',
+    domain: 'mnit.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'Electrical', 'Architecture', 'Mechanical']
+  },
+  {
+    id: 'mnnit-allahabad',
+    name: 'Motilal Nehru National Institute of Technology',
+    shortName: 'MNNIT Allahabad',
+    city: 'Prayagraj',
+    state: 'Uttar Pradesh',
+    domain: 'mnnit.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'IT', 'ECE', 'Mechanical', 'Biotechnology']
+  },
+  {
+    id: 'svnit-surat',
+    name: 'Sardar Vallabhbhai National Institute of Technology',
+    shortName: 'SVNIT Surat',
+    city: 'Surat',
+    state: 'Gujarat',
+    domain: 'svnit.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'Chemical', 'Electrical', 'Mechanical', 'Civil']
+  },
+  {
+    id: 'manit-bhopal',
+    name: 'Maulana Azad National Institute of Technology',
+    shortName: 'MANIT Bhopal',
+    city: 'Bhopal',
+    state: 'Madhya Pradesh',
+    domain: 'manit.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'Electrical', 'Mechanical', 'Planning', 'MCA']
+  },
+  {
+    id: 'nit-kurukshetra',
+    name: 'National Institute of Technology Kurukshetra',
+    shortName: 'NIT Kurukshetra',
+    city: 'Kurukshetra',
+    state: 'Haryana',
+    domain: 'nitkkr.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'IT', 'ECE', 'Mechanical', 'Civil']
+  },
+  {
+    id: 'nit-silchar',
+    name: 'National Institute of Technology Silchar',
+    shortName: 'NIT Silchar',
+    city: 'Silchar',
+    state: 'Assam',
+    domain: 'nits.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'ECE', 'Instrumentation', 'Mechanical', 'Civil']
+  },
+  {
+    id: 'iiit-hyd',
+    name: 'International Institute of Information Technology Hyderabad',
+    shortName: 'IIIT Hyderabad',
+    city: 'Hyderabad',
+    state: 'Telangana',
+    domain: 'iiit.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'ECE', 'CS + Linguistics Dual', 'Computational Natural Sciences']
+  },
+  {
+    id: 'iiit-b',
+    name: 'International Institute of Information Technology Bangalore',
+    shortName: 'IIIT Bangalore',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'iiitb.ac.in',
+    status: 'verified',
+    popularBranches: ['iMTech CSE', 'iMTech ECE', 'Data Science', 'AI']
+  },
+  {
+    id: 'iiit-d',
+    name: 'Indraprastha Institute of Information Technology Delhi',
+    shortName: 'IIIT Delhi',
+    city: 'New Delhi',
+    state: 'Delhi',
+    domain: 'iiitd.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'CSAI', 'CSD (Design)', 'CSB (Biosciences)', 'CSAM']
+  },
+  {
+    id: 'iiit-allahabad',
+    name: 'Indian Institute of Information Technology Allahabad',
+    shortName: 'IIIT Allahabad',
+    city: 'Prayagraj',
+    state: 'Uttar Pradesh',
+    domain: 'iiita.ac.in',
+    status: 'verified',
+    popularBranches: ['IT', 'ECE', 'Business Informatics', 'Data Science']
+  },
+  {
+    id: 'dtu',
+    name: 'Delhi Technological University',
+    shortName: 'DTU',
+    city: 'New Delhi',
+    state: 'Delhi',
+    domain: 'dtu.ac.in',
+    status: 'verified',
+    popularBranches: ['COE', 'IT', 'SE', 'ECE', 'Mechanical', 'Automobile']
+  },
+  {
+    id: 'nsut',
+    name: 'Netaji Subhas University of Technology',
+    shortName: 'NSUT',
+    city: 'New Delhi',
+    state: 'Delhi',
+    domain: 'nsut.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'IT', 'CSAI', 'ECE', 'MAC', 'Instrumentation']
+  },
+  {
+    id: 'coep',
+    name: 'College of Engineering Pune',
+    shortName: 'COEP Tech',
+    city: 'Pune',
+    state: 'Maharashtra',
+    domain: 'coeptech.ac.in',
+    status: 'verified',
+    popularBranches: ['Computer', 'Mechanical', 'E&TC', 'Metallurgy', 'Instrumentation']
+  },
+  {
+    id: 'vjti',
+    name: 'Veermata Jijabai Technological Institute',
+    shortName: 'VJTI Mumbai',
+    city: 'Mumbai',
+    state: 'Maharashtra',
+    domain: 'vjti.ac.in',
+    status: 'verified',
+    popularBranches: ['Computer', 'IT', 'EXTC', 'Mechanical', 'Electrical']
+  },
+  {
+    id: 'ceg-anna',
+    name: 'College of Engineering Guindy (Anna University)',
+    shortName: 'CEG Anna Univ',
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    domain: 'annauniv.edu',
+    status: 'verified',
+    popularBranches: ['CSE', 'ECE', 'IT', 'Mechanical', 'Printing Technology']
+  },
+  {
+    id: 'psg-tech',
+    name: 'PSG College of Technology',
+    shortName: 'PSG Tech',
+    city: 'Coimbatore',
+    state: 'Tamil Nadu',
+    domain: 'psgtech.edu',
+    status: 'verified',
+    popularBranches: ['CSE', 'Robotics & Automation', 'Mechanical', 'Biomedical']
+  },
+  {
+    id: 'mit-manipal',
+    name: 'Manipal Institute of Technology',
+    shortName: 'MIT Manipal',
+    city: 'Manipal',
+    state: 'Karnataka',
+    domain: 'manipal.edu',
+    status: 'verified',
+    popularBranches: ['CSE', 'Aeronautical', 'Mechatronics', 'Data Science', 'Automobile']
+  },
+  {
+    id: 'vit-vellore',
+    name: 'Vellore Institute of Technology',
+    shortName: 'VIT Vellore',
+    city: 'Vellore',
+    state: 'Tamil Nadu',
+    domain: 'vit.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE Core', 'CSE AI/ML', 'ECE', 'Bioinformatics', 'Mechanical']
+  },
+  {
+    id: 'srm-chennai',
+    name: 'SRM Institute of Science and Technology',
+    shortName: 'SRM Chennai',
+    city: 'Kattankulathur',
+    state: 'Tamil Nadu',
+    domain: 'srmist.edu.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'Cloud Computing', 'Cyber Security', 'Aerospace']
+  },
+  {
+    id: 'thapar',
+    name: 'Thapar Institute of Engineering and Technology',
+    shortName: 'TIET Patiala',
+    city: 'Patiala',
+    state: 'Punjab',
+    domain: 'thapar.edu',
+    status: 'verified',
+    popularBranches: ['COE', 'COSE', 'ENC', 'Mechanical', 'Chemical']
+  },
+  {
+    id: 'jadavpur-univ',
+    name: 'Jadavpur University',
+    shortName: 'Jadavpur Univ',
+    city: 'Kolkata',
+    state: 'West Bengal',
+    domain: 'jadavpuruniversity.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'ETCE', 'Chemical', 'Power Engg', 'Instrumentation']
+  },
+  {
+    id: 'du-stephens',
+    name: "St. Stephen's College, University of Delhi",
+    shortName: "St. Stephen's DU",
+    city: 'New Delhi',
+    state: 'Delhi',
+    domain: 'ststephens.edu',
+    status: 'verified',
+    popularBranches: ['Economics', 'English', 'Mathematics', 'Chemistry', 'History']
+  },
+  {
+    id: 'du-hindu',
+    name: 'Hindu College, University of Delhi',
+    shortName: 'Hindu College DU',
+    city: 'New Delhi',
+    state: 'Delhi',
+    domain: 'hinducollege.ac.in',
+    status: 'verified',
+    popularBranches: ['Economics', 'B.Com (Hons)', 'Political Science', 'Statistics']
+  },
+  {
+    id: 'du-srcc',
+    name: 'Shri Ram College of Commerce (SRCC)',
+    shortName: 'SRCC DU',
+    city: 'New Delhi',
+    state: 'Delhi',
+    domain: 'srcc.edu',
+    status: 'verified',
+    popularBranches: ['B.Com (Hons)', 'BA (Hons) Economics']
+  },
+  {
+    id: 'du-miranda',
+    name: 'Miranda House, University of Delhi',
+    shortName: 'Miranda House DU',
+    city: 'New Delhi',
+    state: 'Delhi',
+    domain: 'mirandahouse.ac.in',
+    status: 'verified',
+    popularBranches: ['Science', 'Humanities', 'Geography', 'Mathematics']
+  },
+  {
+    id: 'st-xaviers-kol',
+    name: "St. Xavier's College Kolkata",
+    shortName: "St. Xavier's Kolkata",
+    city: 'Kolkata',
+    state: 'West Bengal',
+    domain: 'sxccal.edu',
+    status: 'verified',
+    popularBranches: ['Commerce', 'Economics', 'Computer Science', 'English']
+  },
+  {
+    id: 'st-xaviers-mum',
+    name: "St. Xavier's College Mumbai",
+    shortName: "St. Xavier's Mumbai",
+    city: 'Mumbai',
+    state: 'Maharashtra',
+    domain: 'xaviers.edu',
+    status: 'verified',
+    popularBranches: ['Arts', 'Science', 'Mass Media (BMM)', 'Management (BMS)']
+  },
+  {
+    id: 'loyola-chennai',
+    name: 'Loyola College Chennai',
+    shortName: 'Loyola Chennai',
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    domain: 'loyolacollege.edu',
+    status: 'verified',
+    popularBranches: ['Commerce', 'Visual Communication', 'Computer Science', 'Economics']
+  },
+  {
+    id: 'fergusson-pune',
+    name: 'Fergusson College Pune',
+    shortName: 'Fergusson Pune',
+    city: 'Pune',
+    state: 'Maharashtra',
+    domain: 'fergusson.edu',
+    status: 'verified',
+    popularBranches: ['Computer Science', 'Psychology', 'Biotechnology', 'Economics']
+  },
+  {
+    id: 'mcc-blr',
+    name: 'Mount Carmel College Bengaluru',
+    shortName: 'MCC Bengaluru',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'mccblr.edu.in',
+    status: 'verified',
+    popularBranches: ['Commerce', 'BCA', 'Communication Studies', 'Interior Design']
+  },
+  {
+    id: 'sju-blr',
+    name: "St. Joseph's University Bengaluru",
+    shortName: 'SJU Bengaluru',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'sju.edu.in',
+    status: 'verified',
+    popularBranches: ['BCA', 'Big Data Analytics', 'Economics', 'Media & Journalism']
+  },
+  {
+    id: 'nlsiu-blr',
+    name: 'National Law School of India University',
+    shortName: 'NLSIU Bangalore',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'nls.ac.in',
+    status: 'verified',
+    popularBranches: ['BA LLB (Hons)', 'LLM', 'Master of Public Policy']
+  },
+  {
+    id: 'nalsar-hyd',
+    name: 'NALSAR University of Law',
+    shortName: 'NALSAR Hyderabad',
+    city: 'Hyderabad',
+    state: 'Telangana',
+    domain: 'nalsar.ac.in',
+    status: 'verified',
+    popularBranches: ['BA LLB (Hons)', 'Corporate Law', 'IP Law']
+  },
+  {
+    id: 'aiims-delhi',
+    name: 'All India Institute of Medical Sciences New Delhi',
+    shortName: 'AIIMS New Delhi',
+    city: 'New Delhi',
+    state: 'Delhi',
+    domain: 'aiims.edu',
+    status: 'verified',
+    popularBranches: ['MBBS', 'MD / MS', 'Paramedical Sciences']
+  },
+  {
+    id: 'cmc-vellore',
+    name: 'Christian Medical College Vellore',
+    shortName: 'CMC Vellore',
+    city: 'Vellore',
+    state: 'Tamil Nadu',
+    domain: 'cmch-vellore.edu',
+    status: 'verified',
+    popularBranches: ['MBBS', 'Nursing', 'Allied Health Sciences']
+  },
+  {
+    id: 'jipmer-puducherry',
+    name: 'Jawaharlal Institute of Postgraduate Medical Education & Research',
+    shortName: 'JIPMER Puducherry',
+    city: 'Puducherry',
+    state: 'Puducherry',
+    domain: 'jipmer.edu.in',
+    status: 'verified',
+    popularBranches: ['MBBS', 'Postgraduate Medicine', 'Medical Research']
+  },
+  {
+    id: 'nift-delhi',
+    name: 'National Institute of Fashion Technology',
+    shortName: 'NIFT New Delhi',
+    city: 'New Delhi',
+    state: 'Delhi',
+    domain: 'nift.ac.in',
+    status: 'verified',
+    popularBranches: ['Fashion Design', 'Fashion Tech', 'Textile Design', 'Fashion Comm']
+  },
+  {
+    id: 'nid-ahmedabad',
+    name: 'National Institute of Design Ahmedabad',
+    shortName: 'NID Ahmedabad',
+    city: 'Ahmedabad',
+    state: 'Gujarat',
+    domain: 'nid.edu',
+    status: 'verified',
+    popularBranches: ['Industrial Design', 'Communication Design', 'Textile & Apparel']
+  },
+  {
+    id: 'ashoka-univ',
+    name: 'Ashoka University',
+    shortName: 'Ashoka University',
+    city: 'Sonipat',
+    state: 'Haryana',
+    domain: 'ashoka.edu.in',
+    status: 'verified',
+    popularBranches: ['Economics', 'Computer Science & Entreprenurship', 'Philosophy', 'Biology']
+  },
+  {
+    id: 'shiv-nadar-univ',
+    name: 'Shiv Nadar University',
+    shortName: 'SNU Greater Noida',
+    city: 'Greater Noida',
+    state: 'Uttar Pradesh',
+    domain: 'snu.edu.in',
+    status: 'verified',
+    popularBranches: ['Computer Science', 'Electrical', 'Economics', 'Chemistry']
+  },
+  {
+    id: 'plaksha-univ',
+    name: 'Plaksha University',
+    shortName: 'Plaksha Mohali',
+    city: 'Mohali',
+    state: 'Punjab',
+    domain: 'plaksha.edu.in',
+    status: 'new',
+    popularBranches: ['Robotics & Cyber-Physical Systems', 'Data Science & AI', 'Biosystems']
+  },
+  {
+    id: 'krea-univ',
+    name: 'Krea University',
+    shortName: 'Krea University',
+    city: 'Sri City',
+    state: 'Andhra Pradesh',
+    domain: 'krea.edu.in',
+    status: 'new',
+    popularBranches: ['Interwoven Arts & Sciences', 'IFMR Business', 'Computer Science']
+  },
+  {
+    id: 'jindal-global',
+    name: 'O.P. Jindal Global University',
+    shortName: 'JGU Sonipat',
+    city: 'Sonipat',
+    state: 'Haryana',
+    domain: 'jgu.edu.in',
+    status: 'verified',
+    popularBranches: ['Jindal Global Law School', 'Global Business', 'International Affairs']
+  },
+  {
+    id: 'bmsit-blr',
+    name: 'BMS Institute of Technology & Management',
+    shortName: 'BMSIT Yelahanka',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'bmsit.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'ISE', 'ECE', 'AI & ML', 'Civil']
+  },
+  {
+    id: 'nhce-blr',
+    name: 'New Horizon College of Engineering',
+    shortName: 'NHCE Bengaluru',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'newhorizonindia.edu',
+    status: 'verified',
+    popularBranches: ['CSE', 'Data Science', 'Automobile', 'Mechanical', 'MCA']
+  },
+  {
+    id: 'sirmvit-blr',
+    name: 'Sir M. Visvesvaraya Institute of Technology',
+    shortName: 'Sir MVIT Bengaluru',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'sirmvit.edu',
+    status: 'verified',
+    popularBranches: ['CSE', 'Biotechnology', 'ECE', 'Electrical', 'Mechanical']
+  },
+  {
+    id: 'nmit-blr',
+    name: 'Nitte Meenakshi Institute of Technology',
+    shortName: 'NMIT Yelahanka',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'nmit.ac.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'Aeronautical', 'Electronics', 'Mechanical', 'MBA']
+  },
+  {
+    id: 'bit-blr',
+    name: 'Bangalore Institute of Technology',
+    shortName: 'BIT VV Puram',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    domain: 'bit-bangalore.edu.in',
+    status: 'verified',
+    popularBranches: ['CSE', 'Civil', 'Mechanical', 'ECE', 'Telecommunication']
+  }
+];
