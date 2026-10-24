@@ -1,0 +1,32 @@
+# ==============================================================================
+# UniOLX Backend — Python Dependencies
+# All packages below are confirmed compatible with Python 3.14
+# ==============================================================================
+
+# --- Web Framework ---
+# FastAPI: builds the API; Uvicorn: runs the server
+fastapi>=0.115.0
+uvicorn[standard]>=0.34.0
+
+# --- Settings / Config ---
+# Reads .env files and validates environment variables automatically
+pydantic-settings>=2.7.0
+
+# --- Database (ORM) ---
+# SQLAlchemy 2: modern Python ORM (Object-Relational Mapper)
+# Alembic: manages database schema changes (migrations)
+sqlalchemy>=2.0.41
+alembic>=1.15.0
+
+# --- PostgreSQL Driver ---
+# psycopg2-binary: lets SQLAlchemy talk to PostgreSQL
+# The "-binary" version includes its own C library — no extra install needed.
+psycopg2-binary>=2.9.10
+
+# --- Validation ---
+# Pydantic v2 is used internally by FastAPI for request/response validation
+pydantic>=2.10.0
+
+# --- Development Only ---
+# python-dotenv loads .env files when running scripts directly
+python-dotenv>=1.0.0
