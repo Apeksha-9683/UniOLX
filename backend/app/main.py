@@ -1,9 +1,9 @@
 import hashlib
 import json
-import sqlite3
 import secrets
 import uuid
 from datetime import UTC, datetime
+from typing import Any
 
 from fastapi import Depends, FastAPI, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -38,13 +38,14 @@ app = FastAPI(title="UniOLX API", version="1.0.0")
 @app.on_event("startup")
 def initialize_database() -> None:
     settings = get_settings()
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     database.initialize()
     with database.connection() as connection:
         connection.execute(
-            """INSERT OR IGNORE INTO users
+            """INSERT INTO users
                (id, name, email, password_hash, college_id, branch, created_at)
-               VALUES (?, ?, ?, ?, ?, ?, ?)""",
+               VALUES (?, ?, ?, ?, ?, ?, ?)
+               ON CONFLICT (email) DO NOTHING""",
             (
                 "demo-user-aarav",
                 "Aarav Sharma",
@@ -94,7 +95,7 @@ def _public_user(row: dict) -> dict:
 
 @app.get("/api/health", response_model=HealthResponse)
 def health(settings: BackendSettings = Depends(get_settings)) -> HealthResponse:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     database.initialize()
     try:
         count = get_rag_service().rag.document_count()
@@ -110,7 +111,7 @@ def health_compatibility(settings: BackendSettings = Depends(get_settings)) -> H
 
 @app.post("/api/auth/register", response_model=AuthResponse, status_code=201)
 def register(payload: AuthRequest, settings: BackendSettings = Depends(get_settings)) -> AuthResponse:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     user_id = str(uuid.uuid4())
     name = payload.name or payload.email.split("@", 1)[0]
     now = datetime.now(UTC).isoformat()
@@ -139,7 +140,7 @@ def register(payload: AuthRequest, settings: BackendSettings = Depends(get_setti
 
 @app.post("/api/auth/login", response_model=AuthResponse)
 def login(payload: LoginRequest, settings: BackendSettings = Depends(get_settings)) -> AuthResponse:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         row = connection.execute(
             "SELECT * FROM users WHERE email = ?", (payload.email.casefold(),)
@@ -155,7 +156,7 @@ def me(user: dict = Depends(current_user)) -> dict:
 
 @app.patch("/api/me")
 def update_me(payload: ProfileUpdate, user: dict = Depends(current_user), settings: BackendSettings = Depends(get_settings)) -> dict:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     values = payload.model_dump(exclude_none=True)
     allowed = {k: v for k, v in values.items() if k in {"name", "branch", "avatar"}}
     if allowed:
@@ -171,7 +172,7 @@ def update_me(payload: ProfileUpdate, user: dict = Depends(current_user), settin
 
 @app.get("/api/colleges")
 def list_colleges(query: str | None = None, settings: BackendSettings = Depends(get_settings)) -> list[dict]:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         rows = connection.execute("SELECT * FROM colleges ORDER BY name").fetchall()
     result = []
@@ -192,7 +193,7 @@ def request_college(payload: dict, settings: BackendSettings = Depends(get_setti
     college_id = f"col_req_{uuid.uuid4().hex[:12]}"
     name = str(payload.get("name") or payload.get("collegeName") or "").strip()
     if not name: raise HTTPException(422, "College name is required")
-    with Database(settings.database_path).connection() as connection:
+    with Database.from_settings().connection() as connection:
         connection.execute("INSERT INTO colleges (id,name,short_name,city,state,domain,status) VALUES (?,?,?,?,?,?,?)",
                            (college_id, name, name.split()[0], str(payload.get("city", "")), str(payload.get("state", "India")), payload.get("domain"), "pending"))
     return next(x for x in list_colleges(settings=settings) if x["id"] == college_id)
@@ -204,7 +205,7 @@ def list_listings(
     user: dict = Depends(current_user),
     settings: BackendSettings = Depends(get_settings),
 ) -> list[dict]:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     college = college_id or user["college_id"]
     with database.connection() as connection:
         rows = connection.execute(
@@ -215,14 +216,14 @@ def list_listings(
 
 @app.get("/api/listings/{listing_id}")
 def get_listing(listing_id: str, user: dict = Depends(current_user), settings: BackendSettings = Depends(get_settings)) -> dict:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         row = connection.execute("SELECT * FROM listings WHERE id = ?", (listing_id,)).fetchone()
     return frontend_listing(row, database) if row else (_ for _ in ()).throw(HTTPException(404, "Listing not found"))
 
 @app.patch("/api/listings/{listing_id}")
 def update_listing(listing_id: str, payload: ListingUpdate, user: dict = Depends(current_user), settings: BackendSettings = Depends(get_settings)) -> dict:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     values = payload.model_dump(exclude_none=True)
     if "specs" in values: values["specs_json"] = json.dumps(values.pop("specs"))
     with database.connection() as connection:
@@ -246,7 +247,7 @@ def create_listing(
 ) -> dict:
     listing_id = str(uuid.uuid4())
     now = datetime.now(UTC).isoformat()
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         connection.execute(
             """INSERT INTO listings
@@ -297,7 +298,7 @@ def create_trade(
     user: dict = Depends(current_user),
     settings: BackendSettings = Depends(get_settings),
 ) -> dict:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         listing = connection.execute(
             "SELECT * FROM listings WHERE id = ? AND college_id = ? AND status = 'available' AND quantity_available > 0",
@@ -326,7 +327,7 @@ def create_trade(
         connection.execute("UPDATE listings SET status = 'reserved' WHERE id = ?", (listing["id"],))
     return get_trade(trade_id, user, settings) | {"pin": pin}
 
-def _trade_json(row: dict, listing: dict, connection: sqlite3.Connection) -> dict:
+def _trade_json(row: dict, listing: dict, connection: Any) -> dict:
     buyer = connection.execute("SELECT * FROM users WHERE id = ?", (row["buyer_id"],)).fetchone()
     seller = connection.execute("SELECT * FROM users WHERE id = ?", (row["seller_id"],)).fetchone()
     return {"id": row["id"], "listingId": row["listing_id"], "listingTitle": listing["title"],
@@ -340,14 +341,14 @@ def _trade_json(row: dict, listing: dict, connection: sqlite3.Connection) -> dic
 
 @app.get("/api/trades")
 def list_trades(user: dict = Depends(current_user), settings: BackendSettings = Depends(get_settings)) -> list[dict]:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         rows = connection.execute("SELECT t.*, l.title FROM trades t JOIN listings l ON l.id=t.listing_id WHERE t.buyer_id=? OR t.seller_id=? ORDER BY t.created_at DESC", (user["id"], user["id"])).fetchall()
         return [_trade_json(dict(row), dict(row), connection) for row in rows]
 
 @app.get("/api/trades/{trade_id}")
 def get_trade(trade_id: str, user: dict = Depends(current_user), settings: BackendSettings = Depends(get_settings)) -> dict:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         row = connection.execute("SELECT t.*, l.title FROM trades t JOIN listings l ON l.id=t.listing_id WHERE t.id=? AND (t.buyer_id=? OR t.seller_id=?)", (trade_id, user["id"], user["id"])).fetchone()
         if not row: raise HTTPException(404, "Trade not found")
@@ -361,7 +362,7 @@ def confirm_trade(
     user: dict = Depends(current_user),
     settings: BackendSettings = Depends(get_settings),
 ) -> dict:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         trade = connection.execute("SELECT * FROM trades WHERE id = ?", (trade_id,)).fetchone()
         if trade is None or trade["seller_id"] != user["id"]:
@@ -384,7 +385,7 @@ def confirm_trade(
 
 @app.post("/api/trades/{trade_id}/cancel")
 def cancel_trade(trade_id: str, user: dict = Depends(current_user), settings: BackendSettings = Depends(get_settings)) -> dict:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         row = connection.execute("SELECT * FROM trades WHERE id=? AND (buyer_id=? OR seller_id=?)", (trade_id, user["id"], user["id"])).fetchone()
         if not row: raise HTTPException(404, "Trade not found")
@@ -394,7 +395,7 @@ def cancel_trade(trade_id: str, user: dict = Depends(current_user), settings: Ba
 
 @app.post("/api/trades/{trade_id}/regenerate")
 def regenerate_trade(trade_id: str, user: dict = Depends(current_user), settings: BackendSettings = Depends(get_settings)) -> dict:
-    database = Database(settings.database_path); pin = f"{secrets.randbelow(1_000_000):06d}"
+    database = Database.from_settings(); pin = f"{secrets.randbelow(1_000_000):06d}"
     with database.connection() as connection:
         row = connection.execute("SELECT * FROM trades WHERE id=? AND buyer_id=?", (trade_id, user["id"])).fetchone()
         if not row: raise HTTPException(404, "Trade not found")
@@ -409,7 +410,7 @@ def hmac_compare(left: str, right: str) -> bool:
 
 @app.post("/api/listings/{listing_id}/wishlist")
 def wishlist_toggle(listing_id: str, user: dict = Depends(current_user), settings: BackendSettings = Depends(get_settings)) -> dict:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         exists = connection.execute("SELECT 1 FROM wishlist WHERE user_id=? AND listing_id=?", (user["id"], listing_id)).fetchone()
         if exists:
@@ -420,7 +421,7 @@ def wishlist_toggle(listing_id: str, user: dict = Depends(current_user), setting
 
 @app.get("/api/wishlist")
 def get_wishlist(user: dict = Depends(current_user), settings: BackendSettings = Depends(get_settings)) -> list[dict]:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         rows = connection.execute("SELECT l.* FROM listings l JOIN wishlist w ON w.listing_id=l.id WHERE w.user_id=? ORDER BY w.created_at DESC", (user["id"],)).fetchall()
     return [frontend_listing(row, database) for row in rows]
@@ -433,7 +434,7 @@ def send_message(
     user: dict = Depends(current_user),
     settings: BackendSettings = Depends(get_settings),
 ) -> dict:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     message_id = str(uuid.uuid4())
     with database.connection() as connection:
         conversation = connection.execute("SELECT * FROM conversations WHERE id=?", (conversation_id,)).fetchone()
@@ -455,7 +456,7 @@ def send_message(
 
 @app.get("/api/conversations")
 def conversations(user: dict = Depends(current_user), settings: BackendSettings = Depends(get_settings)) -> list[dict]:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         rows = connection.execute("SELECT c.*, l.title, l.price, l.status, l.seller_id FROM conversations c JOIN listings l ON l.id=c.listing_id WHERE c.buyer_id=? OR c.seller_id=? ORDER BY c.created_at DESC", (user["id"], user["id"])).fetchall()
         result = []
@@ -469,7 +470,7 @@ def conversations(user: dict = Depends(current_user), settings: BackendSettings 
 
 @app.post("/api/conversations")
 def create_conversation(listing_id: str, user: dict = Depends(current_user), settings: BackendSettings = Depends(get_settings)) -> dict:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         listing = connection.execute("SELECT * FROM listings WHERE id=?", (listing_id,)).fetchone()
         if not listing: raise HTTPException(404, "Listing not found")
@@ -487,7 +488,7 @@ def get_conversation(conversation_id: str, user: dict = Depends(current_user), s
 
 @app.get("/api/conversations/{conversation_id}/messages")
 def get_messages(conversation_id: str, user: dict = Depends(current_user), settings: BackendSettings = Depends(get_settings)) -> list[dict]:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         conv = connection.execute("SELECT * FROM conversations WHERE id=? AND (buyer_id=? OR seller_id=?)", (conversation_id, user["id"], user["id"])).fetchone()
         if not conv: raise HTTPException(404, "Conversation not found")
@@ -496,13 +497,13 @@ def get_messages(conversation_id: str, user: dict = Depends(current_user), setti
 
 @app.get("/api/notifications")
 def notifications(user: dict = Depends(current_user), settings: BackendSettings = Depends(get_settings)) -> list[dict]:
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         rows = connection.execute("SELECT * FROM notifications WHERE user_id=? ORDER BY created_at DESC", (user["id"],)).fetchall()
     return [{**dict(r), "read": bool(r["read"]), "timestamp": r["created_at"]} for r in rows]
 
 @app.post("/api/notifications/{notification_id}/read")
 def read_notification(notification_id: str, user: dict = Depends(current_user), settings: BackendSettings = Depends(get_settings)) -> dict:
-    with Database(settings.database_path).connection() as connection:
+    with Database.from_settings().connection() as connection:
         connection.execute("UPDATE notifications SET read=1 WHERE id=? AND user_id=?", (notification_id, user["id"]))
     return {"success": True}

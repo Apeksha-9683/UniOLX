@@ -1,9 +1,15 @@
 import json
 import sqlite3
+import re
 from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
+
+import psycopg
+from psycopg.rows import dict_row
+
+from backend.app.config import get_settings
 
 
 SCHEMA = """
@@ -81,18 +87,37 @@ CREATE INDEX IF NOT EXISTS idx_messages_conversation ON messages(conversation_id
 
 
 class Database:
-    def __init__(self, path: Path) -> None:
+    def __init__(self, path: Path | None = None, url: str | None = None) -> None:
         self.path = path
+        self.url = url
+
+    @classmethod
+    def from_settings(cls) -> "Database":
+        settings = get_settings()
+        if settings.database_url:
+            return cls(url=settings.database_url)
+        return cls(path=settings.database_path)
+
+    @property
+    def is_postgres(self) -> bool:
+        return bool(self.url)
 
     def initialize(self) -> None:
-        self.path.parent.mkdir(parents=True, exist_ok=True)
+        if self.path:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.connection() as connection:
-            connection.executescript(SCHEMA)
+            if self.is_postgres:
+                for statement in SCHEMA.split(";"):
+                    if statement.strip():
+                        connection.execute(statement)
+            else:
+                connection.executescript(SCHEMA)
             connection.execute(
-                """INSERT OR IGNORE INTO colleges
+                """INSERT INTO colleges
                    (id, name, short_name, city, state, domain, status,
                     campus_spots_json, popular_branches_json)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                   ON CONFLICT (id) DO NOTHING""",
                 (
                     "11111111-1111-4111-8111-111111111111",
                     "R.V. College of Engineering",
@@ -107,18 +132,43 @@ class Database:
             )
 
     @contextmanager
-    def connection(self) -> Iterator[sqlite3.Connection]:
-        connection = sqlite3.connect(self.path)
-        connection.row_factory = sqlite3.Row
-        connection.execute("PRAGMA foreign_keys = ON")
+    def connection(self) -> Iterator[Any]:
+        if self.is_postgres:
+            connection = psycopg.connect(self.url, row_factory=dict_row)
+            wrapped = _Connection(connection)
+        else:
+            connection = sqlite3.connect(self.path)
+            connection.row_factory = sqlite3.Row
+            connection.execute("PRAGMA foreign_keys = ON")
+            wrapped = _Connection(connection)
         try:
-            yield connection
+            yield wrapped
             connection.commit()
         finally:
             connection.close()
 
     @staticmethod
-    def decode_listing(row: sqlite3.Row) -> dict[str, Any]:
+    def decode_listing(row: Any) -> dict[str, Any]:
         result = dict(row)
-        result["specs"] = json.loads(result.pop("specs_json"))
+        specs = result.pop("specs_json")
+        result["specs"] = specs if isinstance(specs, dict) else json.loads(specs)
         return result
+
+
+class _Connection:
+    def __init__(self, connection: Any) -> None:
+        self._connection = connection
+
+    def execute(self, sql: str, params: tuple[Any, ...] = ()) -> Any:
+        if isinstance(self._connection, psycopg.Connection):
+            sql = sql.replace("INSERT OR IGNORE", "INSERT")
+            sql = re.sub(r"\?", "%s", sql)
+        return self._connection.execute(sql, params)
+
+    def executescript(self, sql: str) -> None:
+        for statement in sql.split(";"):
+            if statement.strip():
+                self.execute(statement)
+
+    def __getattr__(self, name: str) -> Any:
+        return getattr(self._connection, name)

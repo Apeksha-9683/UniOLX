@@ -72,7 +72,7 @@ def current_user(
     if credentials is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authentication required")
     claims = decode_token(credentials.credentials, settings)
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     with database.connection() as connection:
         row = connection.execute("SELECT * FROM users WHERE id = ?", (claims.get("sub"),)).fetchone()
     if row is None:

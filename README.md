@@ -160,8 +160,9 @@ Open the local URL shown in your terminal.
 
 ### Run the backend
 
-The backend is now a local-first FastAPI service. It persists users, listings,
-trades, and messages in SQLite and exposes the real Python RAG pipeline through
+The backend is now a FastAPI service backed by PostgreSQL when `DATABASE_URL`
+is configured. SQLite remains available as a local fallback when that variable
+is omitted. It persists users, listings, trades, and messages and exposes the real Python RAG pipeline through
 `POST /api/rag/search`.
 
 ```bash
@@ -169,10 +170,21 @@ python3.11 -m venv .venv
 source .venv/bin/activate
 pip install -e '.[dev]'
 cp .env.example .env
-# Set OPENROUTER_API_KEY and UNIOLX_JWT_SECRET in .env.
+# Set DATABASE_URL, OPENROUTER_API_KEY, and UNIOLX_JWT_SECRET in .env.
 python -m backend.app.seed
 uvicorn backend.app.main:app --reload --port 8000
 ```
+
+For local PostgreSQL:
+
+```bash
+createdb uniolx
+export DATABASE_URL=postgresql://$(whoami)@localhost:5432/uniolx
+```
+
+For Supabase or Render, use the provider's pooled PostgreSQL connection string
+as `DATABASE_URL`. Keep the password in the hosting provider's secret
+configuration; never commit it to Git.
 
 Run the frontend against it with:
 
@@ -180,7 +192,7 @@ Run the frontend against it with:
 VITE_API_BASE_URL=http://localhost:8000 npm run dev
 ```
 
-The first RAG search requires an indexed Chroma collection. Seed the SQLite
+The first RAG search requires an indexed Chroma collection. Seed the PostgreSQL
 catalog, then run `POST /api/rag/ingest` as `admin@uniolx.local` (the seed
 password is `admin-password-change-me`, and must be changed outside local
 development). The endpoint is intentionally authenticated because ingestion
@@ -197,7 +209,8 @@ Never commit real keys. Copy `.env.example` to `.env` and fill in:
 | `PIN_SECRET` | Hashes and protects trade PINs |
 | `EMAIL_API_KEY` | OTP email provider key |
 | `OPENROUTER_API_KEY` | AI search and embedding provider key (backend only) |
-| `UNIOLX_DATABASE_PATH` | SQLite database location |
+| `DATABASE_URL` | PostgreSQL or Supabase connection string |
+| `UNIOLX_DATABASE_PATH` | SQLite fallback database location when `DATABASE_URL` is unset |
 | `UNIOLX_JWT_SECRET` | Secret used to sign access tokens |
 | `VITE_API_BASE_URL` | Frontend URL for the FastAPI backend |
 | `DEV_MODE` | `true` shows OTPs in the console, never in production |

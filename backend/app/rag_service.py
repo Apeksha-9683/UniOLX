@@ -40,7 +40,7 @@ class RAGService:
 
     def query(self, question: str, college_id: str | None) -> dict[str, Any]:
         response = self.rag.query(question, college_id=college_id)
-        database = Database(self.backend_settings.database_path)
+        database = Database.from_settings()
         result_rows: list[dict[str, Any]] = []
         with database.connection() as connection:
             for result in response.results:

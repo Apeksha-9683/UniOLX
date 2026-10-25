@@ -16,7 +16,9 @@ services:
       - key: RAGOLX_CHROMA_PATH
         value: /opt/render/project/src/data/chroma_db
       - key: UNIOLX_DATABASE_PATH
-        value: /opt/render/project/src/data/uniolx.db
+        sync: false
+      - key: DATABASE_URL
+        sync: false
       - key: OPENROUTER_API_KEY
         sync: false
     disk:

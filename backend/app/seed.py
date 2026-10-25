@@ -10,7 +10,7 @@ from backend.app.db import Database
 
 def seed() -> None:
     settings = get_settings()
-    database = Database(settings.database_path)
+    database = Database.from_settings()
     database.initialize()
     raw = json.loads(settings.rag_data_path.read_text(encoding="utf-8"))
     listings = raw.get("listings", raw) if isinstance(raw, dict) else raw
@@ -21,9 +21,10 @@ def seed() -> None:
             seller_id = listing["seller_id"]
             seller_ids.add(seller_id)
             connection.execute(
-                """INSERT OR IGNORE INTO users
+                """INSERT INTO users
                    (id, name, email, password_hash, college_id, branch, created_at)
-                   VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                   VALUES (?, ?, ?, ?, ?, ?, ?)
+                   ON CONFLICT (id) DO NOTHING""",
                 (
                     seller_id,
                     f"Student {seller_id[-4:]}",
@@ -35,10 +36,14 @@ def seed() -> None:
                 ),
             )
             connection.execute(
-                """INSERT OR REPLACE INTO listings
+                """INSERT INTO listings
                    (id, seller_id, college_id, title, category, description, price, condition,
                     specs_json, pickup_location, quantity_total, quantity_available, status, created_at)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                   ON CONFLICT (id) DO UPDATE SET
+                   title = EXCLUDED.title, description = EXCLUDED.description,
+                   price = EXCLUDED.price, condition = EXCLUDED.condition,
+                   specs_json = EXCLUDED.specs_json, status = EXCLUDED.status""",
                 (
                     listing["id"],
                     seller_id,
@@ -57,9 +62,10 @@ def seed() -> None:
                 ),
             )
         connection.execute(
-            """INSERT OR IGNORE INTO users
+            """INSERT INTO users
                (id, name, email, password_hash, college_id, branch, created_at)
-               VALUES (?, ?, ?, ?, ?, ?, ?)""",
+               VALUES (?, ?, ?, ?, ?, ?, ?)
+               ON CONFLICT (id) DO NOTHING""",
             (
                 str(uuid.uuid4()),
                 "UniOLX Admin",
