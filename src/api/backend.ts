@@ -1,8 +1,11 @@
 import { AISearchResult, Listing, User } from '../types';
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000').replace(/\/$/, '');
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '');
 
 function apiUrl(path: string): string {
+  if (!API_BASE_URL) {
+    throw new Error('Backend API URL is not configured');
+  }
   return `${API_BASE_URL}${path}`;
 }
 
@@ -29,7 +32,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
 }
 
 export function isBackendConfigured(): boolean {
-  return true;
+  return Boolean(API_BASE_URL);
 }
 
 function normalizeUser(user: Partial<User> & { id: string; email: string }): User {
