@@ -1,7 +1,7 @@
 """Ragolx: filtered semantic retrieval with cross-encoder reranking."""
 
-from ragolx.graph import MarketplaceRAG
-from ragolx.models import Catalog, Listing, QueryPlan, RAGResponse, RetrievedListing
+from backend.ragolx.graph import MarketplaceRAG
+from backend.ragolx.models import Catalog, Listing, QueryPlan, RAGResponse, RetrievedListing
 
 __all__ = [
     "Catalog",

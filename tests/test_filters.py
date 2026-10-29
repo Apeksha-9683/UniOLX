@@ -1,4 +1,4 @@
-from ragolx.filters import build_where
+from backend.ragolx.filters import build_where
 
 
 def test_build_where_always_enforces_availability() -> None:

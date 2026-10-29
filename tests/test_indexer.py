@@ -2,14 +2,14 @@ from pathlib import Path
 
 from conftest import FakeEmbeddings, make_listing
 
-from ragolx.indexer import (
+from backend.ragolx.indexer import (
     ListingIndexer,
     listing_document,
     listing_metadata,
     load_listings,
     read_catalog,
 )
-from ragolx.store import ChromaListingStore
+from backend.ragolx.store import ChromaListingStore
 
 
 def test_listing_document_and_metadata() -> None:
@@ -72,7 +72,7 @@ def test_ingest_reset_empties_collection(tmp_path: Path, fake_embeddings: FakeEm
 def test_seed_data_is_valid() -> None:
     listings = load_listings(Path("data/listings.json"))
 
-    assert len(listings) == 22
-    assert len({listing.id for listing in listings}) == 22
+    assert len(listings) == 126
+    assert len({listing.id for listing in listings}) == 126
     assert any(listing.status == "sold" for listing in listings)
     assert any(listing.status == "reserved" for listing in listings)

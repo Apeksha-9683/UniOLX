@@ -160,9 +160,8 @@ Open the local URL shown in your terminal.
 
 ### Run the backend
 
-The backend is now a FastAPI service backed by PostgreSQL when `DATABASE_URL`
-is configured. SQLite remains available as a local fallback when that variable
-is omitted. It persists users, listings, trades, and messages and exposes the real Python RAG pipeline through
+The backend is a FastAPI service backed exclusively by PostgreSQL through
+`DATABASE_URL`. It persists users, listings, trades, and messages and exposes the real Python RAG pipeline through
 `POST /api/rag/search`.
 
 ```bash
@@ -209,8 +208,7 @@ Never commit real keys. Copy `.env.example` to `.env` and fill in:
 | `PIN_SECRET` | Hashes and protects trade PINs |
 | `EMAIL_API_KEY` | OTP email provider key |
 | `OPENROUTER_API_KEY` | AI search and embedding provider key (backend only) |
-| `DATABASE_URL` | PostgreSQL or Supabase connection string |
-| `UNIOLX_DATABASE_PATH` | SQLite fallback database location when `DATABASE_URL` is unset |
+| `DATABASE_URL` | Required PostgreSQL or Supabase connection string |
 | `UNIOLX_JWT_SECRET` | Secret used to sign access tokens |
 | `VITE_API_BASE_URL` | Frontend URL for the FastAPI backend |
 | `DEV_MODE` | `true` shows OTPs in the console, never in production |
@@ -229,7 +227,9 @@ UniOLX/
 │   ├── pages/          # Login, Home, Search, Listing, Chat, Orders, ...
 │   └── ...
 ├── docs/               # design briefs, schema, chat and PIN system specs
-├── backend/            # FastAPI app (planned)
+├── backend/
+│   ├── app/             # FastAPI API, auth, database, and service layer
+│   └── ragolx/          # RAG, embeddings, retrieval, reranking, and CLI
 └── README.md
 ```
 
@@ -256,7 +256,7 @@ The `src/api` layer is the key design choice: pages never touch data directly, s
 - [x] Buyer–seller chat UI
 - [x] PIN-based trade flow UI
 - [x] Orders, notifications and profile pages
-- [ ] FastAPI backend and PostgreSQL database
+- [x] FastAPI backend and PostgreSQL database
 - [ ] Real college directory import and domain verification
 - [ ] Real email OTP delivery
 - [ ] Real-time chat over WebSockets

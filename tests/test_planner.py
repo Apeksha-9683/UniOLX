@@ -1,6 +1,6 @@
 from conftest import ScriptedChatModel
 
-from ragolx.planner import QueryPlanner
+from backend.ragolx.planner import QueryPlanner
 
 
 def test_planner_without_hyde_skips_the_llm() -> None:

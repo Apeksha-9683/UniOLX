@@ -13,8 +13,7 @@ class BackendSettings(BaseSettings):
         populate_by_name=True,
     )
 
-    database_url: str | None = Field(default=None, validation_alias="DATABASE_URL")
-    database_path: Path = Field(default=Path("data/uniolx.db"), validation_alias="UNIOLX_DATABASE_PATH")
+    database_url: str = Field(..., min_length=1, validation_alias="DATABASE_URL")
     jwt_secret: str = Field(default="change-this-development-secret", validation_alias="UNIOLX_JWT_SECRET")
     jwt_expiry_minutes: int = Field(default=60 * 24, ge=5, le=60 * 24 * 30)
     cors_origins: str = Field(default="http://localhost:3000,http://localhost:5173")

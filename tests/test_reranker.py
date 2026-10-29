@@ -2,8 +2,8 @@ from collections.abc import Iterable
 
 import pytest
 
-from ragolx.models import RetrievedListing
-from ragolx.reranker import CrossEncoderReranker
+from backend.ragolx.models import RetrievedListing
+from backend.ragolx.reranker import CrossEncoderReranker
 
 
 class StaticEncoder:

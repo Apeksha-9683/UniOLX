@@ -19,9 +19,8 @@ sqlalchemy>=2.0.41
 alembic>=1.15.0
 
 # --- PostgreSQL Driver ---
-# psycopg2-binary: lets SQLAlchemy talk to PostgreSQL
-# The "-binary" version includes its own C library — no extra install needed.
-psycopg2-binary>=2.9.10
+# Psycopg 3 provides the direct PostgreSQL connection layer used by the API.
+psycopg[binary]>=3.2.0
 
 # --- Validation ---
 # Pydantic v2 is used internally by FastAPI for request/response validation

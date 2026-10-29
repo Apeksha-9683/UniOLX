@@ -24,7 +24,7 @@ def seed() -> None:
                 """INSERT INTO users
                    (id, name, email, password_hash, college_id, branch, created_at)
                    VALUES (?, ?, ?, ?, ?, ?, ?)
-                   ON CONFLICT (id) DO NOTHING""",
+                   ON CONFLICT (email) DO NOTHING""",
                 (
                     seller_id,
                     f"Student {seller_id[-4:]}",
@@ -65,7 +65,7 @@ def seed() -> None:
             """INSERT INTO users
                (id, name, email, password_hash, college_id, branch, created_at)
                VALUES (?, ?, ?, ?, ?, ?, ?)
-               ON CONFLICT (id) DO NOTHING""",
+               ON CONFLICT (email) DO NOTHING""",
             (
                 str(uuid.uuid4()),
                 "UniOLX Admin",

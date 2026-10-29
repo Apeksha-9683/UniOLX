@@ -13,7 +13,7 @@ No prior Python experience is assumed.
 
 ---
 
-## Step 1 — Open a terminal in the backend folder
+## Step 1 — Open a terminal in the project root
 
 ```powershell
 # From the project root (UniOLX/)
@@ -41,6 +41,7 @@ You must do this **every time** you open a new terminal to work on the backend.
 
 ```powershell
 venv\Scripts\activate
+cd ..
 ```
 
 Your prompt will change to show `(venv)` at the beginning — that means it's active.
@@ -102,11 +103,11 @@ Copy the output and paste it as the value.
 ## Step 6 — Start the development server
 
 ```powershell
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+uvicorn backend.app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 What this command means:
-- `app.main:app` — run the `app` object inside `backend/app/main.py`
+- `backend.app.main:app` — run the `app` object inside `backend/app/main.py`
 - `--reload` — automatically restart the server when you save a file
 - `--port 8000` — listen on port 8000
 
@@ -157,9 +158,10 @@ alembic upgrade head
 Every time you start working on the backend:
 
 ```powershell
-cd backend               # 1. Go to the backend folder
+cd backend               # 1. Enter the backend folder
 venv\Scripts\activate    # 2. Activate the virtual environment (venv)
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000   # 3. Start the server
+cd ..                    # 3. Return to the project root
+uvicorn backend.app.main:app --reload --host 0.0.0.0 --port 8000   # 4. Start the server
 ```
 
 Press `Ctrl+C` to stop the server.
@@ -171,10 +173,13 @@ Press `Ctrl+C` to stop the server.
 ```
 backend/
 ├── app/
-│   ├── __init__.py     # Makes 'app' a Python package
-│   ├── main.py         # FastAPI app, routes, CORS middleware
-│   ├── config.py       # Reads settings from environment variables
-│   └── database.py     # Database engine, session, and Base model class
+│   ├── main.py         # FastAPI app and routes
+│   ├── auth.py         # Password and JWT helpers
+│   ├── config.py       # Backend settings
+│   ├── db.py           # PostgreSQL database access
+│   ├── rag_service.py  # FastAPI adapter for the RAG package
+│   └── ...
+├── ragolx/             # RAG, embeddings, retrieval, and reranking
 ├── alembic/
 │   ├── env.py          # Alembic configuration (reads .env automatically)
 │   ├── script.py.mako  # Template for generated migration files
@@ -195,7 +200,7 @@ backend/
 | `could not connect to server` | Wrong DATABASE_URL or Supabase is paused | Check your Supabase project is active, verify URL |
 | `venv\Scripts\activate: cannot be loaded` | PowerShell execution policy | Run `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser` |
 | `ModuleNotFoundError: No module named 'fastapi'` | Virtual environment not activated | Run `venv\Scripts\activate` first |
-| Port 8000 already in use | Another server is running | Change port: `uvicorn app.main:app --reload --port 8001` |
+| Port 8000 already in use | Another server is running | Change port: `uvicorn backend.app.main:app --reload --port 8001` |
 
 ---
 
@@ -205,5 +210,5 @@ All packages in `requirements.txt` are confirmed compatible with Python 3.14:
 - FastAPI ≥ 0.115 ✅
 - SQLAlchemy ≥ 2.0.41 ✅ (added explicit 3.14 support)
 - Alembic ≥ 1.15 ✅
-- psycopg2-binary ≥ 2.9.10 ✅
+- psycopg[binary] ≥ 3.2 ✅
 - pydantic-settings ≥ 2.7 ✅

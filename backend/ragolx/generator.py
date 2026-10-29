@@ -3,8 +3,8 @@ import json
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.output_parsers import StrOutputParser
 
-from ragolx.models import RetrievedListing
-from ragolx.prompts import build_answer_prompt
+from backend.ragolx.models import RetrievedListing
+from backend.ragolx.prompts import build_answer_prompt
 
 
 class AnswerGenerator:

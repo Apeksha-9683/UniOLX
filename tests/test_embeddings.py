@@ -3,7 +3,7 @@ import json
 import httpx
 import pytest
 
-from ragolx.embeddings import OpenRouterEmbeddings
+from backend.ragolx.embeddings import OpenRouterEmbeddings
 
 
 def test_embedding_adapter_sends_task_types_and_batches() -> None:

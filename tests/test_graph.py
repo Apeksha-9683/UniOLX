@@ -2,10 +2,10 @@ from pathlib import Path
 
 from conftest import FakeEmbeddings, FakeReranker, ScriptedChatModel, make_listing
 
-from ragolx.graph import EMPTY_INDEX_ANSWER, NO_MATCH_ANSWER, MarketplaceRAG
-from ragolx.indexer import ListingIndexer
-from ragolx.models import RetrievedListing
-from ragolx.store import ChromaListingStore
+from backend.ragolx.graph import EMPTY_INDEX_ANSWER, NO_MATCH_ANSWER, MarketplaceRAG
+from backend.ragolx.indexer import ListingIndexer
+from backend.ragolx.models import RetrievedListing
+from backend.ragolx.store import ChromaListingStore
 
 
 class EmptyReranker:

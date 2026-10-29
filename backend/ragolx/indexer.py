@@ -6,8 +6,8 @@ from typing import cast
 from langchain_core.embeddings import Embeddings
 from pydantic import ValidationError
 
-from ragolx.models import Catalog, Listing
-from ragolx.store import ChromaListingStore, Metadata, VectorRecord
+from backend.ragolx.models import Catalog, Listing
+from backend.ragolx.store import ChromaListingStore, Metadata, VectorRecord
 
 
 @dataclass(frozen=True)

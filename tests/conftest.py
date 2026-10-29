@@ -11,7 +11,7 @@ from langchain_core.messages import AIMessage, BaseMessage
 from langchain_core.outputs import ChatGeneration, ChatResult
 from pydantic import Field
 
-from ragolx.models import Listing, RetrievedListing
+from backend.ragolx.models import Listing, RetrievedListing
 
 STOPWORDS = {
     "a",

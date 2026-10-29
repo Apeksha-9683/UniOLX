@@ -1,7 +1,7 @@
 from langchain_openai import ChatOpenAI
 
-from ragolx.config import Settings
-from ragolx.embeddings import OpenRouterEmbeddings
+from backend.ragolx.config import Settings
+from backend.ragolx.embeddings import OpenRouterEmbeddings
 
 
 def build_embeddings(settings: Settings) -> OpenRouterEmbeddings:
@@ -22,7 +22,7 @@ def build_chat_model(settings: Settings) -> ChatOpenAI:
         api_key=settings.openrouter_api_key.get_secret_value(),
         base_url=settings.openrouter_base_url,
         temperature=settings.temperature,
-        max_tokens=2048,
+        max_tokens=256,
         max_retries=3,
         timeout=60,
         use_responses_api=False,

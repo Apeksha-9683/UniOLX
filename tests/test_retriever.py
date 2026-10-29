@@ -2,10 +2,10 @@ from pathlib import Path
 
 from conftest import FakeEmbeddings, make_listing
 
-from ragolx.indexer import ListingIndexer
-from ragolx.models import Listing, QueryPlan
-from ragolx.retriever import ListingRetriever
-from ragolx.store import ChromaListingStore
+from backend.ragolx.indexer import ListingIndexer
+from backend.ragolx.models import Listing, QueryPlan
+from backend.ragolx.retriever import ListingRetriever
+from backend.ragolx.store import ChromaListingStore
 
 
 def _index(

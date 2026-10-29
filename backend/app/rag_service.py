@@ -1,12 +1,11 @@
 from functools import lru_cache
 from typing import Any
 
-from ragolx.config import Settings
-from ragolx.graph import MarketplaceRAG
-from ragolx.indexer import ListingIndexer, load_listings
-from ragolx.models import Listing
-from ragolx.providers import build_embeddings
-from ragolx.store import ChromaListingStore
+from backend.ragolx.config import Settings
+from backend.ragolx.graph import MarketplaceRAG
+from backend.ragolx.indexer import ListingIndexer, load_listings
+from backend.ragolx.providers import build_embeddings
+from backend.ragolx.store import ChromaListingStore
 
 from backend.app.config import get_settings
 from backend.app.db import Database

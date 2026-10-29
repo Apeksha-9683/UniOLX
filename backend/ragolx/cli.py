@@ -12,12 +12,12 @@ from rich.panel import Panel
 from rich.prompt import Prompt
 from rich.table import Table
 
-from ragolx.config import Settings
-from ragolx.graph import MarketplaceRAG
-from ragolx.indexer import ListingIndexer, load_listings
-from ragolx.models import RAGResponse
-from ragolx.providers import build_embeddings
-from ragolx.store import ChromaListingStore
+from backend.ragolx.config import Settings
+from backend.ragolx.graph import MarketplaceRAG
+from backend.ragolx.indexer import ListingIndexer, load_listings
+from backend.ragolx.models import RAGResponse
+from backend.ragolx.providers import build_embeddings
+from backend.ragolx.store import ChromaListingStore
 
 console = Console()
 VERSION = "0.1.0"

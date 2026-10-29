@@ -3,9 +3,9 @@ from typing import Any
 
 from langchain_core.embeddings import Embeddings
 
-from ragolx.filters import build_where
-from ragolx.models import QueryPlan, RetrievedListing
-from ragolx.store import ChromaListingStore, SearchHit
+from backend.ragolx.filters import build_where
+from backend.ragolx.models import QueryPlan, RetrievedListing
+from backend.ragolx.store import ChromaListingStore, SearchHit
 
 
 @dataclass(frozen=True)

@@ -2,7 +2,7 @@ from collections.abc import Iterable, Sequence
 from pathlib import Path
 from typing import Protocol
 
-from ragolx.models import RetrievedListing
+from backend.ragolx.models import RetrievedListing
 
 
 class SupportsRerank(Protocol):
