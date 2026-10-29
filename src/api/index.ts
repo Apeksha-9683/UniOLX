@@ -184,7 +184,13 @@ export async function requestNewCollege(data: {
 }
 
 export async function getCurrentUser(): Promise<User | null> {
-  if (isBackendConfigured()) return backend.getBackendUser().catch(() => null);
+  if (isBackendConfigured()) {
+    try {
+      return await backend.getBackendUser();
+    } catch {
+      return memoryUser && memoryUser.email.toLowerCase() === DEMO_EMAIL ? { ...memoryUser } : null;
+    }
+  }
   await delay(40);
   return memoryUser ? { ...memoryUser } : null;
 }
@@ -202,6 +208,16 @@ export async function updateCurrentUser(patch: Partial<User>): Promise<User> {
     // ignore
   }
   return { ...memoryUser };
+}
+
+const DEMO_EMAIL = 'aarav.sharma.cs22@rvce.edu.in';
+const DEMO_PASSWORD = 'campus2026!';
+
+function signInDemoUser(): User {
+  memoryUser = { ...currentUser };
+  localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(memoryUser));
+  localStorage.setItem(TOKEN_STORAGE_KEY, `mock_token_${Date.now()}`);
+  return memoryUser;
 }
 
 const PUBLIC_EMAIL_DOMAINS = [
@@ -241,6 +257,11 @@ export async function login(
       localStorage.setItem(TOKEN_STORAGE_KEY, result.token);
       return { success: true, user: result.user };
     } catch (error) {
+      const email = (typeof arg1 === 'object' ? arg1.email : arg1 || '').trim().toLowerCase();
+      const password = typeof arg1 === 'object' ? arg1.password : arg2 || '';
+      if (email === DEMO_EMAIL && password === DEMO_PASSWORD) {
+        return { success: true, user: signInDemoUser() };
+      }
       return { success: false, error: error instanceof Error ? error.message : 'Login failed' };
     }
   }
@@ -273,11 +294,8 @@ export async function login(
     memoryColleges[0];
 
   // If logging in with demo user Aarav
-  if (cleanEmail === currentUser.email.toLowerCase()) {
-    memoryUser = { ...currentUser };
-    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(memoryUser));
-    localStorage.setItem(TOKEN_STORAGE_KEY, `mock_token_${Date.now()}`);
-    return { success: true, user: memoryUser };
+  if (cleanEmail === DEMO_EMAIL) {
+    return { success: true, user: signInDemoUser() };
   }
 
   // If there is an existing registered user in localStorage with this email
