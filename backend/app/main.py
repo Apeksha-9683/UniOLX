@@ -30,7 +30,7 @@ from backend.app.schemas import (
     TradeCreate,
     ProfileUpdate,
 )
-from backend.app.serializers import frontend_listing
+from backend.app.serializers import college_names, frontend_listing
 
 app = FastAPI(title="UniOLX API", version="1.0.0")
 
@@ -84,12 +84,15 @@ def _public_user(row: dict) -> dict:
         "collegeId": result.pop("college_id", ""),
         "isVerified": result.pop("is_verified"),
         "joinedDate": result.pop("created_at", ""),
-        "collegeName": result.get("collegeId", ""),
-        "collegeShortName": result.get("collegeId", ""),
         "year": result.get("year", 1), "semester": result.get("semester", 1),
         "rating": result.get("rating", 5), "totalReviews": result.get("total_reviews", 0),
         "completedTrades": result.get("completed_trades", 0),
     })
+    database = Database.from_settings()
+    with database.connection() as connection:
+        college_name, college_short_name = college_names(connection, result["collegeId"])
+    result["collegeName"] = college_name
+    result["collegeShortName"] = college_short_name
     return result
 
 
@@ -330,11 +333,13 @@ def create_trade(
 def _trade_json(row: dict, listing: dict, connection: Any) -> dict:
     buyer = connection.execute("SELECT * FROM users WHERE id = ?", (row["buyer_id"],)).fetchone()
     seller = connection.execute("SELECT * FROM users WHERE id = ?", (row["seller_id"],)).fetchone()
+    buyer_college, _ = college_names(connection, buyer["college_id"] if buyer else "")
+    seller_college, _ = college_names(connection, seller["college_id"] if seller else "")
     return {"id": row["id"], "listingId": row["listing_id"], "listingTitle": listing["title"],
             "listingImage": "", "price": row["price"], "quantity": 1, "buyerId": row["buyer_id"],
-            "buyerName": buyer["name"] if buyer else "", "buyerCollege": buyer["college_id"] if buyer else "",
+            "buyerName": buyer["name"] if buyer else "", "buyerCollege": buyer_college,
             "sellerId": row["seller_id"], "sellerName": seller["name"] if seller else "",
-            "sellerCollege": seller["college_id"] if seller else "", "pickupSpot": row["pickup_location"],
+            "sellerCollege": seller_college, "pickupSpot": row["pickup_location"],
             "scheduledTime": row["created_at"], "status": row["status"].capitalize(),
             "confirmationPin": "", "attemptsLeft": row["attempts_left"], "isLocked": row["attempts_left"] <= 0,
             "createdAt": row["created_at"], "completedAt": row["completed_at"]}
@@ -463,9 +468,10 @@ def conversations(user: dict = Depends(current_user), settings: BackendSettings 
         for row in rows:
             peer_id = row["seller_id"] if row["buyer_id"] == user["id"] else row["buyer_id"]
             peer = connection.execute("SELECT * FROM users WHERE id=?", (peer_id,)).fetchone()
+            peer_college, _ = college_names(connection, peer["college_id"] if peer else "")
             last = connection.execute("SELECT text,created_at FROM messages WHERE conversation_id=? ORDER BY created_at DESC LIMIT 1", (row["id"],)).fetchone()
             if not last: continue
-            result.append({"id": row["id"], "listingId": row["listing_id"], "listingTitle": row["title"], "listingPrice": row["price"], "listingImage": "", "listingStatus": row["status"].capitalize(), "otherUser": {"id": peer_id, "name": peer["name"] if peer else "", "avatar": "", "college": peer["college_id"] if peer else "", "isVerified": True}, "lastMessage": last["text"], "lastMessageTime": last["created_at"], "unreadCount": 0})
+            result.append({"id": row["id"], "listingId": row["listing_id"], "listingTitle": row["title"], "listingPrice": row["price"], "listingImage": "", "listingStatus": row["status"].capitalize(), "otherUser": {"id": peer_id, "name": peer["name"] if peer else "", "avatar": "", "college": peer_college, "isVerified": True}, "lastMessage": last["text"], "lastMessageTime": last["created_at"], "unreadCount": 0})
         return result
 
 @app.post("/api/conversations")
